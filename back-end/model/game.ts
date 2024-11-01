@@ -28,7 +28,18 @@ export class Game {
         description: string;
         releaseDate: Date;
     }) {
-        throw new Error('Method not implemented.');
+        if (!game.name?.trim()) {
+            throw new Error('Name is required.');
+        }
+        if (!game.genre?.trim()) {
+            throw new Error('Genre is required.');
+        }
+        if (!game.description?.trim()) {
+            throw new Error('Description is required.');
+        }
+        if (!game.releaseDate) {
+            throw new Error('Release date is required.');
+        }
     }
 
     getId(): number | undefined {

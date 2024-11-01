@@ -16,7 +16,15 @@ export class Category {
     }
 
     validate(category: { id?: number; name: string; description: string; game: Game }) {
-        throw new Error('Method not implemented.');
+        if (!category.name?.trim()) {
+            throw new Error('Name is required.');
+        }
+        if (!category.description?.trim()) {
+            throw new Error('Description is required.');
+        }
+        if (!category.game) {
+            throw new Error('Game is required.');
+        }
     }
 
     getId(): number | undefined {

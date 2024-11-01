@@ -1,4 +1,4 @@
-import { User } from "./user";
+import { User } from './user';
 
 export class SpeedrunEvent {
     private id?: number;
@@ -23,8 +23,25 @@ export class SpeedrunEvent {
         this.participants = speedrunEvent.participants || [];
     }
 
-    validate(speedrunEvent: { id?: number; name: string; startDate: Date; endDate: Date; participants: Array<User>; }) {
-        throw new Error("Method not implemented.");
+    validate(speedrunEvent: {
+        id?: number;
+        name: string;
+        startDate: Date;
+        endDate: Date;
+        participants: Array<User>;
+    }) {
+        if (!speedrunEvent.name?.trim()) {
+            throw new Error('Name is required.');
+        }
+        if (!speedrunEvent.startDate) {
+            throw new Error('Start date is required.');
+        }
+        if (!speedrunEvent.endDate) {
+            throw new Error('End date is required.');
+        }
+        if (speedrunEvent.endDate < speedrunEvent.startDate) {
+            throw new Error('Start date must be before end date.');
+        }
     }
 
     getId(): number | undefined {
@@ -53,7 +70,9 @@ export class SpeedrunEvent {
             this.name === speedrunEvent.getName() &&
             this.startDate.getTime() === speedrunEvent.getStartDate().getTime() &&
             this.endDate.getTime() === speedrunEvent.getEndDate().getTime() &&
-            this.participants.every((participant, index) => participant.equals(speedrunEvent.getParticipants()[index]))
+            this.participants.every((participant, index) =>
+                participant.equals(speedrunEvent.getParticipants()[index])
+            )
         );
     }
 }

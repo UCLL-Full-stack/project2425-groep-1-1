@@ -1,4 +1,5 @@
-import { Role } from "../types";
+import { Role } from '../types';
+import * as EmailValidator from 'email-validator';
 
 export class User {
     private id?: number;
@@ -7,7 +8,6 @@ export class User {
     private password: string;
     private signUpDate: Date;
     private role: Role;
-
 
     constructor(user: {
         id?: number;
@@ -19,7 +19,6 @@ export class User {
     }) {
         this.validate(user);
 
-
         this.id = user.id;
         this.username = user.username;
         this.email = user.email;
@@ -28,8 +27,29 @@ export class User {
         this.role = user.role;
     }
 
-    validate(user: { id?: number; username: string; password: string; signUpDate: Date; role: Role; }) {
-        throw new Error("Method not implemented.");
+    validate(user: {
+        id?: number;
+        username: string;
+        email: string;
+        password: string;
+        signUpDate: Date;
+        role: Role;
+    }) {
+        if (!user.username?.trim()) {
+            throw new Error('Username is required.');
+        }
+        if (!user.email?.trim()) {
+            throw new Error('Email is required.');
+        }
+        if (!EmailValidator.validate(user.email)) {
+            throw new Error('Email must be valid.');
+        }
+        if (!user.password?.trim()) {
+            throw new Error('Password is required.');
+        }
+        if (!user.role?.trim() || !(user.role === 'Admin' || user.role === 'User')) {
+            throw new Error('Role is required.');
+        }
     }
 
     getId(): number | undefined {
@@ -65,6 +85,5 @@ export class User {
             this.signUpDate.getTime() === user.getSignUpDate().getTime() &&
             this.role === user.getRole()
         );
-
     }
 }
