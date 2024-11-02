@@ -14,7 +14,7 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
 app.get('/status', (req, res) => {
-    res.json({ message: 'Courses API is running...' });
+    res.json({ message: 'Speedrun API is running...' });
 });
 
 const swaggerOpts = {
@@ -31,10 +31,10 @@ const swaggerSpec = swaggerJSDoc(swaggerOpts);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.listen(port || 3000, () => {
-    console.log(`Courses API is running on port ${port}.`);
+    console.log(`Speedrun API is running on port ${port}.`);
 });
 
-app.use('/speedrun', speedrunRouter);
+app.use('/speedruns', speedrunRouter);
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(400).json({
