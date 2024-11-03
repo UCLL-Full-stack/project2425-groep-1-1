@@ -56,6 +56,9 @@ const SpeedrunSubmitter: React.FC = () => {
         const speedrunInput: SpeedrunInput = { time, videoLink, gameId: selectedGameId, categoryId: selectedCategoryId, userId };
         const [response] = await Promise.all([SpeedrunService.postSpeedrun(speedrunInput)]);
         const [json] = await Promise.all([response.json()]);
+        if (response.status == 200) {
+            window.location.reload();
+        }
     }
 
     return (
