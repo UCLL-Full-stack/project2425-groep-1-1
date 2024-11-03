@@ -6,7 +6,7 @@ export class Speedrun {
     private id?: number;
     // TODO: How do we want to store time? in milliseconds (number) or something else
     private time: number;
-    private submitDate: Date;
+    private submitDate: string;
     private videoLink: string;
     private speedrunner: User;
     private isValidated: boolean;
@@ -17,7 +17,7 @@ export class Speedrun {
     constructor(speedrun: {
         id?: number;
         time: number;
-        submitDate: Date;
+        submitDate: string;
         videoLink: string;
         isValidated: boolean;
         speedrunner: User;
@@ -41,7 +41,7 @@ export class Speedrun {
     validate(speedrun: {
         id?: number;
         time: number;
-        submitDate: Date;
+        submitDate: string;
         videoLink: string;
         isValidated: boolean;
         speedrunner: User;
@@ -103,7 +103,7 @@ export class Speedrun {
         return this.time;
     }
 
-    getSubmitDate(): Date {
+    getSubmitDate(): string {
         return this.submitDate;
     }
 
@@ -135,7 +135,7 @@ export class Speedrun {
         return (
             this.id === speedrun.getId() &&
             this.time === speedrun.getTime() &&
-            this.submitDate.getTime() === speedrun.getSubmitDate().getTime() &&
+            this.submitDate === speedrun.getSubmitDate() &&
             this.videoLink === speedrun.getVideoLink() &&
             this.speedrunner.equals(speedrun.getSpeedrunner()) &&
             this.isValidated === speedrun.getIsValidated() &&

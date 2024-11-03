@@ -3,14 +3,14 @@ export class Game {
     private name: string;
     private genre: string;
     private description: string;
-    private releaseDate: Date;
+    private releaseDate: string;
 
     constructor(game: {
         id?: number;
         name: string;
         genre: string;
         description: string;
-        releaseDate: Date;
+        releaseDate: string;
     }) {
         this.validate(game);
 
@@ -26,7 +26,7 @@ export class Game {
         name: string;
         genre: string;
         description: string;
-        releaseDate: Date;
+        releaseDate: string;
     }) {
         if (!game.name?.trim()) {
             throw new Error('Name is required.');
@@ -58,7 +58,7 @@ export class Game {
         return this.description;
     }
 
-    getReleaseDate(): Date {
+    getReleaseDate(): string {
         return this.releaseDate;
     }
 

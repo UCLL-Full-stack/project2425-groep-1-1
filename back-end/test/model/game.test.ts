@@ -5,7 +5,7 @@ const name: string = 'Heavenly Bodies';
 const description: string =
     'Heavenly Bodies is a game about cosmonauts, the body, and the absence of gravity.';
 const genre: string = 'Action, Adventure, Indie, Simulation';
-const releaseDate: Date = set(new Date(), { date: 7, month: 12, year: 2021 });
+const releaseDate: string = '2021-12-07';
 
 test(`given: valid values for game, when: game is created, then: game is created with those values`, () => {
     // given
@@ -74,7 +74,7 @@ test(`given: invalid genre, when: game is created, then: an error is thrown`, ()
 
 test(`given: invalid release date, when: game is created, then: an error is thrown`, () => {
     // given
-    const invalidReleaseDate: Date = null as any;
+    const invalidReleaseDate: string = null as any;
     // when
     const createGame = () => {
         new Game({

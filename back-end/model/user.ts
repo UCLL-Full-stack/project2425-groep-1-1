@@ -6,7 +6,7 @@ export class User {
     private username: string;
     private email: string;
     private password: string;
-    private signUpDate: Date;
+    private signUpDate: string;
     private role: Role;
 
     constructor(user: {
@@ -14,7 +14,7 @@ export class User {
         username: string;
         email: string;
         password: string;
-        signUpDate: Date;
+        signUpDate: string;
         role: Role;
     }) {
         this.validate(user);
@@ -32,7 +32,7 @@ export class User {
         username: string;
         email: string;
         password: string;
-        signUpDate: Date;
+        signUpDate: string;
         role: Role;
     }) {
         if (!user.username?.trim()) {
@@ -68,7 +68,7 @@ export class User {
         return this.password;
     }
 
-    getSignUpDate(): Date {
+    getSignUpDate(): string {
         return this.signUpDate;
     }
 
@@ -82,7 +82,7 @@ export class User {
             this.username === user.getUsername() &&
             this.email === user.getEmail() &&
             this.password === user.getPassword() &&
-            this.signUpDate.getTime() === user.getSignUpDate().getTime() &&
+            this.signUpDate === user.getSignUpDate() &&
             this.role === user.getRole()
         );
     }

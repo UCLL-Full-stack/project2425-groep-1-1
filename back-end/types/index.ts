@@ -1,3 +1,11 @@
-type Role = "User" | "Admin";
+type Role = 'User' | 'Admin';
 
-export { Role };
+type SpeedrunInput = {
+    userId: number;
+    gameId: number;
+    categoryId: number;
+    videoLink: string;
+    time: number;
+};
+
+export { Role, SpeedrunInput };
