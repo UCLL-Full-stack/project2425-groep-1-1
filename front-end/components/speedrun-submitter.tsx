@@ -16,6 +16,8 @@ const SpeedrunSubmitter: React.FC = () => {
     const [categories, setCategories] = useState<Array<Category>>([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState<number>(Number.NaN);
 
+    const [error, setError] = useState<string>("");
+
     const getGames = async () => {
         const [response] = await Promise.all([GameService.getAllGames()]);
         const [json] = await Promise.all([response.json()]);
@@ -40,6 +42,10 @@ const SpeedrunSubmitter: React.FC = () => {
         }
     }, [selectedGameId]);
 
+    useEffect(() => {
+        setError("");
+    }, [time, videoLink, selectedGameId, selectedCategoryId])
+
 
     const onGameInputChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedGameId(Number(event.target.value));
@@ -56,8 +62,10 @@ const SpeedrunSubmitter: React.FC = () => {
         const speedrunInput: SpeedrunInput = { time, videoLink, gameId: selectedGameId, categoryId: selectedCategoryId, userId };
         const [response] = await Promise.all([SpeedrunService.postSpeedrun(speedrunInput)]);
         const [json] = await Promise.all([response.json()]);
-        if (response.status == 200) {
+        if (response.ok) {
             window.location.reload();
+        } else {
+            setError((json as { status: string, message: string }).message)
         }
     }
 
@@ -106,6 +114,11 @@ const SpeedrunSubmitter: React.FC = () => {
                                         {categories.map((category, index) => <option key={category.id} value={category.id}>{category.name}</option>)}
                                     </select>
                                 </div>
+                                {error && (
+                                    <div className="alert alert-danger mt-3" role="alert">
+                                        {error}
+                                    </div>
+                                )}
                                 <input type="submit" className="btn btn-primary" value="Submit" />
                             </form>
                         </div>
