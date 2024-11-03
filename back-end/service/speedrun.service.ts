@@ -16,6 +16,9 @@ const addSpeedrunSubmission = (speedrunInput: SpeedrunInput) => {
     const todaysDate = new Date();
     const formattedDate = todaysDate.toISOString().split('T')[0];
 
+    if (speedrunDb.getSpeedrunByVideoLink(speedrunInput.videoLink) != null) {
+        throw new Error("Can't submit the same speedrun twice.");
+    }
     if (!user) {
         throw new Error('User not found.');
     }
