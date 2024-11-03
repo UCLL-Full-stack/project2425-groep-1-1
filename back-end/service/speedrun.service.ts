@@ -5,6 +5,10 @@ import gameDb from '../repository/game.db';
 import categoryDb from '../repository/category.db';
 import { Speedrun } from '../model/speedrun';
 
+const getAllSpeedruns = () => {
+    return speedrunDb.getAllSpeedruns();
+};
+
 const addSpeedrunSubmission = (speedrunInput: SpeedrunInput) => {
     const user = userDb.getUserById(speedrunInput.userId);
     const game = gameDb.getGameById(speedrunInput.gameId);
@@ -35,4 +39,4 @@ const addSpeedrunSubmission = (speedrunInput: SpeedrunInput) => {
     }
 };
 
-export default { addSpeedrunSubmission };
+export default { addSpeedrunSubmission, getAllSpeedruns };

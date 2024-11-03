@@ -56,7 +56,7 @@
  *             type: string
  *             example: "Complete the game as fast as possible without restrictions."
  *         game:
- *             $ref: '#/components/schemas/Game'  # Reference to Game schema
+ *             $ref: '#/components/schemas/Game'
  *
  *     SpeedrunInput:
  *       type: object
@@ -77,7 +77,7 @@
  *           type: string
  *           example: "http://example.com/speedrun-video"
  *
- *     SpeedrunSubmission:
+ *     Speedrun:
  *       type: object
  *       properties:
  *         id:
@@ -122,15 +122,15 @@ const speedrunRouter = express.Router();
  *           schema:
  *             $ref: '#/components/schemas/SpeedrunInput'
  *     responses:
- *       200:
+ *       "200":
  *         description: Speedrun successfully submitted
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/SpeedrunSubmission'
- *       400:
+ *               $ref: '#/components/schemas/Speedrun'
+ *       "400":
  *         description: Bad Request
- *       500:
+ *       "500":
  *         description: Internal Server Error
  */
 
@@ -144,4 +144,33 @@ speedrunRouter.post('/', async (req: Request, res: Response, next: NextFunction)
     }
 });
 
+/**
+ * @swagger
+ * /speedruns:
+ *   get:
+ *     summary: Get a list of all speedruns.
+ *     responses:
+ *       "200":
+ *         description: A JSON consisting of an array of speedrun objects
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Speedrun'
+ *       "400":
+ *         description: Bad Request
+ *       "500":
+ *         description: Internal Server Error
+ *
+ */
+
+speedrunRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const speedruns = await speedrunService.getAllSpeedruns();
+        res.status(200).json(speedruns);
+    } catch (error) {
+        next(error);
+    }
+});
 export { speedrunRouter };

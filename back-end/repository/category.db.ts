@@ -9,6 +9,10 @@ const getCategoryById = (categoryId: number) => {
     return categories.find((category) => category.getId() === categoryId);
 };
 
+const getAllCategoriesForGame = (gameId: number) => {
+    return categories.filter((category) => category.getGame().getId() === gameId);
+};
+
 const addCategory = (category: Category) => {
     categories.push(category);
 };
@@ -28,6 +32,7 @@ addCategory(category1);
 
 export default {
     getAllCategories,
+    getAllCategoriesForGame,
     addCategory,
     getCategoryById,
 };
