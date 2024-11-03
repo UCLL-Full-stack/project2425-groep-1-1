@@ -40,8 +40,11 @@ const gameRouter = express.Router();
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Game²'
- *
+ *                 $ref: '#/components/schemas/Game'
+ *       "400":
+ *         description: Bad Request
+ *       "500":
+ *         description: Internal Server Error
  *
  */
 

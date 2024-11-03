@@ -6,6 +6,7 @@ import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { speedrunRouter } from './controller/speedrun.routes';
 import { gameRouter } from './controller/game.routes';
+import { categoryRouter } from './controller/category.routes';
 
 const app = express();
 dotenv.config();
@@ -37,6 +38,7 @@ app.listen(port || 3000, () => {
 
 app.use('/speedruns', speedrunRouter);
 app.use('/games', gameRouter);
+app.use('/categories', categoryRouter);
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(400).json({
