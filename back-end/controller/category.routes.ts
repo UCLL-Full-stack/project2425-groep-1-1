@@ -45,7 +45,7 @@ const categoryRouter = express.Router();
 
 /**
  * @swagger
- * /categories/{gameId}:
+ * /categories/game/{gameId}:
  *   get:
  *     summary: Get a list of all categories for a game.
  *     parameters:
@@ -71,7 +71,7 @@ const categoryRouter = express.Router();
  *
  */
 
-categoryRouter.get('/:gameId', async (req: Request, res: Response, next: NextFunction) => {
+categoryRouter.get('/game/:gameId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const gameId = parseInt(req.params.gameId);
         const categoriesForGame = await categoryService.getAllCategoriesForGame(gameId);
