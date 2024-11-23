@@ -19,6 +19,8 @@ export class Game {
         this.genre = game.genre;
         this.description = game.description;
         this.releaseDate = game.releaseDate;
+        this.createdAt = game.createdAt;
+        this.updatedAt = game.updatedAt;
     }
 
     validate(game: {
@@ -58,7 +60,7 @@ export class Game {
         return this.description;
     }
 
-    getReleaseDate(): string {
+    getReleaseDate(): Date {
         return this.releaseDate;
     }
 
@@ -68,7 +70,9 @@ export class Game {
             this.name === game.getName() &&
             this.genre === game.getGenre() &&
             this.description === game.getDescription() &&
-            this.releaseDate === game.getReleaseDate()
+            this.releaseDate === game.getReleaseDate() &&
+            this.createdAt === game.getCreatedAt() &&
+            this.updatedAt === game.getUpdatedAt()
         );
     }
 }

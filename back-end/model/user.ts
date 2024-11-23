@@ -8,6 +8,8 @@ export class User {
     private password: string;
     private signUpDate: string;
     private role: Role;
+    private createdAt?: Date;
+    private updatedAt?: Date;
 
     constructor(user: {
         id?: number;
@@ -16,6 +18,8 @@ export class User {
         password: string;
         signUpDate: string;
         role: Role;
+        createdAt?: Date;
+        updatedAt?: Date;
     }) {
         this.validate(user);
 
@@ -25,6 +29,8 @@ export class User {
         this.password = user.password;
         this.signUpDate = user.signUpDate;
         this.role = user.role;
+        this.createdAt = user.createdAt;
+        this.updatedAt = user.updatedAt;
     }
 
     validate(user: {
@@ -74,6 +80,14 @@ export class User {
 
     getRole(): Role {
         return this.role;
+    }
+
+    getCreatedAt(): Date | undefined {
+        return this.createdAt;
+    }
+
+    getUpdatedAt(): Date | undefined {
+        return this.updatedAt;
     }
 
     equals(user: User): boolean {

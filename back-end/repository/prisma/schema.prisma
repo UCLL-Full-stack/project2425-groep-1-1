@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 Int            @id @default(autoincrement())
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  username           String
+  email              String
+  password           String
+  signUpDate         DateTime
+  role               String
+  speedruns          Speedrun[]     @relation(name: "speedrunuser")
+  SpeedrunEvent      SpeedrunEvent? @relation(fields: [speedrunEventId], references: [id])
+  speedrunEventId    Int?
+  validatedSpeedruns Speedrun[]     @relation(name: "speedrunvalidator")
+}
+
+model Speedrun {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  time          Int
+  submitDate    DateTime @default(now())
+  videoLink     String
+  SpeedrunnerId Int
+  speedrunner   User     @relation(name: "speedrunuser", fields: [SpeedrunnerId], references: [id])
+  isValidated   Boolean
+  validatorId   Int
+  validator     User?    @relation(name: "speedrunvalidator", fields: [validatorId], references: [id])
+  game          Game     @relation(fields: [gameId], references: [id])
+  category      Category @relation(fields: [categoryId], references: [id])
+  gameId        Int
+  categoryId    Int
+}
+
+model SpeedrunEvent {
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  name         String
+  startDate    DateTime
+  endDate      DateTime
+  participants User[]
+}
+
+model Game {
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  name        String
+  genre       String
+  description String
+  releaseDate DateTime
+  Speedrun    Speedrun[]
+  Category    Category[]
+}
+
+model Category {
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  name        String
+  description String
+  game        Game       @relation(fields: [gameId], references: [id])
+  gameId      Int
+  Speedrun    Speedrun[]
+}

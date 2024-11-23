@@ -14,7 +14,6 @@ const addSpeedrunSubmission = (speedrunInput: SpeedrunInput) => {
     const game = gameDb.getGameById(speedrunInput.gameId);
     const category = categoryDb.getCategoryById(speedrunInput.categoryId);
     const todaysDate = new Date();
-    const formattedDate = todaysDate.toISOString().split('T')[0];
 
     if (speedrunDb.getSpeedrunByVideoLink(speedrunInput.videoLink) != null) {
         throw new Error("Can't submit the same speedrun twice.");
@@ -31,7 +30,7 @@ const addSpeedrunSubmission = (speedrunInput: SpeedrunInput) => {
         const newSpeedRun = new Speedrun({
             id: speedrunDb.getAllSpeedruns().length + 1,
             time: speedrunInput.time,
-            submitDate: formattedDate,
+            submitDate: todaysDate,
             videoLink: speedrunInput.videoLink,
             isValidated: false,
             speedrunner: user,

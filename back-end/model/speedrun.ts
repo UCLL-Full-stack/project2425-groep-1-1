@@ -13,6 +13,8 @@ export class Speedrun {
     private validator?: User;
     private game: Game;
     private category: Category;
+    private createdAt?: Date;
+    private updatedAt?: Date;
 
     constructor(speedrun: {
         id?: number;
@@ -24,6 +26,8 @@ export class Speedrun {
         validator?: User;
         game: Game;
         category: Category;
+        createdAt?: Date;
+        updatedAt?: Date;
     }) {
         this.validate(speedrun);
 
@@ -36,6 +40,8 @@ export class Speedrun {
         this.validator = speedrun.validator;
         this.game = speedrun.game;
         this.category = speedrun.category;
+        this.createdAt = speedrun.createdAt;
+        this.updatedAt = speedrun.updatedAt;
     }
 
     validate(speedrun: {
@@ -131,6 +137,15 @@ export class Speedrun {
         return this.category;
     }
 
+    getCreatedAt(): Date | undefined {
+        return this.createdAt;
+    }
+
+    getUpdatedAt(): Date | undefined {
+        return this.updatedAt;
+    }
+
+
     equals(speedrun: Speedrun): boolean {
         return (
             this.id === speedrun.getId() &&
@@ -142,7 +157,9 @@ export class Speedrun {
             ((this.validator === undefined && speedrun.getValidator() === undefined) ||
                 this.validator!.equals(speedrun.getValidator()!)) &&
             this.game.equals(speedrun.getGame()) &&
-            this.category.equals(speedrun.getCategory())
+            this.category.equals(speedrun.getCategory()) &&
+            this.createdAt === speedrun.getCreatedAt() &&
+            this.updatedAt === speedrun.getUpdatedAt()
         );
     }
 }
