@@ -5,14 +5,18 @@ export class Category {
     private name: string;
     private description: string;
     private game: Game;
+    private createdAt?: Date;
+    private updatedAt?: Date;
 
-    constructor(category: { id?: number; name: string; description: string; game: Game }) {
+    constructor(category: { id?: number; name: string; description: string; game: Game, createdAt: Date, updatedAt: Date }) {
         this.validate(category);
 
         this.id = category.id;
         this.name = category.name;
         this.description = category.description;
         this.game = category.game;
+        this.createdAt = category.createdAt;
+        this.updatedAt = category.updatedAt;
     }
 
     validate(category: { id?: number; name: string; description: string; game: Game }) {
@@ -43,12 +47,22 @@ export class Category {
         return this.game;
     }
 
+    getCreatedAt(): Date | undefined {
+        return this.createdAt;
+    }
+
+    getUpdatedAt(): Date | undefined {
+        return this.updatedAt;
+    }
+
     equals(category: Category): boolean {
         return (
             this.id === category.getId() &&
             this.name === category.getName() &&
             this.description === category.getDescription() &&
-            this.game.equals(category.game)
+            this.game.equals(category.getGame()) &&
+            this.createdAt === category.getCreatedAt() &&
+            this.updatedAt === category.getUpdatedAt()
         );
     }
 }

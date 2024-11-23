@@ -4,9 +4,8 @@ import { User } from './user';
 
 export class Speedrun {
     private id?: number;
-    // TODO: How do we want to store time? in milliseconds (number) or something else
     private time: number;
-    private submitDate: string;
+    private submitDate?: Date;
     private videoLink: string;
     private speedrunner: User;
     private isValidated: boolean;
@@ -19,7 +18,7 @@ export class Speedrun {
     constructor(speedrun: {
         id?: number;
         time: number;
-        submitDate: string;
+        submitDate?: Date;
         videoLink: string;
         isValidated: boolean;
         speedrunner: User;
@@ -47,7 +46,7 @@ export class Speedrun {
     validate(speedrun: {
         id?: number;
         time: number;
-        submitDate: string;
+        submitDate?: Date;
         videoLink: string;
         isValidated: boolean;
         speedrunner: User;
@@ -57,9 +56,6 @@ export class Speedrun {
     }) {
         if (speedrun.time < 0) {
             throw new Error('Speedrun time cannot be a negative number.');
-        }
-        if (!speedrun.submitDate) {
-            throw new Error('Submit date is required.');
         }
         if (!speedrun.videoLink?.trim()) {
             throw new Error('Video link is required.');
@@ -109,7 +105,7 @@ export class Speedrun {
         return this.time;
     }
 
-    getSubmitDate(): string {
+    getSubmitDate(): Date | undefined {
         return this.submitDate;
     }
 

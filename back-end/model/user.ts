@@ -97,7 +97,9 @@ export class User {
             this.email === user.getEmail() &&
             this.password === user.getPassword() &&
             this.signUpDate === user.getSignUpDate() &&
-            this.role === user.getRole()
+            this.role === user.getRole() &&
+            this.createdAt === user.getCreatedAt() &&
+            this.updatedAt === user.getUpdatedAt()
         );
     }
 }

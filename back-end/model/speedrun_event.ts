@@ -6,6 +6,8 @@ export class SpeedrunEvent {
     private startDate: Date;
     private endDate: Date;
     private participants: Array<User>;
+    private createdAt?: Date;
+    private updatedAt?: Date;
 
     constructor(speedrunEvent: {
         id?: number;
@@ -13,6 +15,8 @@ export class SpeedrunEvent {
         startDate: Date;
         endDate: Date;
         participants: Array<User>;
+        createdAt?: Date;
+        updatedAt?: Date;
     }) {
         this.validate(speedrunEvent);
 
@@ -21,6 +25,8 @@ export class SpeedrunEvent {
         this.startDate = speedrunEvent.startDate;
         this.endDate = speedrunEvent.endDate;
         this.participants = speedrunEvent.participants || [];
+        this.createdAt = speedrunEvent.createdAt;
+        this.updatedAt = speedrunEvent.updatedAt;
     }
 
     validate(speedrunEvent: {
@@ -64,6 +70,14 @@ export class SpeedrunEvent {
         return this.participants;
     }
 
+    getCreatedAt(): Date | undefined {
+        return this.createdAt;
+    }
+
+    getUpdatedAt(): Date | undefined {
+        return this.createdAt;
+    }
+
     equals(speedrunEvent: SpeedrunEvent) {
         return (
             this.id === speedrunEvent.getId() &&
@@ -72,7 +86,9 @@ export class SpeedrunEvent {
             this.endDate.getTime() === speedrunEvent.getEndDate().getTime() &&
             this.participants.every((participant, index) =>
                 participant.equals(speedrunEvent.getParticipants()[index])
-            )
+            ) &&
+            this.createdAt === speedrunEvent.getCreatedAt() &&
+            this.updatedAt === speedrunEvent.getUpdatedAt()
         );
     }
 }
