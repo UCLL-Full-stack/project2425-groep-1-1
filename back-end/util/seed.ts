@@ -12,6 +12,7 @@ const main = async () => {
     await prisma.speedrun.deleteMany();
     await prisma.speedrunEvent.deleteMany();
 
+    console.log('Seeding database...');
 
 
     const superMario = await prisma.game.create({ data: {
@@ -40,3 +41,15 @@ const main = async () => {
 //         role: 'User',
 //     });
 }
+
+
+(async () => {
+    try {
+        await main();
+        await prisma.$disconnect();
+    } catch (error) {
+        console.error(error);
+        await prisma.$disconnect();
+        process.exit(1);
+    }
+})();
