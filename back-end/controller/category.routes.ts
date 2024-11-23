@@ -74,7 +74,7 @@ const categoryRouter = express.Router();
 categoryRouter.get('/game/:gameId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const gameId = parseInt(req.params.gameId);
-        const categoriesForGame = await categoryService.getAllCategoriesForGame(gameId);
+        const categoriesForGame = await categoryService.getAllCategoriesForGame({ gameId });
         res.status(200).json(categoriesForGame);
     } catch (error) {
         next(error);
