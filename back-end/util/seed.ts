@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-
 import bcrypt from 'bcrypt'
+import { set } from 'date-fns'
 
-import {set}
+
+const prisma = new PrismaClient();
