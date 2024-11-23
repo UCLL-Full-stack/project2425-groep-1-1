@@ -1,11 +1,34 @@
+import { Game as GamePrisma } from '@prisma/client'
+
 export class Game {
-    private id?: number;
-    private name: string;
-    private genre: string;
-    private description: string;
-    private releaseDate: Date;
-    private createdAt?: Date;
-    private updatedAt?: Date;
+    readonly id?: number;
+    readonly name: string;
+    readonly genre: string;
+    readonly description: string;
+    readonly releaseDate: Date;
+    readonly createdAt?: Date;
+    readonly updatedAt?: Date;
+
+    static from({
+        id,
+        name,
+        genre,
+        description,
+        releaseDate,
+        createdAt,
+        updatedAt,
+    }: GamePrisma) {
+        return new Game({
+            id,
+            name,
+            genre,
+            description,
+            releaseDate,
+            createdAt,
+            updatedAt,
+        })
+    }
+
 
     constructor(game: {
         id?: number;

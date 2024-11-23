@@ -1,14 +1,15 @@
-import { Game } from './game';
+import { Category as CategoryPrisma, Game as GamePrisma } from "@prisma/client";
+import {Game} from "./game";
 
 export class Category {
-    private id?: number;
-    private name: string;
-    private description: string;
-    private game: Game;
-    private createdAt?: Date;
-    private updatedAt?: Date;
+    readonly id?: number;
+    readonly name: string;
+    readonly description: string;
+    readonly game: Game;
+    readonly createdAt?: Date;
+    readonly updatedAt?: Date;
 
-    constructor(category: { id?: number; name: string; description: string; game: Game, createdAt: Date, updatedAt: Date }) {
+    constructor(category: { id?: number; name: string; description: string; game: Game; createdAt?: Date, updatedAt?: Date }) {
         this.validate(category);
 
         this.id = category.id;
@@ -19,15 +20,12 @@ export class Category {
         this.updatedAt = category.updatedAt;
     }
 
-    validate(category: { id?: number; name: string; description: string; game: Game }) {
+    validate(category: { id?: number; name: string; description: string; }) {
         if (!category.name?.trim()) {
             throw new Error('Name is required.');
         }
         if (!category.description?.trim()) {
             throw new Error('Description is required.');
-        }
-        if (!category.game) {
-            throw new Error('Game is required.');
         }
     }
 
@@ -55,12 +53,31 @@ export class Category {
         return this.updatedAt;
     }
 
+    static from({
+        id,
+        name,
+        description,
+        game,
+        createdAt,
+        updatedAt,
+    }: CategoryPrisma & {
+        game: GamePrisma;
+    }) {
+        return new Category({
+            id,
+            name,
+            description,
+            game: Game.from(game),
+            createdAt,
+            updatedAt,
+        });
+    }
+
     equals(category: Category): boolean {
         return (
             this.id === category.getId() &&
             this.name === category.getName() &&
             this.description === category.getDescription() &&
-            this.game.equals(category.getGame()) &&
             this.createdAt === category.getCreatedAt() &&
             this.updatedAt === category.getUpdatedAt()
         );

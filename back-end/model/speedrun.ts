@@ -1,19 +1,53 @@
 import { Category } from './category';
 import { Game } from './game';
 import { User } from './user';
+import { Speedrun as SpeedrunPrisma, User as UserPrisma, Game as GamePrisma, Category as CategoryPrisma } from '@prisma/client'
 
 export class Speedrun {
-    private id?: number;
-    private time: number;
-    private submitDate?: Date;
-    private videoLink: string;
-    private speedrunner: User;
-    private isValidated: boolean;
-    private validator?: User;
-    private game: Game;
-    private category: Category;
-    private createdAt?: Date;
-    private updatedAt?: Date;
+    readonly id?: number;
+    readonly time: number;
+    readonly submitDate?: Date;
+    readonly videoLink: string;
+    readonly speedrunner: User;
+    readonly isValidated: boolean;
+    readonly validator?: User;
+    readonly game: Game;
+    readonly category: Category;
+    readonly createdAt?: Date;
+    readonly updatedAt?: Date;
+
+    static from({
+        id,
+        time,
+        submitDate,
+        videoLink,
+        isValidated,
+        speedrunner,
+        validator,
+        game,
+        category,
+        createdAt,
+        updatedAt,
+    } : SpeedrunPrisma & {
+        speedrunner: UserPrisma,
+        validator?: UserPrisma | null,
+        game: GamePrisma,
+        category: CategoryPrisma & {game: GamePrisma}
+    } ) {
+        return new Speedrun({
+            id,
+            time,
+            submitDate,
+            videoLink,
+            isValidated,
+            speedrunner: User.from(speedrunner),
+            validator: validator ? User.from(validator) : undefined,
+            game: Game.from(game),
+            category: Category.from(category),
+            createdAt,
+            updatedAt,
+        })
+    }
 
     constructor(speedrun: {
         id?: number;

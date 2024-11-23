@@ -9,13 +9,13 @@ const getAllSpeedruns = () => {
     return speedrunDb.getAllSpeedruns();
 };
 
-const addSpeedrunSubmission = (speedrunInput: SpeedrunInput) => {
-    const user = userDb.getUserById(speedrunInput.userId);
-    const game = gameDb.getGameById(speedrunInput.gameId);
-    const category = categoryDb.getCategoryById(speedrunInput.categoryId);
+const addSpeedrunSubmission = async ({userId, gameId, time, videoLink, categoryId}: SpeedrunInput) => {
+    const user = await userDb.getUserById({ id: userId });
+    const game = await gameDb.getGameById({ id: gameId });
+    const category = await categoryDb.getCategoryById({ categoryId: categoryId });
     const todaysDate = new Date();
 
-    if (speedrunDb.getSpeedrunByVideoLink(speedrunInput.videoLink) != null) {
+    if (speedrunDb.getSpeedrunByVideoLink({ videoLink: videoLink }) != null) {
         throw new Error("Can't submit the same speedrun twice.");
     }
     if (!user) {
@@ -28,10 +28,9 @@ const addSpeedrunSubmission = (speedrunInput: SpeedrunInput) => {
         throw new Error('Category not found.');
     } else {
         const newSpeedRun = new Speedrun({
-            id: speedrunDb.getAllSpeedruns().length + 1,
-            time: speedrunInput.time,
+            time: time,
             submitDate: todaysDate,
-            videoLink: speedrunInput.videoLink,
+            videoLink: videoLink,
             isValidated: false,
             speedrunner: user,
             game: game,

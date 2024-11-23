@@ -1,34 +1,57 @@
 import { Category } from '../model/category';
-import gameDb from '../repository/game.db';
+import database from "../util/database";
 
-const categories: Category[] = [];
-
-const getAllCategories = (): Category[] => categories;
-
-const getCategoryById = (categoryId: number) => {
-    return categories.find((category) => category.getId() === categoryId);
+const getAllCategories = async () : Promise<Category[]> => {
+    try{
+        const categoryPrismas = await database.category.findMany({
+            include: {
+                game: true,
+            }
+        });
+        return categoryPrismas.map((categoryPrisma) => Category.from(categoryPrisma));
+    } catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
 };
 
-const getAllCategoriesForGame = (gameId: number) => {
-    return categories.filter((category) => category.getGame().getId() === gameId);
+const getCategoryById = async ({categoryId}: {categoryId: number}) : Promise<Category | null> => {
+    try{
+        const categoryPrisma = await database.category.findUnique({where: {id: categoryId}, include: {game: true}});
+        return categoryPrisma ? Category.from(categoryPrisma) : null;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
 };
 
-const addCategory = (category: Category) => {
-    categories.push(category);
+const getAllCategoriesForGame = async ({gameId}: {gameId: number}) : Promise<Category[]> => {
+    try{
+        const categoryPrismas = await database.category.findMany({where: {gameId}, include: {game: true}});
+        return categoryPrismas.map((categoryPrisma) => Category.from(categoryPrisma));
+    } catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
 };
 
-const game1 = gameDb.getGameById(1);
-if (!game1) {
-    throw new Error(`Game with ID 1 not found.`); // Handle the case where the game is not found
-}
-const category1 = new Category({
-    id: 1,
-    name: 'Any%',
-    description: 'Complete the game as fast as possible without restrictions.',
-    game: game1,
-});
+const addCategory = async ({ name, description, game }: Category) : Promise<Category> => {
+    try{
+        const categoryPrisma = await database.category.create({
+            data: {
+                name,
+                description,
+                game: { connect: { id: game.id }},
+            },
+            include: { game: true},
+        });
+        return Category.from(categoryPrisma);
+    }catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
+};
 
-addCategory(category1);
 
 export default {
     getAllCategories,

@@ -1,13 +1,14 @@
+import { SpeedrunEvent as SpeedrunEventPrisma, User as UserPrisma } from '@prisma/client'
 import { User } from './user';
 
 export class SpeedrunEvent {
-    private id?: number;
-    private name: string;
-    private startDate: Date;
-    private endDate: Date;
-    private participants: Array<User>;
-    private createdAt?: Date;
-    private updatedAt?: Date;
+    readonly id?: number;
+    readonly name: string;
+    readonly startDate: Date;
+    readonly endDate: Date;
+    readonly participants: Array<User>;
+    readonly createdAt?: Date;
+    readonly updatedAt?: Date;
 
     constructor(speedrunEvent: {
         id?: number;
@@ -27,6 +28,26 @@ export class SpeedrunEvent {
         this.participants = speedrunEvent.participants || [];
         this.createdAt = speedrunEvent.createdAt;
         this.updatedAt = speedrunEvent.updatedAt;
+    }
+
+    static from({
+        id,
+        name,
+        startDate,
+        endDate,
+        participants,
+        createdAt,
+        updatedAt,
+                 }: SpeedrunEventPrisma & {participants: UserPrisma[]}) {
+        return new SpeedrunEvent({
+            id,
+            name,
+            startDate,
+            endDate,
+            participants: participants.map((participant) => User.from(participant)),
+            createdAt,
+            updatedAt,
+        })
     }
 
     validate(speedrunEvent: {

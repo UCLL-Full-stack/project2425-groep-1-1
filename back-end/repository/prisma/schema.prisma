@@ -17,9 +17,9 @@ model User {
   signUpDate         DateTime
   role               String
   speedruns          Speedrun[]     @relation(name: "speedrunuser")
-  SpeedrunEvent      SpeedrunEvent? @relation(fields: [speedrunEventId], references: [id])
-  speedrunEventId    Int?
   validatedSpeedruns Speedrun[]     @relation(name: "speedrunvalidator")
+  speedrunEvent      SpeedrunEvent? @relation(fields: [speedrunEventId], references: [id])
+  speedrunEventId    Int?
 }
 
 model Speedrun {
@@ -29,15 +29,15 @@ model Speedrun {
   time          Int
   submitDate    DateTime @default(now())
   videoLink     String
-  SpeedrunnerId Int
-  speedrunner   User     @relation(name: "speedrunuser", fields: [SpeedrunnerId], references: [id])
+  speedrunner   User     @relation(name: "speedrunuser", fields: [speedrunnerId], references: [id])
+  speedrunnerId Int      @unique
   isValidated   Boolean
-  validatorId   Int
   validator     User?    @relation(name: "speedrunvalidator", fields: [validatorId], references: [id])
+  validatorId   Int      @unique
   game          Game     @relation(fields: [gameId], references: [id])
+  gameId        Int      @unique
   category      Category @relation(fields: [categoryId], references: [id])
-  gameId        Int
-  categoryId    Int
+  categoryId    Int      @unique
 }
 
 model SpeedrunEvent {
@@ -58,8 +58,8 @@ model Game {
   genre       String
   description String
   releaseDate DateTime
-  Speedrun    Speedrun[]
-  Category    Category[]
+  speedruns   Speedrun[]
+  categories  Category[]
 }
 
 model Category {
@@ -69,6 +69,6 @@ model Category {
   name        String
   description String
   game        Game       @relation(fields: [gameId], references: [id])
-  gameId      Int
-  Speedrun    Speedrun[]
+  gameId      Int        @unique
+  speedruns   Speedrun[]
 }

@@ -1,26 +1,45 @@
 import { Game } from '../model/game';
+import database from '../util/database';
 
-const games: Game[] = [];
+const getAllGames = async (): Promise<Game[]> => {
+    try {
+        const gamePrismas = await database.game.findMany();
+        return gamePrismas.map((gamePrisma) => Game.from(gamePrisma));
+    } catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
 
-const getAllGames = (): Game[] => games;
-
-const getGameById = (gameID: number) => {
-    return games.find((game) => game.getId() === gameID);
 };
 
-const addGame = (game: Game) => {
-    games.push(game);
+const getGameById = async ({ id }: { id: number }): Promise<Game | null> => {
+    try {
+        const gamePrisma = await database.game.findUnique({ where: { id } });
+        return gamePrisma ? Game.from(gamePrisma) : null;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
 };
 
-const game1 = new Game({
-    id: 1,
-    name: 'Super Mario',
-    genre: 'Platformer',
-    description: 'A classic platforming game where you save the princess.',
-    releaseDate: '1985-09-13',
-});
+const addGame = async ({id, name, genre, description, releaseDate }: Game): Promise<Game> => {
+    try {
+        const gamePrisma = await database.game.create({
+            data: {
+                id,
+                name,
+                genre,
+                description,
+                releaseDate,
+            }
+        });
+        return Game.from(gamePrisma);
+    } catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
 
-addGame(game1);
+};
 
 export default {
     getAllGames,

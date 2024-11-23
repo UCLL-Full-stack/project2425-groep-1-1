@@ -1,27 +1,35 @@
 import { User } from '../model/user';
+import database from "../util/database";
 
-const users: User[] = [];
+const getAllUsers = async (): Promise<User[]> => {
+    try{
+        const userPrismas = await database.user.findMany();
+        return userPrismas.map((userPrisma) => User.from(userPrisma));
+    } catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
+}
 
-const getAllUsers = (): User[] => users;
-
-const getUserById = (userId: number) => {
-    return users.find((user) => user.getId() === userId);
+const getUserById = async ({ id }: { id: number }): Promise<User | null> => {
+    try {
+        const userPrisma = await database.user.findUnique({where: {id}});
+        return userPrisma ? User.from(userPrisma) : null;
+    }catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
 };
 
-const addUser = (user: User) => {
-    users.push(user);
-};
+const addUser = async ({ username, email, password, signUpDate, role }: User): Promise<User> => {
+    try{
+        const userPrisma = await database.user.create({data: {username, email, password, signUpDate, role,}})
+        return User.from(userPrisma);
+    }catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }}
 
-const user1 = new User({
-    id: 1,
-    username: 'PlayerOne',
-    email: 'playerone@example.com',
-    password: 'securepassword123',
-    signUpDate: '2024-11-11',
-    role: 'User',
-});
-
-addUser(user1);
 
 export default {
     getAllUsers,

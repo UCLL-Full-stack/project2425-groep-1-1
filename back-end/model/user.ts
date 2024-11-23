@@ -1,22 +1,23 @@
+import { User as UserPrisma } from "@prisma/client"
 import { Role } from '../types';
 import * as EmailValidator from 'email-validator';
 
 export class User {
-    private id?: number;
-    private username: string;
-    private email: string;
-    private password: string;
-    private signUpDate: string;
-    private role: Role;
-    private createdAt?: Date;
-    private updatedAt?: Date;
+    readonly id?: number;
+    readonly username: string;
+    readonly email: string;
+    readonly password: string;
+    readonly signUpDate: Date;
+    readonly role: Role;
+    readonly createdAt?: Date;
+    readonly updatedAt?: Date;
 
     constructor(user: {
         id?: number;
         username: string;
         email: string;
         password: string;
-        signUpDate: string;
+        signUpDate: Date;
         role: Role;
         createdAt?: Date;
         updatedAt?: Date;
@@ -38,7 +39,7 @@ export class User {
         username: string;
         email: string;
         password: string;
-        signUpDate: string;
+        signUpDate: Date;
         role: Role;
     }) {
         if (!user.username?.trim()) {
@@ -58,6 +59,29 @@ export class User {
         }
     }
 
+    static from({
+        id,
+        username,
+        email,
+        password,
+        signUpDate,
+        role,
+        createdAt,
+        updatedAt,
+}: UserPrisma): User {
+        const userRole: Role = role === 'Admin' || role === 'User' ? role : 'User';
+        return new User({
+            id,
+            username,
+            email,
+            password,
+            signUpDate,
+            role: userRole,
+            createdAt,
+            updatedAt,
+        })
+    }
+
     getId(): number | undefined {
         return this.id;
     }
@@ -74,7 +98,7 @@ export class User {
         return this.password;
     }
 
-    getSignUpDate(): string {
+    getSignUpDate(): Date {
         return this.signUpDate;
     }
 
