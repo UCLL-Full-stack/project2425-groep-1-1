@@ -18,18 +18,27 @@ const SpeedrunSubmitter: React.FC = () => {
 
     const [error, setError] = useState<string>("");
 
+    // See NOTE below in regard to not using props.
     const getGames = async () => {
         const [response] = await Promise.all([GameService.getAllGames()]);
         const [json] = await Promise.all([response.json()]);
         setGames(json);
     }
 
+    // See NOTE below in regard to not using props.
     const getCategories = async ({ id }: { id: number }) => {
         const [response] = await Promise.all([CategoryService.getAllCategoriesByGameId({ id })]);
         const [json] = await Promise.all([response.json()]);
         setCategories(json);
     }
 
+    /*
+     * NOTE:
+     * Conscious decision to add useEffect in this component, instead of using props to pass the data,
+     * since it is used in the header which would need to have code
+     * in every single page to get games and check if the selectedGameId is valid.
+     * This way it is modular and more reusable.
+     */
     useEffect(() => {
         getGames();
     }, []);
