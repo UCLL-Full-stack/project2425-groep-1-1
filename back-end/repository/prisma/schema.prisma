@@ -30,14 +30,14 @@ model Speedrun {
   submitDate    DateTime @default(now())
   videoLink     String
   speedrunner   User     @relation(name: "speedrunuser", fields: [speedrunnerId], references: [id])
-  speedrunnerId Int      @unique
+  speedrunnerId Int
   isValidated   Boolean
   validator     User?    @relation(name: "speedrunvalidator", fields: [validatorId], references: [id])
-  validatorId   Int      @unique
+  validatorId   Int
   game          Game     @relation(fields: [gameId], references: [id])
-  gameId        Int      @unique
+  gameId        Int
   category      Category @relation(fields: [categoryId], references: [id])
-  categoryId    Int      @unique
+  categoryId    Int
 }
 
 model SpeedrunEvent {
@@ -69,6 +69,6 @@ model Category {
   name        String
   description String
   game        Game       @relation(fields: [gameId], references: [id])
-  gameId      Int        @unique
+  gameId      Int
   speedruns   Speedrun[]
 }
