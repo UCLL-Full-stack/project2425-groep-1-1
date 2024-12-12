@@ -33,13 +33,15 @@ const main = async () => {
     });
 
 
-//     const user1 = await prisma.user.create({
-//         username: 'PlayerOne',
-//         email: 'playerone@example.com',
-//         password: 'securepassword123',
-//         signUpDate: '2024-11-11',
-//         role: 'User',
-//     });
+    const user1 = await prisma.user.create({
+        data: {
+            username: 'user1',
+            email: 'user1@example.com',
+            password: await bcrypt.hash('user1', 12),
+            signUpDate: new Date(),
+            role: 'User',
+        }
+    });
 }
 
 
