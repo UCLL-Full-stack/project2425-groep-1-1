@@ -7,3 +7,8 @@ export type SpeedrunInput = {
     videoLink: string;
     time: number;
 };
+
+export type UserInput = {
+    username: string;
+    password: string;
+}

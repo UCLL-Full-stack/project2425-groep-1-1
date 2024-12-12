@@ -36,10 +36,10 @@ export type SpeedrunInput = {
 export type User = {
     id?: number;
     username: string;
-    email: string;
+    email?: string;
     password: string;
-    signUpDate: Date;
-    role: Role;
+    signUpDate?: Date;
+    role?: Role;
 };
 
 export type Role = 'User' | 'Organizer' | 'Admin';

@@ -1,9 +1,10 @@
 import Head from "next/head";
 import Header from "@components/header";
+import UserLoginForm from "@components/users/UserLoginForm";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
-import UserLoginForm from "@components/users/UserLoginForm";
+import React from "react";
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
@@ -14,9 +15,12 @@ const Login: React.FC = () => {
       </Head>
       <Header />
       <main>
-        <section className="p-6 min-h-screen flex flex-col items-center">
-          <UserLoginForm />
-        </section>
+        <div className={"d-flex justify-content-center flex-column mt-5"} >
+          <h3 className="text-center">{t('login.title')}</h3>
+          <section className="d-flex justify-content-sm-center ">
+            <UserLoginForm/>
+          </section>
+        </div>
       </main>
     </>
   );

@@ -7,22 +7,24 @@ const UserTable: React.FC = () => {
   ];
 
   return (
-    <table>
-      <thead>
-      <th>username</th>
-      <th>password</th>
-      <th>role</th>
-      </thead>
-      <tbody>
-      {users.map((user, index) => (
-        <tr key={index}>
-          <td>{user.username}</td>
-          <td>{user.password}</td>
-          <td>{user.role}</td>
-        </tr>
-      ))}
-      </tbody>
-    </table>
+    <div className="d-flex justify-content-center flex-column">
+      <table className="table table-bordered">
+        <thead>
+        <th>username</th>
+        <th>password</th>
+        <th>role</th>
+        </thead>
+        <tbody>
+        {users.map((user, index) => (
+          <tr key={index}>
+            <td>{user.username}</td>
+            <td>{user.password}</td>
+            <td>{user.role}</td>
+          </tr>
+        ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 

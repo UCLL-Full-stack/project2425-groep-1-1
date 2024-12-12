@@ -36,7 +36,7 @@ const UserLoginForm: React.FC = () => {
     return result;
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     clearErrors();
@@ -74,7 +74,6 @@ const UserLoginForm: React.FC = () => {
 
   return (
     <>
-      <h3 className="px-0">Login</h3>
       {statusMessages && (
         <div className="row">
           <ul className="list-none mb-3 mx-auto ">
@@ -82,8 +81,8 @@ const UserLoginForm: React.FC = () => {
               <li
                 key={index}
                 className={classNames({
-                  "text-red-800": type === "error",
-                  "text-green-800": type === "success",
+                  "text-warning": type === "error",
+                  "text-success": type === "success",
                 })}
               >
                 {message}
@@ -93,47 +92,34 @@ const UserLoginForm: React.FC = () => {
         </div>
       )}
       <form onSubmit={handleSubmit}>
-        <label htmlFor="nameInput" className="block mb-2 text-sm font-medium">
-          {t('login.label.username')}
-        </label>
-        <div className="block mb-2 text-sm font-medium">
+        <div className="mb-2">
+          <label htmlFor="nameInput" className="col-form-label">{t('login.label.username')}</label>
           <input
             id="nameInput"
             type="text"
             value={name}
             onChange={(event) => setName(event.target.value)}
-            className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
+            className="form-control"
+            required
           />
-          {nameError && <div className="text-red-800 ">{nameError}</div>}
+          {nameError && <div className="alert alert-danger mt-3">{nameError}</div>}
         </div>
-        <div className="mt-2">
-          <div>
-            <label
-              htmlFor="passwordInput"
-              className="block mb-2 text-sm font-medium"
-            >
-              {t('login.label.password')}
-            </label>
-          </div>
-          <div className="block mb-2 text-sm font-medium">
-            <input
-              id="passwordInput"
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue:500 block w-full p-2.5"
-            />
-            {passwordError && (
-              <div className=" text-red-800">{passwordError}</div>
-            )}
-          </div>
+        <div className="mb-2">
+          <label htmlFor="passwordInput" className="col-form-label">{t('login.label.password')}</label>
+          <input
+            id="passwordInput"
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            className="form-control"
+            required
+          />
+          {passwordError && (
+            <div className="alert alert-danger mt-3">{passwordError}</div>
+          )}
         </div>
-        <button
-          className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-          type="submit"
-        >
-          {t('login.button')}
-        </button>
+        <input type="submit" className="btn btn-primary" value={t('login.button')} />
+
       </form>
     </>
   );
