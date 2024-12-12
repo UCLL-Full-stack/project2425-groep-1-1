@@ -5,6 +5,7 @@ const postSpeedrun = async (speedrun: SpeedrunInput) => {
         method: 'POST',
         headers: {
             'content-type': 'application/json',
+            'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser') as string)?.token,
         },
         body: JSON.stringify(speedrun),
     });

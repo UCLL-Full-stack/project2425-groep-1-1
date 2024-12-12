@@ -5,6 +5,7 @@ const getAllCategoriesByGameId = async ({ id }: { id: number }) => {
         method: 'GET',
         headers: {
             'content-type': 'application/json',
+            'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser') as string)?.token,
         },
     });
 };
