@@ -1,6 +1,6 @@
-import CategoryService from "@services/category-service";
-import GameService from "@services/game-service";
-import SpeedrunService from "@services/speedrun-service";
+import CategoryService from "@services/CategoryService";
+import GameService from "@services/GameService";
+import SpeedrunService from "@services/SpeedrunService";
 import { Category, Game, SpeedrunInput } from "@types";
 import { useEffect, useState } from "react";
 

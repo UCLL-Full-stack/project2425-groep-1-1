@@ -11,6 +11,9 @@ const Header: React.FC = () => {
                 <Link href="/games" className='nav-link px-4 fs-4 text-white'>
                     Games
                 </Link>
+                <Link href="/login" className='nav-link px-4 fs-4 text-white'>
+                    Login
+                </Link>
                 <SpeedrunSubmitter/>
             </nav>
         </header>

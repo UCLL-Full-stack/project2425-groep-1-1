@@ -1,0 +1,25 @@
+{
+  "app.title": "Speedrun Tracker App",
+  "general.error": "Er is een fout opgetreden. Probeer het later opnieuw.",
+  "login": {
+    "title": "Inloggen",
+    "button": "Inloggen",
+    "success": "Inloggen geslaagd. Doorverwijzen naar de startpagina...",
+    "validate": {
+      "name": "Naam is verplicht",
+      "password": "Wachtwoord is verplicht"
+    },
+    "label": {
+      "username": "Gebruikersnaam:",
+      "password": "Wachtwoord:"
+    }
+  },
+  "header": {
+    "welcome": "Welkom",
+    "nav": {
+      "home": "Startpagina",
+      "login": "Inloggen",
+      "logout": "Uitloggen"
+    }
+  }
+}

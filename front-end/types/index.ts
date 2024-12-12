@@ -42,4 +42,9 @@ export type User = {
     role: Role;
 };
 
-export type Role = 'User' | 'Admin';
+export type Role = 'User' | 'Organizer' | 'Admin';
+
+export type StatusMessage = {
+    message: string;
+    type: "error" | "success";
+};

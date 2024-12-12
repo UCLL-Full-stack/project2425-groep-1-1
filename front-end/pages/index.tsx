@@ -1,5 +1,6 @@
 import Header from '@components/header';
 import Head from 'next/head';
+import UserTable from "@components/users/UserTable";
 
 const Home: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const Home: React.FC = () => {
       </Head>
       <main>
         <Header/>
+        <UserTable/>
       </main>
     </>
   );
