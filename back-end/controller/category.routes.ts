@@ -1,8 +1,12 @@
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
- *
  *     Game:
  *       type: object
  *       properties:
@@ -47,7 +51,10 @@ const categoryRouter = express.Router();
  * @swagger
  * /categories/game/{gameId}:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all categories for a game.
+ *     tags: [Categories]
  *     parameters:
  *       - in: path
  *         name: gameId
@@ -70,7 +77,6 @@ const categoryRouter = express.Router();
  *         description: Internal Server Error
  *
  */
-
 categoryRouter.get('/game/:gameId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const gameId = parseInt(req.params.gameId);

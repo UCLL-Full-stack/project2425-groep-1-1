@@ -1,6 +1,11 @@
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     Game:
  *       type: object
@@ -31,7 +36,10 @@ const gameRouter = express.Router();
  * @swagger
  * /games:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all games.
+ *     tags: [Games]
  *     responses:
  *       "200":
  *         description: A JSON consisting of an array of game objects
@@ -47,7 +55,6 @@ const gameRouter = express.Router();
  *         description: Internal Server Error
  *
  */
-
 gameRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const games = await gameService.getAllGames();

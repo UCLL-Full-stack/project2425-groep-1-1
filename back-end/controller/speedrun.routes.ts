@@ -1,75 +1,80 @@
 /**
  * @swagger
  * components:
+ *   securitySchemes:
+ *     bearerAuth:
+ *       type: http
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *   schemas:
  *     User:
  *       type: object
  *       properties:
  *         id:
- *             type: number
- *             example: 1
+ *           type: number
+ *           example: 1
  *         username:
- *             type: string
- *             example: "PlayerOne"
+ *           type: string
+ *           example: "PlayerOne"
  *         email:
- *             type: string
- *             example: "playerone@example.com"
+ *           type: string
+ *           example: "playerone@example.com"
  *         password:
- *             type: string
- *             example: "securepassword123"
+ *           type: string
+ *           example: "securepassword123"
  *         signUpDate:
- *             type: string
- *             example: "2024-01-01"
+ *           type: string
+ *           example: "2024-01-01"
  *         role:
- *             type: string
- *             example: "user"
+ *           type: string
+ *           example: "user"
  *
  *     Game:
  *       type: object
  *       properties:
  *         id:
- *             type: number
- *             example: 1
+ *           type: number
+ *           example: 1
  *         name:
- *             type: string
- *             example: "Super Mario"
+ *           type: string
+ *           example: "Super Mario"
  *         genre:
- *             type: string
- *             example: "Platformer"
+ *           type: string
+ *           example: "Platformer"
  *         description:
- *             type: string
- *             example: "A classic platforming game where you save the princess."
+ *           type: string
+ *           example: "A classic platforming game where you save the princess."
  *         releaseDate:
- *             type: string
- *             example: "1985-09-13"
+ *           type: string
+ *           example: "1985-09-13"
  *
  *     Category:
  *       type: object
  *       properties:
  *         id:
- *             type: number
- *             example: 1
+ *           type: number
+ *           example: 1
  *         name:
- *             type: string
- *             example: "Any%"
+ *           type: string
+ *           example: "Any%"
  *         description:
- *             type: string
- *             example: "Complete the game as fast as possible without restrictions."
+ *           type: string
+ *           example: "Complete the game as fast as possible without restrictions."
  *         game:
- *             $ref: '#/components/schemas/Game'
+ *           $ref: '#/components/schemas/Game'
  *
  *     SpeedrunInput:
  *       type: object
  *       properties:
  *         userId:
  *           type: number
- *           example: "1"
+ *           example: 1
  *         gameId:
  *           type: number
- *           example: "1"
+ *           example: 1
  *         categoryId:
  *           type: number
- *           example: "1"
+ *           example: 1
  *         time:
  *           type: number
  *           example: 123.45
@@ -81,27 +86,28 @@
  *       type: object
  *       properties:
  *         id:
- *             type: number
- *             example: 12345
+ *           type: number
+ *           example: 1
  *         time:
- *             type: number
- *             example: 123.45
+ *           type: number
+ *           example: 123.45
  *         submitDate:
- *             type: string
- *             example: "2024-11-02"
+ *           type: string
+ *           example: "2024-11-02"
  *         videoLink:
- *             type: string
- *             example: "http://example.com/speedrun-video"
+ *           type: string
+ *           example: "http://example.com/speedrun-video"
  *         isValidated:
- *             type: boolean
- *             example: false
+ *           type: boolean
+ *           example: false
  *         speedrunner:
- *             $ref: '#/components/schemas/User'
+ *           $ref: '#/components/schemas/User'
  *         game:
- *             $ref: '#/components/schemas/Game'
+ *           $ref: '#/components/schemas/Game'
  *         category:
- *             $ref: '#/components/schemas/Category'
+ *           $ref: '#/components/schemas/Category'
  */
+
 
 import express, { NextFunction, Request, Response } from 'express';
 import speedrunService from '../service/speedrun.service';
@@ -113,6 +119,8 @@ const speedrunRouter = express.Router();
  * @swagger
  * /speedruns:
  *   post:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Submit a new speedrun
  *     tags: [Speedruns]
  *     requestBody:
@@ -133,7 +141,6 @@ const speedrunRouter = express.Router();
  *       "500":
  *         description: Internal Server Error
  */
-
 speedrunRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const speedrunInput: SpeedrunInput = req.body;
@@ -148,7 +155,10 @@ speedrunRouter.post('/', async (req: Request, res: Response, next: NextFunction)
  * @swagger
  * /speedruns:
  *   get:
+ *     security:
+ *       - bearerAuth: []
  *     summary: Get a list of all speedruns.
+ *     tags: [Speedruns]
  *     responses:
  *       "200":
  *         description: A JSON consisting of an array of speedrun objects
@@ -164,7 +174,6 @@ speedrunRouter.post('/', async (req: Request, res: Response, next: NextFunction)
  *         description: Internal Server Error
  *
  */
-
 speedrunRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const speedruns = await speedrunService.getAllSpeedruns();
