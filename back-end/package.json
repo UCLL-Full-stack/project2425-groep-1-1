@@ -1,8 +1,8 @@
 {
-    "name": "courses_api",
+    "name": "speedrun_tracker_api",
     "version": "1.0.0",
-    "description": "Courses API",
-    "author": "johanpck",
+    "description": "Speedrun Tracker API",
+    "author": "Marnix Willaert, Rik Rosseel",
     "license": "ISC",
     "main": "app.ts",
     "prisma": {
