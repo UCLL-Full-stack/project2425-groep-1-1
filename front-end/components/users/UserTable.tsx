@@ -1,3 +1,5 @@
+import React from "react";
+
 const UserTable: React.FC = () => {
     const users = [
         { username: 'user1', password: 'user1', role: 'user' },

@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
-import { UserInput } from '../types/index';
+import { UserInput } from '../types';
 
 const userRouter = express.Router();
 
