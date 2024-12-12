@@ -33,7 +33,7 @@ model Speedrun {
   speedrunnerId Int
   isValidated   Boolean
   validator     User?    @relation(name: "speedrunvalidator", fields: [validatorId], references: [id])
-  validatorId   Int
+  validatorId   Int?
   game          Game     @relation(fields: [gameId], references: [id])
   gameId        Int
   category      Category @relation(fields: [categoryId], references: [id])
