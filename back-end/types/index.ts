@@ -19,7 +19,7 @@ type UserInput = {
     updatedAt?: Date;
 }
 
-type LoginInput = {
+type AuthenticationRequest = {
     username: string;
     password: string;
 }
@@ -30,4 +30,4 @@ type AuthenticationResponse = {
     role: Role;
 };
 
-export { Role, SpeedrunInput, UserInput, LoginInput, AuthenticationResponse };
+export { Role, SpeedrunInput, UserInput, AuthenticationRequest, AuthenticationResponse };

@@ -15,7 +15,7 @@ userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
 
 userRouter.post('/login', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userInput = <UserInput>req.body;
+    const userInput = <AuthenticationRequest>req.body;
     const response = await userService.authenticate(userInput);
     res.status(200).json({ message: 'Authentication succesful', ...response });
   } catch (error) {
