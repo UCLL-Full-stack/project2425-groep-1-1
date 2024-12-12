@@ -18,8 +18,23 @@
     "welcome": "Welcome",
     "nav": {
       "home": "Home",
+      "games": "Games",
       "login": "Login",
       "logout": "Logout"
+    },
+    "translation": {
+      "language": "Language"
+    },
+    "speedrun-submitter": {
+      "nav-button": "Submit speedrun",
+      "title": "Submit your speedrun",
+      "form": {
+        "time": "Speedrun Time:",
+        "url": "Video Url:",
+        "game": "Game:",
+        "category": "Category:",
+        "button": "Submit"
+      }
     }
   }
 }

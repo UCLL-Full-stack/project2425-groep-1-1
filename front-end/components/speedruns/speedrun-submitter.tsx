@@ -3,8 +3,11 @@ import GameService from "@services/GameService";
 import SpeedrunService from "@services/SpeedrunService";
 import { Category, Game, SpeedrunInput } from "@types";
 import { useEffect, useState } from "react";
+import {useTranslation} from "next-i18next";
 
 const SpeedrunSubmitter: React.FC = () => {
+
+    const { t } = useTranslation();
 
     const [time, setTime] = useState<number>(Number.NaN);
 
@@ -82,7 +85,7 @@ const SpeedrunSubmitter: React.FC = () => {
         <>
             {/* Modal trigger button */}
             <button type="button" className='btn btn-outline-light px-4 ms-auto' data-bs-toggle="modal" data-bs-target="#SpeedrunSubmitModal">
-                Submit speedrun
+                {t("speedrun-submitter.nav-button")}
             </button>
 
             {/* Modal */}
@@ -90,34 +93,34 @@ const SpeedrunSubmitter: React.FC = () => {
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h2 className="modal-title fs-5">Submit your speedrun</h2>
+                            <h2 className="modal-title fs-5">{t("speedrun-submitter.title")}</h2>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={handleSpeedrunFormSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="time" className="col-form-label">Speedrun Time:</label>
+                                    <label htmlFor="time" className="col-form-label">{t("speedrun-submitter.time")}</label>
                                     <input type="time" className="form-control" id="time" step={0.001} onChange={(event) => {
                                         const input = event.target as HTMLInputElement;
                                         setTime(input.valueAsNumber)
                                     }} required></input>
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="video-link" className="col-form-label">Video Link:</label>
+                                    <label htmlFor="video-link" className="col-form-label">{t("speedrun-submitter.url")}</label>
                                     <input type="url" className="form-control" id="video-link" placeholder="https://www.example.com/..." onChange={(event) => {
                                         const input = event.target as HTMLInputElement;
                                         setVideoLink(input.value);
                                     }} required></input>
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="game" className="col-form-label">Game:</label>
+                                    <label htmlFor="game" className="col-form-label">{t("speedrun-submitter.game")}</label>
                                     <select className="form-select" id="game" defaultValue="" onChange={onGameInputChange} required>
                                         <option value="" disabled>Choose a game</option>
                                         {games.map((game, index) => <option key={game.id} value={game.id}>{game.name}</option>)}
                                     </select>
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="category" className="col-form-label">Category:</label>
+                                    <label htmlFor="category" className="col-form-label">{t("speedrun-submitter.category")}</label>
                                     <select className="form-select" id="category" defaultValue="" onChange={onCategoryInputChange} disabled={!selectedGameId} required>
                                         <option value="" disabled>Choose a category</option>
                                         {categories.map((category, index) => <option key={category.id} value={category.id}>{category.name}</option>)}
@@ -128,7 +131,7 @@ const SpeedrunSubmitter: React.FC = () => {
                                         {error}
                                     </div>
                                 )}
-                                <input type="submit" className="btn btn-primary" value="Submit" />
+                                <input type="submit" className="btn btn-primary" value={t("speedrun-submitter.button")} />
                             </form>
                         </div>
 

@@ -1,6 +1,6 @@
-export type Role = 'User' | 'Organizer' | 'Admin';
+type Role = 'User' | 'Organizer' | 'Admin';
 
-export type SpeedrunInput = {
+type SpeedrunInput = {
     userId: number;
     gameId: number;
     categoryId: number;
@@ -8,7 +8,26 @@ export type SpeedrunInput = {
     time: number;
 };
 
-export type UserInput = {
+type UserInput = {
+    id?: number;
+    username: string;
+    email: string;
+    password: string;
+    signUpDate?: Date;
+    role?: Role;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+type LoginInput = {
     username: string;
     password: string;
 }
+
+type AuthenticationResponse = {
+    token: string;
+    username: string;
+    role: Role;
+};
+
+export { Role, SpeedrunInput, UserInput, LoginInput, AuthenticationResponse };

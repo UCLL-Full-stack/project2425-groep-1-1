@@ -4,7 +4,7 @@
   "login": {
     "title": "Inloggen",
     "button": "Inloggen",
-    "success": "Inloggen geslaagd. Doorverwijzen naar de startpagina...",
+    "success": "Inloggen geslaagd. Doorverwijzen naar de homepagina...",
     "validate": {
       "name": "Naam is verplicht",
       "password": "Wachtwoord is verplicht"
@@ -17,9 +17,24 @@
   "header": {
     "welcome": "Welkom",
     "nav": {
-      "home": "Startpagina",
+      "home": "Home",
+      "games": "Games",
       "login": "Inloggen",
       "logout": "Uitloggen"
+    },
+    "translation": {
+      "language": "Taal"
+    }
+  },
+  "speedrun-submitter": {
+    "nav-button": "Speedrun indienen",
+    "title": "Dien je speedrun in",
+    "form": {
+      "time": "Speedrun-tijd:",
+      "url": "Video-URL:",
+      "game": "Spel:",
+      "category": "Categorie:",
+      "button": "Indienen"
     }
   }
 }
