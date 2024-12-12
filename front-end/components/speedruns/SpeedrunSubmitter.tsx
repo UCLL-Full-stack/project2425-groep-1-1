@@ -43,7 +43,10 @@ const SpeedrunSubmitter: React.FC = () => {
      * This way it is modular and more reusable.
      */
     useEffect(() => {
-        getGames();
+        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") as string);
+        if (loggedInUser) {
+            getGames();
+        }
     }, []);
 
     useEffect(() => {
