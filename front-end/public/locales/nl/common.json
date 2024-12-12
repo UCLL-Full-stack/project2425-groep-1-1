@@ -30,10 +30,21 @@
     "nav-button": "Speedrun indienen",
     "title": "Dien je speedrun in",
     "form": {
-      "time": "Speedrun-tijd:",
-      "url": "Video-URL:",
-      "game": "Spel:",
-      "category": "Categorie:",
+      "time": {
+        "label": "Speedrun-tijd:"
+      },
+      "url": {
+        "label": "Video-URL:",
+        "placeholder": "https://www.voorbeeld.com/..."
+      },
+      "game": {
+        "label": "Spel:",
+        "placeholder": "Kies een spel"
+      },
+      "category": {
+        "label": "Categorie:",
+        "placeholder": "Kies een categorie"
+      },
       "button": "Indienen"
     }
   }

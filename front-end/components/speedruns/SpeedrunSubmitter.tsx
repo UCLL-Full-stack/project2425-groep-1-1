@@ -3,7 +3,7 @@ import GameService from "@services/GameService";
 import SpeedrunService from "@services/SpeedrunService";
 import { Category, Game, SpeedrunInput } from "@types";
 import { useEffect, useState } from "react";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
 
 const SpeedrunSubmitter: React.FC = () => {
 
@@ -99,30 +99,30 @@ const SpeedrunSubmitter: React.FC = () => {
                         <div className="modal-body">
                             <form onSubmit={handleSpeedrunFormSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="time" className="col-form-label">{t("speedrun-submitter.time")}</label>
+                                    <label htmlFor="time" className="col-form-label">{t("speedrun-submitter.form.time.label")}</label>
                                     <input type="time" className="form-control" id="time" step={0.001} onChange={(event) => {
                                         const input = event.target as HTMLInputElement;
                                         setTime(input.valueAsNumber)
                                     }} required></input>
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="video-link" className="col-form-label">{t("speedrun-submitter.url")}</label>
-                                    <input type="url" className="form-control" id="video-link" placeholder="https://www.example.com/..." onChange={(event) => {
+                                    <label htmlFor="video-link" className="col-form-label">{t("speedrun-submitter.form.url.label")}</label>
+                                    <input type="url" className="form-control" id="video-link" placeholder={t("speedrun-submitter.form.url.placeholder")} onChange={(event) => {
                                         const input = event.target as HTMLInputElement;
                                         setVideoLink(input.value);
                                     }} required></input>
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="game" className="col-form-label">{t("speedrun-submitter.game")}</label>
+                                    <label htmlFor="game" className="col-form-label">{t("speedrun-submitter.form.game.label")}</label>
                                     <select className="form-select" id="game" defaultValue="" onChange={onGameInputChange} required>
-                                        <option value="" disabled>Choose a game</option>
+                                        <option value="" disabled>{t("speedrun-submitter.form.game.placeholder")}</option>
                                         {games.map((game, index) => <option key={game.id} value={game.id}>{game.name}</option>)}
                                     </select>
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="category" className="col-form-label">{t("speedrun-submitter.category")}</label>
+                                    <label htmlFor="category" className="col-form-label">{t("speedrun-submitter.form.category.label")}</label>
                                     <select className="form-select" id="category" defaultValue="" onChange={onCategoryInputChange} disabled={!selectedGameId} required>
-                                        <option value="" disabled>Choose a category</option>
+                                        <option value="" disabled>{t("speedrun-submitter.form.category.placeholder")}</option>
                                         {categories.map((category, index) => <option key={category.id} value={category.id}>{category.name}</option>)}
                                     </select>
                                 </div>
@@ -131,7 +131,7 @@ const SpeedrunSubmitter: React.FC = () => {
                                         {error}
                                     </div>
                                 )}
-                                <input type="submit" className="btn btn-primary" value={t("speedrun-submitter.button")} />
+                                <input type="submit" className="btn btn-primary" value={t("speedrun-submitter.form.button")} />
                             </form>
                         </div>
 
