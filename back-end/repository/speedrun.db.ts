@@ -45,7 +45,6 @@ const addSpeedrun = async ({time, submitDate, videoLink, isValidated, speedrunne
                 videoLink,
                 isValidated,
                 speedrunner: { connect: { id: speedrunner.id }},
-                validator: { connect: { id: validator?.id }},
                 game: { connect: { id: game.id }},
                 category: { connect: { id: category.id }},
             },
