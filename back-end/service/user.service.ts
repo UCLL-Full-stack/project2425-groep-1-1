@@ -26,7 +26,7 @@ const createUser = async (userInput: UserInput): Promise<User> => {
 const authenticate = async ({ username, password }: AuthenticationRequest): Promise<AuthenticationResponse> => {
   const user = await userDb.getUserByUsername({ username });
   if (!user) {
-    throw new Error(`User with username: ${username} does not exist.`);
+    throw new Error(`Incorrect login, please try again.`);
   }
 
   const role = user.getRole();
@@ -34,7 +34,7 @@ const authenticate = async ({ username, password }: AuthenticationRequest): Prom
   const isValidPassword = await bcrypt.compare(password, user.getPassword());
 
   if (!isValidPassword) {
-    throw new Error('Incorrect login.');
+    throw new Error('Incorrect login, please try again.');
   }
   return {
     token: generateJwtToken({ username, role }),
