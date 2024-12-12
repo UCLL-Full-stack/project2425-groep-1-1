@@ -48,12 +48,7 @@ const UserLoginForm: React.FC = () => {
     const [res] = await Promise.all([userService.loginUser({ username: name, password: password })]);
     if (res.ok) {
       const user = await res.json();
-      setStatusMessages([
-        {
-          message: t('login.success'),
-          type: "success",
-        },
-      ]);
+      setStatusMessages([{ message: t('login.success'), type: "success" }]);
 
       localStorage.setItem("loggedInUser", JSON.stringify({
         token: user.token,
@@ -66,60 +61,61 @@ const UserLoginForm: React.FC = () => {
       }, 2000);
     } else {
       const errorStatusMessage = await res.json();
-      setStatusMessages([{ message: errorStatusMessage, type: 'error' }]);
-      return;
+      setStatusMessages([{ message: errorStatusMessage.message, type: 'error' }]);
     }
   };
 
   return (
     <>
-      {statusMessages && (
-        <div className="row">
-          <ul className="list-none mb-3 mx-auto ">
-            {statusMessages.map(({ message, type }, index) => (
-              <li
-                key={index}
-                className={classNames({
-                  "text-warning": type === "error",
-                  "text-success": type === "success",
-                })}
-              >
-                {message}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-2">
-          <label htmlFor="nameInput" className="col-form-label">{t('login.label.username')}</label>
-          <input
-            id="nameInput"
-            type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-            className="form-control"
-            required
-          />
-          {nameError && <div className="alert alert-danger mt-3">{nameError}</div>}
-        </div>
-        <div className="mb-2">
-          <label htmlFor="passwordInput" className="col-form-label">{t('login.label.password')}</label>
-          <input
-            id="passwordInput"
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            className="form-control"
-            required
-          />
-          {passwordError && (
-            <div className="alert alert-danger mt-3">{passwordError}</div>
-          )}
-        </div>
-        <input type="submit" className="btn btn-primary" value={t('login.button')} />
+      <div className="d-flex flex-column">
+        {statusMessages && (
+          <div className="row">
+            <ul className="list-unstyled mb-3 mx-auto ">
+              {statusMessages.map(({ message, type }, index) => (
+                <li
+                  key={index}
+                  className={classNames({
+                    "text-danger": type === "error",
+                    "text-success": type === "success",
+                  })}
+                >
+                  {message}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-2">
+            <label htmlFor="nameInput" className="col-form-label">{t('login.label.username')}</label>
+            <input
+              id="nameInput"
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              className="form-control"
+              required
+            />
+            {nameError && <div className="alert alert-danger mt-3">{nameError}</div>}
+          </div>
+          <div className="mb-2">
+            <label htmlFor="passwordInput" className="col-form-label">{t('login.label.password')}</label>
+            <input
+              id="passwordInput"
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              className="form-control"
+              required
+            />
+            {passwordError && (
+              <div className="alert alert-danger mt-3">{passwordError}</div>
+            )}
+          </div>
+          <input type="submit" className="btn btn-primary" value={t('login.button')} />
 
-      </form>
+        </form>
+      </div>
     </>
   );
 };
