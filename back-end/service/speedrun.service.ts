@@ -15,7 +15,9 @@ const addSpeedrunSubmission = async ({userId, gameId, time, videoLink, categoryI
     const category = await categoryDb.getCategoryById({ categoryId: categoryId });
     const todaysDate = new Date();
 
-    if (speedrunDb.getSpeedrunByVideoLink({ videoLink: videoLink }) != null) {
+    const existingSpeedrun = await speedrunDb.getSpeedrunByVideoLink({ videoLink: videoLink })
+    if (existingSpeedrun != null) {
+        console.log(existingSpeedrun)
         throw new Error("Can't submit the same speedrun twice.");
     }
     if (!user) {
