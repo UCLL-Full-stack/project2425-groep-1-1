@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Header from "@components/header";
+import Header from "@components/Header";
 import UserLoginForm from "@components/users/UserLoginForm";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";

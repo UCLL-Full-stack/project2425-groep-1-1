@@ -1,4 +1,4 @@
-import Header from '@components/header';
+import Header from '@components/Header';
 import Head from 'next/head';
 import UserTable from "@components/users/UserTable";
 import {GetServerSideProps} from "next";
