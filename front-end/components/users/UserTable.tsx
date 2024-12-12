@@ -8,8 +8,8 @@ const UserTable: React.FC = () => {
     ];
 
     return (
-        <div className="d-flex justify-content-center">
-            <table className="table-sm table-bordered">
+        <div className="container d-flex justify-content-center">
+            <table className="table table-bordered">
                 <thead>
                     <tr>
                         <th>username</th>
