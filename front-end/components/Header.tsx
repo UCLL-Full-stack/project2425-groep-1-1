@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import SpeedrunSubmitter from './speedruns/SpeedrunSubmitter';
 import Language from "@components/language/Language";
-import {useTranslation} from "next-i18next";
-import {useEffect, useState} from "react";
-import {User} from "@types";
+import { useTranslation } from "next-i18next";
+import { useEffect, useState } from "react";
+import { User } from "@types";
 
 const Header: React.FC = () => {
     const { t } = useTranslation();

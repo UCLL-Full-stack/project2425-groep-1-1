@@ -1,7 +1,7 @@
 import React from "react";
-import {Game} from "@types";
+import { Game } from "@types";
 import Link from "next/link";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
 
 type Props = {
   games: Game[];

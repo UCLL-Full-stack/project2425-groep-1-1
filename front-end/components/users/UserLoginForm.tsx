@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import userService from "@services/UserService";
-import {useTranslation} from "next-i18next";
+import { useTranslation } from "next-i18next";
 
 const UserLoginForm: React.FC = () => {
   const { t } = useTranslation();

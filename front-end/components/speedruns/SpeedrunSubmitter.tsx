@@ -1,7 +1,7 @@
 import CategoryService from "@services/CategoryService";
 import GameService from "@services/GameService";
 import SpeedrunService from "@services/SpeedrunService";
-import {Category, Game, SpeedrunInput, User } from "@types";
+import { Category, Game, SpeedrunInput, User } from "@types";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import useSWR, { mutate } from "swr";

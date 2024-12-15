@@ -1,8 +1,8 @@
 import Header from '@components/Header';
 import Head from 'next/head';
 import UserTable from "@components/users/UserTable";
-import {GetServerSideProps} from "next";
-import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import { GetServerSideProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Home: React.FC = () => {
   return (
