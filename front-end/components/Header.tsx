@@ -36,7 +36,7 @@ const Header: React.FC = () => {
                     {t("header.nav.logout")}
                 </Link> }
                 <Language/>
-                <SpeedrunSubmitter/>
+                { loggedInUser && <SpeedrunSubmitter/> }
             </nav>
         </header>
     );
