@@ -32,7 +32,7 @@ const SpeedrunSubmitter: React.FC = () => {
 
     /*
      * NOTE:
-     * Conscious decision to add useEffect in this component, instead of using props to pass the data,
+     * Conscious decision to get data in this component, instead of using props to pass the data,
      * since it is used in the header which would need to have code
      * in every single page to get games and check if the selectedGameId is valid.
      * This way it is modular and more reusable.
@@ -137,7 +137,6 @@ const SpeedrunSubmitter: React.FC = () => {
                               <div className="alert alert-danger mt-3" role="alert">{error}</div>
                             )}
                         </div>
-
                     </div>
                 </div>
             </div>

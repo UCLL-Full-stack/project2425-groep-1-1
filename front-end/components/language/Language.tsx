@@ -10,7 +10,7 @@ const Language: React.FC = () => {
     // get new locale from event and push it to the router
     const newLocale = event.target.value;
     const { pathname, asPath, query } = router;
-    router.push({ pathname, query }, asPath, {locale: newLocale });
+    router.push({ pathname, query }, asPath, { locale: newLocale });
   };
 
   return (
