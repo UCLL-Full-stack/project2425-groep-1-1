@@ -4,35 +4,30 @@ import SpeedrunService from "@services/SpeedrunService";
 import { Category, Game, SpeedrunInput } from "@types";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
+import useSWR, {mutate} from "swr";
 
 const SpeedrunSubmitter: React.FC = () => {
 
     const { t } = useTranslation();
 
     const [time, setTime] = useState<number>(Number.NaN);
-
     const [videoLink, setVideoLink] = useState<string>("");
-
-    const [games, setGames] = useState<Array<Game>>([]);
     const [selectedGameId, setSelectedGameId] = useState<number>(Number.NaN);
-
-    const [categories, setCategories] = useState<Array<Category>>([]);
     const [selectedCategoryId, setSelectedCategoryId] = useState<number>(Number.NaN);
 
-    const [error, setError] = useState<string>("");
+    const [formError, setFormError] = useState<string>("");
 
-    // See NOTE below in regard to not using props.
-    const getGames = async () => {
-        const [response] = await Promise.all([GameService.getAllGames()]);
-        const [json] = await Promise.all([response.json()]);
-        setGames(json);
-    }
+    const getGamesAndCategories = async () => {
+        const [gamesResponse] = await Promise.all([GameService.getAllGames()]);
+        const [games]: [Game[]] = await Promise.all([gamesResponse.json()]);
 
-    // See NOTE below in regard to not using props.
-    const getCategories = async ({ id }: { id: number }) => {
-        const [response] = await Promise.all([CategoryService.getAllCategoriesByGameId({ id })]);
-        const [json] = await Promise.all([response.json()]);
-        setCategories(json);
+        let categories: Category[] = [];
+        if (!isNaN(selectedGameId)) {
+            const [categoriesResponse] = await Promise.all([CategoryService.getAllCategoriesByGameId({ id: selectedGameId })]);
+            [categories] = await Promise.all([categoriesResponse.json()]);
+        }
+
+        return { games, categories };
     }
 
     /*
@@ -42,23 +37,15 @@ const SpeedrunSubmitter: React.FC = () => {
      * in every single page to get games and check if the selectedGameId is valid.
      * This way it is modular and more reusable.
      */
-    useEffect(() => {
-        const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser") as string);
-        if (loggedInUser) {
-            getGames();
-        }
-    }, []);
+    const { data, isLoading, error } = useSWR("gamesAndCategories", getGamesAndCategories);
+
 
     useEffect(() => {
-        if (!isNaN(selectedGameId)) {
-            getCategories({ id: selectedGameId });
-        } else {
-            setCategories([]);
-        }
+        mutate("gamesAndCategories", getGamesAndCategories());
     }, [selectedGameId]);
 
     useEffect(() => {
-        setError("");
+        setFormError("");
     }, [time, videoLink, selectedGameId, selectedCategoryId])
 
 
@@ -80,7 +67,7 @@ const SpeedrunSubmitter: React.FC = () => {
         if (response.ok) {
             window.location.reload();
         } else {
-            setError((json as { status: string, message: string }).message)
+            setFormError((json as { status: string, message: string }).message)
         }
     }
 
@@ -100,7 +87,7 @@ const SpeedrunSubmitter: React.FC = () => {
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
-                            <form onSubmit={handleSpeedrunFormSubmit}>
+                            { !error && (<form onSubmit={handleSpeedrunFormSubmit}>
                                 <div className="mb-3">
                                     <label htmlFor="time" className="col-form-label">{t("speedrun-submitter.form.time.label")}</label>
                                     <input type="time" className="form-control" id="time" step={0.001} onChange={(event) => {
@@ -117,25 +104,38 @@ const SpeedrunSubmitter: React.FC = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="game" className="col-form-label">{t("speedrun-submitter.form.game.label")}</label>
+                                    { isLoading && (
+                                      <div className="spinner-border" role="status">
+                                          <span className="visually-hidden">Loading...</span>
+                                      </div>
+                                    )}
                                     <select className="form-select" id="game" defaultValue="" onChange={onGameInputChange} required>
                                         <option value="" disabled>{t("speedrun-submitter.form.game.placeholder")}</option>
-                                        {games.map((game, index) => <option key={game.id} value={game.id}>{game.name}</option>)}
+                                        {data && data.games.map((game, index) => <option key={game.id} value={game.id}>{game.name}</option>)}
                                     </select>
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="category" className="col-form-label">{t("speedrun-submitter.form.category.label")}</label>
+                                    { isLoading && (
+                                      <div className="spinner-border" role="status">
+                                          <span className="visually-hidden">Loading...</span>
+                                      </div>
+                                    )}
                                     <select className="form-select" id="category" defaultValue="" onChange={onCategoryInputChange} disabled={!selectedGameId} required>
                                         <option value="" disabled>{t("speedrun-submitter.form.category.placeholder")}</option>
-                                        {categories.map((category, index) => <option key={category.id} value={category.id}>{category.name}</option>)}
+                                        { data && data.categories && data.categories.map((category, index) => <option key={category.id} value={category.id}>{category.name}</option>)}
                                     </select>
                                 </div>
-                                {error && (
+                                {formError && (
                                     <div className="alert alert-danger mt-3" role="alert">
-                                        {error}
+                                        {formError}
                                     </div>
                                 )}
                                 <input type="submit" className="btn btn-primary" value={t("speedrun-submitter.form.button")} />
-                            </form>
+                            </form>) }
+                            { error && (
+                              <div className="alert alert-danger mt-3" role="alert">{error}</div>
+                            )}
                         </div>
 
                     </div>
