@@ -4,4 +4,8 @@ const getAllGames = () => {
     return gameDb.getAllGames();
 };
 
-export default { getAllGames };
+const getGameById = ({ id }: { id: number }) => {
+    return gameDb.getGameById({ id });
+}
+
+export default { getAllGames, getGameById };
