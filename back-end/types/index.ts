@@ -26,6 +26,7 @@ type AuthenticationRequest = {
 
 type AuthenticationResponse = {
     token: string;
+    id: number
     username: string;
     role: Role;
 };
