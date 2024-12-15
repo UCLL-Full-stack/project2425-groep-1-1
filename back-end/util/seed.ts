@@ -6,10 +6,10 @@ import { set } from 'date-fns'
 const prisma = new PrismaClient();
 
 const main = async () => {
+    await prisma.speedrun.deleteMany();
     await prisma.user.deleteMany();
     await prisma.category.deleteMany();
     await prisma.game.deleteMany();
-    await prisma.speedrun.deleteMany();
     await prisma.speedrunEvent.deleteMany();
 
     console.log('Seeding database...');
@@ -22,6 +22,71 @@ const main = async () => {
             releaseDate: new Date('1985-09-13'),
         }
     });
+    const legendOfZelda = await prisma.game.create({
+        data: {
+            name: 'The Legend of Zelda',
+            genre: 'Action-Adventure',
+            description: 'An epic adventure to save Princess Zelda and defeat Ganon.',
+            releaseDate: new Date('1986-02-21'),
+        },
+    });
+    const pacMan = await prisma.game.create({
+        data: {
+            name: 'Pac-Man',
+            genre: 'Arcade',
+            description: 'A maze arcade game where you eat dots and avoid ghosts.',
+            releaseDate: new Date('1980-05-22'),
+        },
+    });
+    const donkeyKong = await prisma.game.create({
+        data: {
+            name: 'Donkey Kong',
+            genre: 'Platformer',
+            description: 'A platforming game where you save Pauline from Donkey Kong.',
+            releaseDate: new Date('1981-07-09'),
+        },
+    });
+    const sonicTheHedgehog = await prisma.game.create({
+        data: {
+            name: 'Sonic the Hedgehog',
+            genre: 'Platformer',
+            description: 'A fast-paced platformer where you battle Dr. Robotnik to save animals.',
+            releaseDate: new Date('1991-06-23'),
+        },
+    });
+    const tetris = await prisma.game.create({
+        data: {
+            name: 'Tetris',
+            genre: 'Puzzle',
+            description: 'A tile-matching puzzle game where you arrange falling blocks.',
+            releaseDate: new Date('1984-06-06'),
+        },
+    });
+    const streetFighterII = await prisma.game.create({
+        data: {
+            name: 'Street Fighter II',
+            genre: 'Fighting',
+            description: 'A classic fighting game featuring iconic characters and combos.',
+            releaseDate: new Date('1991-03-23'),
+        },
+    });
+    const finalFantasyVII = await prisma.game.create({
+        data: {
+            name: 'Final Fantasy VII',
+            genre: 'Role-Playing Game (RPG)',
+            description: 'An epic RPG following Cloud Strife in a battle against the Shinra Corporation.',
+            releaseDate: new Date('1997-01-31'),
+        },
+    });
+    const doom = await prisma.game.create({
+        data: {
+            name: 'Doom',
+            genre: 'First-Person Shooter',
+            description: 'A groundbreaking FPS where you battle demons on Mars.',
+            releaseDate: new Date('1993-12-10'),
+        },
+    });
+
 
     const anyPercent = await prisma.category.create({
         data: {

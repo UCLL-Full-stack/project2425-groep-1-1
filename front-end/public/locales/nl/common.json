@@ -47,5 +47,11 @@
       },
       "button": "Indienen"
     }
+  },
+  "games": {
+    "title": "Games",
+    "game": {
+      "overview-button": "Overzicht"
+    }
   }
 }
