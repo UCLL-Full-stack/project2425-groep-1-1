@@ -10,6 +10,7 @@ import CategoryLeaderboardTable from "@components/games/leaderboard/CategoryLead
 import { useRouter } from "next/router";
 import gameService from "@services/GameService";
 import categoryService from "@services/CategoryService";
+import Spinner from "@components/Spinner";
 
 
 const CategoryLeaderboard: React.FC = () => {
@@ -40,10 +41,7 @@ const CategoryLeaderboard: React.FC = () => {
       <Header/>
       <main>
         <div className={"container d-flex justify-content-center flex-column mt-5"}>
-          { isLoading && (
-            <div className="spinner-border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div> )}
+          { isLoading && <Spinner />}
           { data && (
             <>
               <h3>{data.game.name} - {data.category.name} | Leaderboard</h3>
@@ -57,7 +55,7 @@ const CategoryLeaderboard: React.FC = () => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { locale } = context;
+  const {locale} = context;
 
   return {
     props: {
