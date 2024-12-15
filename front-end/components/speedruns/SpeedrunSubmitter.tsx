@@ -1,10 +1,10 @@
 import CategoryService from "@services/CategoryService";
 import GameService from "@services/GameService";
 import SpeedrunService from "@services/SpeedrunService";
-import { Category, Game, SpeedrunInput } from "@types";
+import {Category, Game, SpeedrunInput, User } from "@types";
 import { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
-import useSWR, {mutate} from "swr";
+import useSWR, { mutate } from "swr";
 
 const SpeedrunSubmitter: React.FC = () => {
 
@@ -58,8 +58,8 @@ const SpeedrunSubmitter: React.FC = () => {
 
     const handleSpeedrunFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        // TODO: get user id, not implemented yet (global or prop?)
-        const userId: number = 1;
+        const loggedInUser: User = JSON.parse(localStorage.getItem("loggedInUser") as string);
+        const userId: number = loggedInUser.id as number;
 
         const speedrunInput: SpeedrunInput = { time, videoLink, gameId: selectedGameId, categoryId: selectedCategoryId, userId };
         const [response] = await Promise.all([SpeedrunService.postSpeedrun(speedrunInput)]);
