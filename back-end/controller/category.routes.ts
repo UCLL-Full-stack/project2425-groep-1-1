@@ -87,4 +87,14 @@ categoryRouter.get('/game/:gameId', async (req: Request, res: Response, next: Ne
     }
 });
 
+// TODO: Swagger docs
+categoryRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const category = await categoryService.getCategoryById({ id: Number(req.params.id) });
+        res.status(200).json(category);
+    } catch (error) {
+        next(error);
+    }
+})
+
 export { categoryRouter };
