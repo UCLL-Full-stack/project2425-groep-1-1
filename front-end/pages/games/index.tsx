@@ -7,7 +7,7 @@ import React from "react";
 import { useTranslation } from "next-i18next";
 import useSWR from "swr";
 import gameService from "@services/GameService";
-import {Game} from "@types";
+import { Game } from "@types";
 
 
 const Games: React.FC = () => {
@@ -21,7 +21,7 @@ const Games: React.FC = () => {
     }
   }
 
-  const { data, isLoading, error } = useSWR("games", getGames)
+  const { data, isLoading, error } = useSWR("games", getGames, { refreshInterval: 5000 });
 
   return (
     <>
