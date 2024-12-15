@@ -9,6 +9,10 @@ const getAllSpeedruns = () => {
     return speedrunDb.getAllSpeedruns();
 };
 
+const getSpeedrunsForCategory = ({ categoryId }: { categoryId: number }) => {
+    return speedrunDb.getSpeedrunsForCategory({ categoryId });
+}
+
 const addSpeedrunSubmission = async ({userId, gameId, time, videoLink, categoryId}: SpeedrunInput) => {
     const user = await userDb.getUserById({ id: userId });
     const game = await gameDb.getGameById({ id: gameId });
@@ -42,4 +46,4 @@ const addSpeedrunSubmission = async ({userId, gameId, time, videoLink, categoryI
     }
 };
 
-export default { addSpeedrunSubmission, getAllSpeedruns };
+export default { addSpeedrunSubmission, getAllSpeedruns, getSpeedrunsForCategory };

@@ -182,4 +182,14 @@ speedrunRouter.get('/', async (req: Request, res: Response, next: NextFunction) 
         next(error);
     }
 });
+
+// TODO: Swagger docs
+speedrunRouter.get('/category/:categoryId', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const speedruns = await speedrunService.getSpeedrunsForCategory({ categoryId: Number(req.params.categoryId) });
+        res.status(200).json(speedruns);
+    } catch (error) {
+        next(error);
+    }
+})
 export { speedrunRouter };
