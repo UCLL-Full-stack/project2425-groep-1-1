@@ -4,4 +4,9 @@ const getAllGames = () => {
     return gameDb.getAllGames();
 };
 
-export default { getAllGames };
+const getGameById = (id: string) => {
+    const idNumber = parseInt(id);
+    return gameDb.getGameById({ id: idNumber });
+}
+
+export default { getAllGames, getGameById };

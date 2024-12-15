@@ -64,4 +64,44 @@ gameRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
+/**
+ * @swagger
+ * /games/{id}:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Get a game by ID.
+ *     tags: [Games]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: The ID of the game to retrieve.
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       "200":
+ *         description: A JSON object containing the game details.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Game'
+ *       "400":
+ *         description: Bad Request
+ *       "404":
+ *         description: Game not found
+ *       "500":
+ *         description: Internal Server Error
+ */
+
+gameRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const id = req.params.id;
+        const game = await gameService.getGameById(id);
+        res.status(200).json(game);
+    } catch(error){
+        next(error);
+    }
+})
+
 export { gameRouter };
