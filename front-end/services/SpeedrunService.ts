@@ -11,8 +11,19 @@ const postSpeedrun = async (speedrun: SpeedrunInput) => {
     });
 };
 
+const getSpeedrunsForCategory = async ({ categoryId }: { categoryId: number }) => {
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + '/speedruns/category/' + categoryId, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
+        }
+    });
+}
+
 const SpeedrunService = {
     postSpeedrun,
+    getSpeedrunsForCategory,
 };
 
 export default SpeedrunService;
