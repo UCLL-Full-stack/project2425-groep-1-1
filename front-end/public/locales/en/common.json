@@ -47,5 +47,11 @@
       },
       "button": "Submit"
     }
+  },
+  "games": {
+    "title": "Games",
+    "game": {
+      "overview-button": "Overview"
+    }
   }
 }
