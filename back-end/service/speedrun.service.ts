@@ -12,7 +12,7 @@ const getAllSpeedruns = () => {
 const addSpeedrunSubmission = async ({userId, gameId, time, videoLink, categoryId}: SpeedrunInput) => {
     const user = await userDb.getUserById({ id: userId });
     const game = await gameDb.getGameById({ id: gameId });
-    const category = await categoryDb.getCategoryById({ categoryId: categoryId });
+    const category = await categoryDb.getCategoryById({ id: categoryId });
     const todaysDate = new Date();
 
     const existingSpeedrun = await speedrunDb.getSpeedrunByVideoLink({ videoLink: videoLink })
