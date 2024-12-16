@@ -168,7 +168,6 @@ test('given correct speedrun in speedruns, when getting all speedruns, then list
         new Speedrun({
             id: 1,
             time: 300,
-            submitDate: new Date('2022-10-10T00:00:00.000Z'),
             speedrunner: getUserByIdMock(),
             videoLink: 'http://example.com',
             isValidated: false,
