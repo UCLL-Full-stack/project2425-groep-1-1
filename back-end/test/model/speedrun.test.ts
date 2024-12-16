@@ -5,14 +5,14 @@ import { Game } from '../../model/game';
 import { Speedrun } from '../../model/speedrun';
 
 const time: number = 1620000;
-const submitDate: string = '2024-10-24';
+const submitDate: Date = new Date('2024-10-24T00:00:00.000Z');
 const videoLink: string = 'https://www.example.com/lajksdf';
 const speedrunner: User = new User({
     username: 'speedy-gonzales',
     email: 'speedy.gonzales@email.com',
     password: 'password123',
     role: 'User',
-    signUpDate: '1953-08-29',
+    signUpDate: new Date('1953-08-29T00:00:00.000Z'),
 });
 const isValidated: boolean = true;
 const validator: User = new User({
@@ -20,14 +20,14 @@ const validator: User = new User({
     email: 'walt.disney@email.com',
     password: '1234password',
     role: 'Admin',
-    signUpDate: '1953-08-29',
+    signUpDate: new Date('1953-08-29T00:00:00.000Z'),
 });
 const game: Game = new Game({
     name: 'Heavenly Bodies',
     description:
         'Heavenly Bodies is a game about cosmonauts, the body, and the absence of gravity.',
     genre: 'Action, Adventure, Indie, Simulation',
-    releaseDate: '2021-12-07',
+    releaseDate: new Date('2021-12-07T00:00:00.000Z'),
 });
 const category: Category = new Category({
     name: 'Any%',
@@ -37,7 +37,7 @@ const category: Category = new Category({
         description:
             'Heavenly Bodies is a game about cosmonauts, the body, and the absence of gravity.',
         genre: 'Action, Adventure, Indie, Simulation',
-        releaseDate: '2021-12-07',
+        releaseDate: new Date('2021-12-07T00:00:00.000Z'),
     }),
 });
 
@@ -114,7 +114,7 @@ test(`given: invalid time, when: speedrun is created, then: an error is thrown`,
 
 test(`given: invalid submit date, when: speedrun is created, then: an error is thrown`, () => {
     // given
-    const invalidSubmitDate: string = null as any;
+    const invalidSubmitDate: Date = null as any;
     // when
     const createSpeedrun = () => {
         new Speedrun({

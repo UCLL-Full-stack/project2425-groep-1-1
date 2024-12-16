@@ -10,7 +10,7 @@ const game: Game = new Game({
     name: 'Super Mario',
     description: 'Some game description',
     genre: 'Platformer',
-    releaseDate: '1985-09-13',
+    releaseDate: new Date('1985-09-13T00:00:00.000Z'),
 });
 
 const categoriesForGame: Array<Category> = [
@@ -31,7 +31,7 @@ test('given a valid gameId, when getting categories by gameId, then the categori
     categoryDb.getAllCategoriesForGame =
         mockCategoriesDbGetAllCategoriesForGame.mockReturnValue(categoriesForGame);
     // when
-    const result = categoryService.getAllCategoriesForGame(validGameId);
+    const result = categoryService.getAllCategoriesForGame({ gameId: validGameId });
     // then
     expect(mockCategoriesDbGetAllCategoriesForGame).toHaveBeenCalledTimes(1);
     expect(mockCategoriesDbGetAllCategoriesForGame).toHaveBeenCalledWith(validGameId);

@@ -25,7 +25,7 @@ beforeEach(() => {
             username: 'user1',
             email: 'user1@example.com',
             password: 'password',
-            signUpDate: '2022-10-10',
+            signUpDate: new Date('2022-10-10T00:00:00.000Z'),
             role: 'User',
         })
     );
@@ -35,7 +35,7 @@ beforeEach(() => {
             name: 'Game1',
             genre: 'Action',
             description: 'Exciting game',
-            releaseDate: '2020-01-01',
+            releaseDate: new Date('2020-01-01T00:00:00.000Z'),
         })
     );
     getCategoryByIdMock = jest.fn().mockReturnValue(
@@ -167,7 +167,7 @@ test('given correct speedrun in speedruns, when getting all speedruns, then list
         new Speedrun({
             id: 1,
             time: 300,
-            submitDate: '2022-10-10',
+            submitDate: new Date('2022-10-10T00:00:00.000Z'),
             speedrunner: getUserByIdMock(),
             videoLink: 'http://example.com',
             isValidated: false,
