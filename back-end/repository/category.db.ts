@@ -15,9 +15,9 @@ const getAllCategories = async () : Promise<Category[]> => {
     }
 };
 
-const getCategoryById = async ({categoryId}: {categoryId: number}) : Promise<Category | null> => {
+const getCategoryById = async ({ id }: {id : number}) : Promise<Category | null> => {
     try{
-        const categoryPrisma = await database.category.findUnique({where: {id: categoryId}, include: {game: true}});
+        const categoryPrisma = await database.category.findUnique({where: {id}, include: {game: true}});
         return categoryPrisma ? Category.from(categoryPrisma) : null;
     } catch (error) {
         console.log(error);

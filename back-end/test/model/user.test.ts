@@ -6,14 +6,14 @@ const username: string = 'speedy-gonzales';
 const email: string = 'speedy.gonzales@email.com';
 const password: string = 'password123';
 const role: Role = 'User';
-const signUpDate: string = '1953-08-29';
+const signUpDate: Date = new Date('1953-08-29T00:00:00.000Z');
 
 const user = new User({
     username: 'speedy-gonzales',
     email: 'speedy.gonzales@email.com',
     password: 'password123',
     role: 'User',
-    signUpDate: '1953-08-29',
+    signUpDate: new Date('1953-08-29T00:00:00.000Z'),
 });
 
 test(`given: valid values for user, when: user is created, then: user is created with those values`, () => {

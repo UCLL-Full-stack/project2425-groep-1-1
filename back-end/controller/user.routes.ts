@@ -163,7 +163,6 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
  *             schema:
  *               $ref: '#/components/schemas/User'
  */
-
 userRouter.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userInput = <UserInput>req.body;

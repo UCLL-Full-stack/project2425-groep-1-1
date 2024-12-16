@@ -18,6 +18,23 @@ const getAllSpeedruns = async (): Promise<Speedrun[]> => {
     }
 };
 
+const getSpeedrunsForCategory = async ({ categoryId }: { categoryId: number }) => {
+    try {
+        const speedrunPrimas = await database.speedrun.findMany({
+            where: { category: { id: categoryId } },
+            include: {
+                validator: true,
+                speedrunner: true,
+                game: true,
+                category: { include: { game: true }},
+            },
+        });
+        return speedrunPrimas.map((speedrunPrisma) => Speedrun.from(speedrunPrisma));
+    } catch (error) {
+        throw new Error("Database error, see console for more information.");
+    }
+}
+
 const getSpeedrunByVideoLink = async ({ videoLink }: { videoLink: string }): Promise<Speedrun | null> => {
     try {
         const speedrunPrisma = await database.speedrun.findFirst({
@@ -64,6 +81,7 @@ const addSpeedrun = async ({time, submitDate, videoLink, isValidated, speedrunne
 
 export default {
     getAllSpeedruns,
+    getSpeedrunsForCategory,
     getSpeedrunByVideoLink,
     addSpeedrun,
 };

@@ -1,6 +1,6 @@
 import { User } from '../model/user';
 import userDb from '../repository/user.db';
-import {AuthenticationRequest, AuthenticationResponse, UserInput} from '../types';
+import { AuthenticationRequest, AuthenticationResponse, UserInput } from '../types';
 import bcrypt from "bcrypt";
 import { generateJwtToken } from '../util/jwt';
 
@@ -29,6 +29,7 @@ const authenticate = async ({ username, password }: AuthenticationRequest): Prom
     throw new Error(`Incorrect login, please try again.`);
   }
 
+  const id = user.getId()!;
   const role = user.getRole();
 
   const isValidPassword = await bcrypt.compare(password, user.getPassword());
@@ -38,6 +39,7 @@ const authenticate = async ({ username, password }: AuthenticationRequest): Prom
   }
   return {
     token: generateJwtToken({ username, role }),
+    id: id,
     username: username,
     role: role
   };

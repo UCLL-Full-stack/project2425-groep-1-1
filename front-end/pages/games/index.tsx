@@ -8,6 +8,7 @@ import { useTranslation } from "next-i18next";
 import useSWR from "swr";
 import gameService from "@services/GameService";
 import { Game } from "@types";
+import Spinner from "@components/Spinner";
 
 
 const Games: React.FC = () => {
@@ -33,12 +34,9 @@ const Games: React.FC = () => {
         <div className={"d-flex justify-content-center flex-column mt-5"}>
           <h3 className="text-center">{t('games.title')}</h3>
           <section className="d-flex justify-content-sm-center ">
-            { isLoading && (
-                <div className="spinner-border" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div> )}
-            { data && <GamesOverview games={data.games}/> }
-            { error && <div className="alert alert-danger mt-3">{error}</div> }
+            { isLoading && <Spinner /> }
+            {data && <GamesOverview games={data.games}/>}
+            {error && <div className="alert alert-danger mt-3">{error}</div>}
           </section>
         </div>
       </main>

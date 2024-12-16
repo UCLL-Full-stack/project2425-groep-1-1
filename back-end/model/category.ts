@@ -20,12 +20,15 @@ export class Category {
         this.updatedAt = category.updatedAt;
     }
 
-    validate(category: { id?: number; name: string; description: string; }) {
+    validate(category: { id?: number; name: string; description: string; game: Game; }) {
         if (!category.name?.trim()) {
             throw new Error('Name is required.');
         }
         if (!category.description?.trim()) {
             throw new Error('Description is required.');
+        }
+        if (category.game === null) {
+            throw new Error('Game is required.')
         }
     }
 

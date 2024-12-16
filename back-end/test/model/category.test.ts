@@ -9,7 +9,7 @@ const game: Game = new Game({
     description:
         'Heavenly Bodies is a game about cosmonauts, the body, and the absence of gravity.',
     genre: 'Action, Adventure, Indie, Simulation',
-    releaseDate: '2021-12-07',
+    releaseDate: new Date('2021-12-07T00:00:00.000Z'),
 });
 
 test(`given: valid values for category, when: category is created, then: category is created with those values`, () => {
