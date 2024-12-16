@@ -1,11 +1,10 @@
 import database from '../util/database';
-import {SpeedrunEvent} from "../model/speedrun_event";
-import {Speedrun} from "../model/speedrun";
+import { SpeedrunEvent } from "../model/speedrun_event";
 
 const getAllSpeedrunEvents = async (): Promise<SpeedrunEvent[]> => {
     try{
         const speedRunEventPrismas = await database.speedrunEvent.findMany({
-            include: {participants: true}
+            include: { participants: true }
         });
         return speedRunEventPrismas.map((speedRunEventPrisma) => SpeedrunEvent.from(speedRunEventPrisma))
     }catch (error) {
@@ -21,9 +20,12 @@ const addSpeedRunEvent = async ({name, startDate, endDate, participants, created
                 name,
                 startDate,
                 endDate,
+                participants: {
+                    connect: participants.map((participant) => ({ id: participant.getId() }))
+                },
                 createdAt,
                 updatedAt,
-            }, include: {participants: true},
+            }, include: { participants: true },
         })
         return SpeedrunEvent.from(speedrunEventPrisma);
     } catch (error) {
