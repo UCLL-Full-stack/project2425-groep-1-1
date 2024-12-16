@@ -97,6 +97,15 @@ const main = async () => {
         include: { game: true },
     });
 
+    const oneTwentyStar = await prisma.category.create({
+        data: {
+            name: '120 Star',
+            description: 'Collect all 120 stars and complete the game.',
+            game: { connect: { id: superMario.id }},
+        },
+        include: { game: true },
+    })
+
 
     const user1 = await prisma.user.create({
         data: {
@@ -107,6 +116,23 @@ const main = async () => {
             role: 'User',
         }
     });
+
+    const speedrun1 = await prisma.speedrun.create({
+        data: {
+            time: 5728900,
+            videoLink: "https://youtu.be/JoX7RDKRG7Q",
+            isValidated: false,
+            speedrunner: { connect: { id: user1.id }},
+            game: { connect: { id: superMario.id }},
+            category: { connect: { id: oneTwentyStar.id }},
+        },
+        include: {
+            validator: true,
+            speedrunner: true,
+            game: true,
+            category: { include: { game: true }},
+        },
+    })
 }
 
 
