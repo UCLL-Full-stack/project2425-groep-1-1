@@ -112,14 +112,13 @@ test(`given: invalid time, when: speedrun is created, then: an error is thrown`,
     expect(createSpeedrun).toThrow('Speedrun time cannot be a negative number.');
 });
 
-test(`given: invalid submit date, when: speedrun is created, then: an error is thrown`, () => {
+test(`given: submit date is undefined, when: speedrun is created, then: submit date is undefined`, () => {
     // given
-    const invalidSubmitDate: Date = null as any;
+    const undefinedSubmitDate: Date | undefined = undefined;
     // when
-    const createSpeedrun = () => {
-        new Speedrun({
+    const speedrun = new Speedrun({
             time,
-            submitDate: invalidSubmitDate,
+            submitDate: undefinedSubmitDate,
             videoLink,
             speedrunner,
             isValidated,
@@ -127,9 +126,8 @@ test(`given: invalid submit date, when: speedrun is created, then: an error is t
             game,
             category,
         });
-    };
     // then
-    expect(createSpeedrun).toThrow('Submit date is required.');
+    expect(speedrun.getSubmitDate()).toBeUndefined();
 });
 
 test(`given: empty video link, when: speedrun is created, then: an error is thrown`, () => {

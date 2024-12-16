@@ -34,6 +34,6 @@ test('given a valid gameId, when getting categories by gameId, then the categori
     const result = categoryService.getAllCategoriesForGame({ gameId: validGameId });
     // then
     expect(mockCategoriesDbGetAllCategoriesForGame).toHaveBeenCalledTimes(1);
-    expect(mockCategoriesDbGetAllCategoriesForGame).toHaveBeenCalledWith(validGameId);
+    expect(mockCategoriesDbGetAllCategoriesForGame).toHaveBeenCalledWith({ gameId: validGameId });
     expect(result).toEqual(categoriesForGame);
 });
