@@ -64,7 +64,33 @@ gameRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     }
 });
 
-// TODO: Swagger docs
+/**
+ * @swagger
+ * /games/{id}:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Get a game by id.
+ *     tags: [Games]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the game to fetch.
+ *     responses:
+ *       "200":
+ *         description: A JSON consisting of a game object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Game'
+ *       "400":
+ *         description: Bad Request.
+ *       "500":
+ *         description: Internal Server Error.
+ */
 gameRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const game = await gameService.getGameById({ id: Number(req.params.id) })
