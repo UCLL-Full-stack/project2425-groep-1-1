@@ -172,7 +172,6 @@ speedrunRouter.post('/', async (req: Request, res: Response, next: NextFunction)
  *         description: Bad Request
  *       "500":
  *         description: Internal Server Error
- *
  */
 speedrunRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
     try {
