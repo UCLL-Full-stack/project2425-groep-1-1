@@ -3,6 +3,7 @@ import gameDb from '../../repository/game.db';
 import gameService from '../../service/game.service';
 
 let mockGameDbGetAllGames: jest.Mock;
+let mockGameDbGetGameById: jest.Mock;
 
 const games: Array<Game> = [
     new Game({
@@ -16,6 +17,7 @@ const games: Array<Game> = [
 
 beforeEach(() => {
     mockGameDbGetAllGames = jest.fn();
+    mockGameDbGetGameById = jest.fn();
 });
 
 afterEach(() => {
@@ -30,4 +32,14 @@ test('given ..., when getting all games, then all games are returned', () => {
     // then
     expect(mockGameDbGetAllGames).toHaveBeenCalledTimes(1);
     expect(result).toEqual(games);
+});
+
+test('given existing game id, when getting game by that id, then that game is returned', () => {
+    //given
+    gameDb.getGameById = mockGameDbGetGameById.mockReturnValue(games[0]);
+    //when
+    const result = gameService.getGameById({ id: 1 });
+    //then
+    expect(mockGameDbGetGameById).toHaveBeenCalledTimes(1);
+    expect(result).toEqual(games[0]);
 });
