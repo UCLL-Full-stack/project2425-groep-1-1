@@ -54,12 +54,43 @@
  *         role:
  *           type: string
  *           example: "user"
+ *     UserInput:
+ *       type: object
+ *       required:
+ *         - id
+ *       properties:
+ *         id:
+ *           type: number
+ *           format: int64
+ *           example: 1
+ *     SpeedrunEventInput:
+ *       type: object
+ *       required:
+ *         - id
+ *       properties:
+ *         id:
+ *           type: number
+ *           format: int64
+ *           example: 1
+ *     SpeedrunEventAddParticipantsInput:
+ *       type: object
+ *       required:
+ *         - speedrunEventInput
+ *         - userInputs
+ *       properties:
+ *         speedrunEventInput:
+ *           $ref: '#/components/schemas/SpeedrunEventInput'
+ *         userInputs:
+ *           type: array
+ *           items:
+ *             $ref: '#/components/schemas/UserInput'
  */
 
 
 
 import express, { NextFunction, Request, Response } from 'express';
 import speedrunEventService from '../service/speedrun_event.service'
+import { SpeedrunEventAddParticipantsInput } from "../types";
 
 const speedrunEventRouter = express.Router();
 
@@ -88,6 +119,32 @@ speedrunEventRouter.get('/', async (req: Request, res: Response, next: NextFunct
   } catch (error) {
     next(error);
   }
-})
+});
+
+/**
+ * @swagger
+ * /speedrun-events/add-participants:
+ *   post:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Add users to a speedrun event.
+ *     tags: [Speedrun Events]
+ *     responses:
+ *       200:
+ *         description: The speedrun event with the added users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SpeedrunEventAddParticipantsInput'
+ */
+speedrunEventRouter.post('/add-participants', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const speedrunEventAddParticipantsInput = <SpeedrunEventAddParticipantsInput>req.body;
+    const result = await speedrunEventService.addParticipant(speedrunEventAddParticipantsInput);
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
 
 export { speedrunEventRouter };
