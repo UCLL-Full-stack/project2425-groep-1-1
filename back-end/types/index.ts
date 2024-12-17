@@ -6,6 +6,8 @@ type SpeedrunInput = {
     categoryId: number;
     videoLink: string;
     time: number;
+    createdAt?: Date;
+    updatedAt?: Date;
 };
 
 type UserInput = {
