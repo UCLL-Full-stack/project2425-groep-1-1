@@ -20,6 +20,7 @@ const getGameById = async ({ id }: { id: number }) => {
 
 const GameService = {
     getAllGames,
+    getGameById,
 };
 
 export default GameService;
