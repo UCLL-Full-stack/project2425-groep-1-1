@@ -20,6 +20,7 @@ const CategoryOverview: React.FC<Props> = ({ categories, game }: Props) => {
                                 <a
                                     className="list-group-item list-group-item-action list-group-item-dark"
                                     key={index}
+                                    href={'/games/' + game.id + '/' + category.id}
                                 >
                                     {category.name}
                                 </a>
