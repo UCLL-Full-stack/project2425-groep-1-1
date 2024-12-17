@@ -4,4 +4,8 @@ const getAllCategoriesForGame = ({ gameId }: {gameId: number}) => {
     return categoryDb.getAllCategoriesForGame({ gameId });
 };
 
-export default { getAllCategoriesForGame };
+const getCategoryById = ({ id }: { id: number }) => {
+    return categoryDb.getCategoryById({ id });
+}
+
+export default { getAllCategoriesForGame, getCategoryById };

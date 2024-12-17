@@ -87,4 +87,40 @@ categoryRouter.get('/game/:gameId', async (req: Request, res: Response, next: Ne
     }
 });
 
+/**
+ * @swagger
+ * /categories/{id}:
+ *   get:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Get a category by id.
+ *     tags: [Categories]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The ID of the category to fetch.
+ *     responses:
+ *       "200":
+ *         description: A JSON consisting of a category object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Category'
+ *       "400":
+ *         description: Bad Request.
+ *       "500":
+ *         description: Internal Server Error.
+ */
+categoryRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const category = await categoryService.getCategoryById({ id: Number(req.params.id) });
+        res.status(200).json(category);
+    } catch (error) {
+        next(error);
+    }
+})
+
 export { categoryRouter };

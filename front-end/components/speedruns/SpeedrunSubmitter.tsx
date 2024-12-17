@@ -2,9 +2,10 @@ import CategoryService from "@services/CategoryService";
 import GameService from "@services/GameService";
 import SpeedrunService from "@services/SpeedrunService";
 import { Category, Game, SpeedrunInput, User } from "@types";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
 import useSWR, { mutate } from "swr";
+import Spinner from "@components/Spinner";
 
 const SpeedrunSubmitter: React.FC = () => {
 
@@ -104,25 +105,19 @@ const SpeedrunSubmitter: React.FC = () => {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="game" className="col-form-label">{t("speedrun-submitter.form.game.label")}</label>
-                                    { isLoading && (
-                                      <div className="spinner-border" role="status">
-                                          <span className="visually-hidden">Loading...</span>
-                                      </div>
-                                    )}
-                                    <select className="form-select" id="game" defaultValue="" onChange={onGameInputChange} required>
+                                    { isLoading && <Spinner /> }
+                                    <select className="form-select" id="game" defaultValue=""
+                                            onChange={onGameInputChange} required>
                                         <option value="" disabled>{t("speedrun-submitter.form.game.placeholder")}</option>
                                         {data && data.games.map((game, index) => <option key={game.id} value={game.id}>{game.name}</option>)}
                                     </select>
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="category" className="col-form-label">{t("speedrun-submitter.form.category.label")}</label>
-                                    { isLoading && (
-                                      <div className="spinner-border" role="status">
-                                          <span className="visually-hidden">Loading...</span>
-                                      </div>
-                                    )}
-                                    <select className="form-select" id="category" defaultValue="" onChange={onCategoryInputChange} disabled={!selectedGameId} required>
-                                        <option value="" disabled>{t("speedrun-submitter.form.category.placeholder")}</option>
+                                    { isLoading && <Spinner /> }
+                                    <select className="form-select" id="category" defaultValue=""
+                                            onChange={onCategoryInputChange} disabled={!selectedGameId} required>
+                                    <option value="" disabled>{t("speedrun-submitter.form.category.placeholder")}</option>
                                         { data && data.categories && data.categories.map((category, index) => <option key={category.id} value={category.id}>{category.name}</option>)}
                                     </select>
                                 </div>

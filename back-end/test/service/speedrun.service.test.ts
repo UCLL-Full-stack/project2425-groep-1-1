@@ -17,28 +17,28 @@ let getCategoryByIdMock: jest.Mock;
 let getSpeedrunByVideoLinkMock: jest.Mock;
 
 beforeEach(() => {
-    getAllSpeedrunsMock = jest.fn().mockReturnValue([]);
+    getAllSpeedrunsMock = jest.fn().mockResolvedValue([]);
     addSpeedrunMock = jest.fn();
-    getUserByIdMock = jest.fn().mockReturnValue(
+    getUserByIdMock = jest.fn().mockResolvedValue(
         new User({
             id: 1,
             username: 'user1',
             email: 'user1@example.com',
             password: 'password',
-            signUpDate: '2022-10-10',
+            signUpDate: new Date('2022-10-10T00:00:00.000Z'),
             role: 'User',
         })
     );
-    getGameByIdMock = jest.fn().mockReturnValue(
+    getGameByIdMock = jest.fn().mockResolvedValue(
         new Game({
             id: 1,
             name: 'Game1',
             genre: 'Action',
             description: 'Exciting game',
-            releaseDate: '2020-01-01',
+            releaseDate: new Date('2020-01-01T00:00:00.000Z'),
         })
     );
-    getCategoryByIdMock = jest.fn().mockReturnValue(
+    getCategoryByIdMock = jest.fn().mockResolvedValue(
         new Category({
             id: 1,
             name: 'Any%',
@@ -46,7 +46,7 @@ beforeEach(() => {
             game: getGameByIdMock(),
         })
     );
-    getSpeedrunByVideoLinkMock = jest.fn().mockReturnValue(null);
+    getSpeedrunByVideoLinkMock = jest.fn().mockResolvedValue(null);
 
     speedrunDb.getAllSpeedruns = getAllSpeedrunsMock;
     speedrunDb.addSpeedrun = addSpeedrunMock;
@@ -60,7 +60,7 @@ afterEach(() => {
     jest.clearAllMocks();
 });
 
-test('given a valid speedruninput, when adding a speedrunsubmission, then speedrun is created', () => {
+test('given a valid speedruninput, when adding a speedrunsubmission, then speedrun is created', async () => {
     //given
     const speedrunInput: SpeedrunInput = {
         userId: 1,
@@ -71,23 +71,24 @@ test('given a valid speedruninput, when adding a speedrunsubmission, then speedr
     };
 
     //when
-    speedrunService.addSpeedrunSubmission(speedrunInput);
+    await speedrunService.addSpeedrunSubmission(speedrunInput);
 
     //then
     expect(addSpeedrunMock).toHaveBeenCalledWith(
-        expect.objectContaining({
+        new Speedrun({
             time: speedrunInput.time,
             videoLink: speedrunInput.videoLink,
-            speedrunner: getUserByIdMock(),
-            game: getGameByIdMock(),
-            category: getCategoryByIdMock(),
+            speedrunner: await getUserByIdMock(),
+            game: await getGameByIdMock(),
+            category: await getCategoryByIdMock(),
+            isValidated: false,
         })
     );
 });
 
-test('given speedrun already exists, when adding speedrun, then an error is thrown', () => {
+test('given speedrun already exists, when adding speedrun, then an error is thrown', async () => {
     //given
-    getSpeedrunByVideoLinkMock.mockReturnValue({});
+    getSpeedrunByVideoLinkMock.mockResolvedValue({});
 
     const speedrunInput: SpeedrunInput = {
         userId: 1,
@@ -97,16 +98,16 @@ test('given speedrun already exists, when adding speedrun, then an error is thro
         videoLink: 'http://example.com',
     };
 
-    expect(() => {
-        //when
-        speedrunService.addSpeedrunSubmission(speedrunInput);
-        //then
-    }).toThrow("Can't submit the same speedrun twice.");
+    //when
+    const createSpeedrun = async () => await speedrunService.addSpeedrunSubmission(speedrunInput);
+
+    // then
+    expect(createSpeedrun).rejects.toThrow("Can't submit the same speedrun twice.");
 });
 
-test('given undefined user, when adding speedrunsubmission, then error is thrown', () => {
+test('given undefined user, when adding speedrunsubmission, then error is thrown', async () => {
     //given
-    getUserByIdMock.mockReturnValue(undefined);
+    getUserByIdMock.mockResolvedValue(undefined);
 
     const speedrunInput: SpeedrunInput = {
         userId: 999,
@@ -116,16 +117,16 @@ test('given undefined user, when adding speedrunsubmission, then error is thrown
         videoLink: 'http://example.com',
     };
 
-    expect(() => {
-        //when
-        speedrunService.addSpeedrunSubmission(speedrunInput);
-        //then
-    }).toThrow('User not found.');
+    // when
+    const addSpeedrun = async () => await speedrunService.addSpeedrunSubmission(speedrunInput);
+
+    // then
+    expect(addSpeedrun).rejects.toThrow('User not found.');
 });
 
-test('given undefined game, when adding speedrunsubmission, then correct error is thrown', () => {
+test('given undefined game, when adding speedrunsubmission, then correct error is thrown', async () => {
     //given
-    getGameByIdMock.mockReturnValue(undefined);
+    getGameByIdMock.mockResolvedValue(undefined);
 
     const speedrunInput: SpeedrunInput = {
         userId: 1,
@@ -135,16 +136,16 @@ test('given undefined game, when adding speedrunsubmission, then correct error i
         videoLink: 'http://example.com',
     };
 
-    expect(() => {
-        //when
-        speedrunService.addSpeedrunSubmission(speedrunInput);
-        //then
-    }).toThrow('Game not found.');
+    // when
+    const addSpeedrun = async () => await speedrunService.addSpeedrunSubmission(speedrunInput)
+
+    // then
+    expect(addSpeedrun).rejects.toThrow('Game not found.');
 });
 
-test('given undefined category, when adding speedrunsubmission, then correct error is thrown', () => {
+test('given undefined category, when adding speedrunsubmission, then correct error is thrown', async () => {
     //given
-    getCategoryByIdMock.mockReturnValue(undefined);
+    getCategoryByIdMock.mockResolvedValue(undefined);
 
     const speedrunInput: SpeedrunInput = {
         userId: 1,
@@ -154,20 +155,19 @@ test('given undefined category, when adding speedrunsubmission, then correct err
         videoLink: 'http://example.com',
     };
 
-    expect(() => {
-        //when
-        speedrunService.addSpeedrunSubmission(speedrunInput);
-        //then
-    }).toThrow('Category not found.');
+    // when
+    const addSpeedrun = async () => await speedrunService.addSpeedrunSubmission(speedrunInput)
+
+    // then
+    expect(addSpeedrun).rejects.toThrow('Category not found.');
 });
 
-test('given correct speedrun in speedruns, when getting all speedruns, then list of speedruns is returned', () => {
+test('given correct speedrun in speedruns, when getting all speedruns, then list of speedruns is returned', async () => {
     //given
     const speedruns = [
         new Speedrun({
             id: 1,
             time: 300,
-            submitDate: '2022-10-10',
             speedrunner: getUserByIdMock(),
             videoLink: 'http://example.com',
             isValidated: false,
@@ -175,10 +175,10 @@ test('given correct speedrun in speedruns, when getting all speedruns, then list
             category: getCategoryByIdMock(),
         }),
     ];
-    getAllSpeedrunsMock.mockReturnValue(speedruns);
+    getAllSpeedrunsMock.mockResolvedValue(speedruns);
 
     //when
-    const result = speedrunService.getAllSpeedruns();
+    const result = await speedrunService.getAllSpeedruns();
 
     //then
     expect(getAllSpeedrunsMock).toHaveBeenCalledTimes(1);

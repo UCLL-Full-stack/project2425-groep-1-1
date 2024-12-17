@@ -10,7 +10,7 @@ const games: Array<Game> = [
         name: 'Super Mario',
         description: 'Some game description',
         genre: 'Platformer',
-        releaseDate: '1985-09-13',
+        releaseDate: new Date('1985-09-13T00:00:00.000Z'),
     }),
 ];
 
