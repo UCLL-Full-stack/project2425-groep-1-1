@@ -19,6 +19,21 @@ type UserInput = {
     updatedAt?: Date;
 }
 
+type SpeedrunEventInput = {
+    id?: number;
+    name: string;
+    startDate: Date;
+    endDate: Date;
+    participants?: Array<UserInput>;
+    createdAt?: Date;
+    updatedAt?: Date;
+}
+
+type SpeedrunEventAddParticipantsInput = {
+    userInputs: UserInput[];
+    speedrunEventInput: SpeedrunEventInput;
+}
+
 type AuthenticationRequest = {
     username: string;
     password: string;
@@ -31,4 +46,4 @@ type AuthenticationResponse = {
     role: Role;
 };
 
-export { Role, SpeedrunInput, UserInput, AuthenticationRequest, AuthenticationResponse };
+export { Role, SpeedrunInput, UserInput, SpeedrunEventInput, SpeedrunEventAddParticipantsInput, AuthenticationRequest, AuthenticationResponse };
