@@ -19,6 +19,7 @@
     "nav": {
       "home": "Home",
       "games": "Games",
+      "speedrunevents": "Evenementen",
       "login": "Inloggen",
       "logout": "Uitloggen"
     },
