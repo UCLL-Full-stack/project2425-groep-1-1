@@ -57,7 +57,11 @@ const GameCategories: React.FC = () => {
             <Header />
             <main>
                 <div className={'d-flex justify-content-center flex-column mt-5'}>
-                    {gameData && <h3 className="text-center">Categories for {gameData.name}</h3>}
+                    {gameData && (
+                        <h3 className="text-center">
+                            {t('categories.title', { name: gameData.name })}
+                        </h3>
+                    )}
                     <section className="d-flex justify-content-sm-center ">
                         {categoryIsLoading && (
                             <div className="spinner-border" role="status">

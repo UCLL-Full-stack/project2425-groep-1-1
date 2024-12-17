@@ -53,5 +53,10 @@
     "game": {
       "overview-button": "Overview"
     }
+  },
+  "categories": {
+    "title": "Categories for {{name}}",
+    "allCategories": "All categories",
+    "about": "About {{name}}"
   }
 }
