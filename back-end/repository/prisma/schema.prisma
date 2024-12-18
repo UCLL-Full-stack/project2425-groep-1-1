@@ -19,7 +19,6 @@ model User {
   speedruns          Speedrun[]      @relation(name: "speedrunuser")
   validatedSpeedruns Speedrun[]      @relation(name: "speedrunvalidator")
   speedrunEvents     SpeedrunEvent[] @relation("EventParticipants")
-  speedrunEventId    Int?
 }
 
 model Speedrun {
