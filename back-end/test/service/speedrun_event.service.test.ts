@@ -89,7 +89,7 @@ test(`given: a speedrun event add participants input, when: adding a valid user 
   userDb.getUserById = mockUserDbGetUserById;
 
   // when
-  const result = await speedrunEventService.addParticipantToSpeedrunEvent(speedRunEventAddParticipantsInput);
+  const result = await speedrunEventService.addParticipantsToSpeedrunEvent(speedRunEventAddParticipantsInput);
 
   // then
   expect(mockUserDbGetUserById).toHaveBeenCalledTimes(1);

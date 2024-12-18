@@ -140,7 +140,7 @@ speedrunEventRouter.get('/', async (req: Request, res: Response, next: NextFunct
 speedrunEventRouter.post('/add-participants', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const speedrunEventAddParticipantsInput = <SpeedrunEventAddParticipantsInput>req.body;
-    const result = await speedrunEventService.addParticipant(speedrunEventAddParticipantsInput);
+    const result = await speedrunEventService.addParticipantsToSpeedrunEvent(speedrunEventAddParticipantsInput);
     res.status(200).json(result);
   } catch (error) {
     next(error);
