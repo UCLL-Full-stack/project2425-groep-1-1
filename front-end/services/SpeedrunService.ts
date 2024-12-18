@@ -11,6 +11,17 @@ const postSpeedrun = async (speedrun: SpeedrunInput) => {
     });
 };
 
+const validateSpeedrun = async ({ id, validatorId }: { id: number, validatorId: number }) => {
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + '/speedruns/validate/', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
+        },
+        body: JSON.stringify({ id, validatorId })
+    })
+}
+
 const getSpeedrunsForCategory = async ({ categoryId }: { categoryId: number }) => {
     return await fetch(process.env.NEXT_PUBLIC_API_URL + '/speedruns/category/' + categoryId, {
         method: 'GET',
@@ -23,6 +34,7 @@ const getSpeedrunsForCategory = async ({ categoryId }: { categoryId: number }) =
 const SpeedrunService = {
     postSpeedrun,
     getSpeedrunsForCategory,
+    validateSpeedrun,
 };
 
 export default SpeedrunService;
