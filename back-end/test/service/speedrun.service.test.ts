@@ -211,18 +211,10 @@ test('given correct speedrun in speedruns, when getting all speedruns, then list
 
 test(`given: valid id and validatorId, when: validating a speedrun, then: the speedrun is validated`, async () => {
     // given
-    speedrunDb.updateSpeedrunValidation
     const speedrun = new Speedrun({
         id: 1,
         time: 300,
-        speedrunner: new User({
-            id: 1,
-            username: 'user1',
-            email: 'user1@example.com',
-            password: 'password',
-            signUpDate: new Date('2022-10-10T00:00:00.000Z'),
-            role: 'User',
-        }),
+        speedrunner: user,
         videoLink: 'http://example.com',
         isValidated: false,
         game: game,
