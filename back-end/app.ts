@@ -10,6 +10,7 @@ import { speedrunRouter } from './controller/speedrun.routes';
 import { gameRouter } from './controller/game.routes';
 import { categoryRouter } from './controller/category.routes';
 import { userRouter } from "./controller/user.routes";
+import { speedrunEventRouter } from "./controller/speedrun_event.routes";
 
 const app = express();
 dotenv.config();
@@ -50,6 +51,7 @@ app.listen(port || 3000, () => {
 
 app.use('/users', userRouter);
 app.use('/speedruns', speedrunRouter);
+app.use('/speedrun-events', speedrunEventRouter);
 app.use('/games', gameRouter);
 app.use('/categories', categoryRouter);
 

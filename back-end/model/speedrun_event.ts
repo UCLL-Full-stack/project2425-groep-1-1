@@ -91,6 +91,17 @@ export class SpeedrunEvent {
         return this.participants;
     }
 
+    addParticipant(participant: User) {
+        console.log(participant);
+        if (!participant) {
+            throw new Error("Participant is required.");
+        }
+        if (this.participants.includes(participant)) {
+            throw new Error("User is already a participant.");
+        }
+        this.participants.push(participant);
+    }
+
     getCreatedAt(): Date | undefined {
         return this.createdAt;
     }
