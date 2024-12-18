@@ -9,13 +9,13 @@ const getAllSpeedrunEvents = async () => {
 }
 
 const addUserToSpeedrunEvent = async (userId: number, eventId: number) => {
-    return await fetch(process.env.NEXT_PUBLIC_API_URL + '/speedrun-events/add-user', {
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + '/speedrun-events/add-participants', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
         },
-        body: JSON.stringify({ userId, eventId }),
+        body: JSON.stringify({ participants: [userId], eventId }),
     });
 }
 
