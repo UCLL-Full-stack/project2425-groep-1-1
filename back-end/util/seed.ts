@@ -117,6 +117,16 @@ const main = async () => {
         }
     });
 
+    const validator1 = await prisma.user.create({
+        data: {
+            username: 'validator1',
+            email: 'validator1@example.com',
+            password: await bcrypt.hash('validator1', 12),
+            signUpDate: new Date(),
+            role: 'Validator',
+        }
+    });
+
     const speedrun1 = await prisma.speedrun.create({
         data: {
             time: 5728900,
@@ -132,7 +142,25 @@ const main = async () => {
             game: true,
             category: { include: { game: true }},
         },
-    })
+    });
+
+    const speedrun2 = await prisma.speedrun.create({
+        data: {
+            time: 5728900,
+            videoLink: "https://youtu.be/JoX7RDKRG7Q",
+            isValidated: true,
+            validator: { connect: { id: validator1.id }},
+            speedrunner: { connect: { id: user1.id }},
+            game: { connect: { id: superMario.id }},
+            category: { connect: { id: oneTwentyStar.id }},
+        },
+        include: {
+            validator: true,
+            speedrunner: true,
+            game: true,
+            category: { include: { game: true }},
+        },
+    });
 }
 
 
