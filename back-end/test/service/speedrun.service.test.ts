@@ -1,4 +1,4 @@
-import { SpeedrunInput } from '../../types';
+import { SpeedrunInput, SpeedrunValidationRequest } from '../../types';
 import speedrunService from '../../service/speedrun.service';
 import speedrunDb from '../../repository/speedrun.db';
 import userDb from '../../repository/user.db';
@@ -208,3 +208,35 @@ test('given correct speedrun in speedruns, when getting all speedruns, then list
     expect(mockSpeedrunDbGetAllSpeedruns).toHaveBeenCalledTimes(1);
     expect(result).toEqual(speedruns);
 });
+
+test(`given: valid id and validatorId, when: validating a speedrun, then: the speedrun is validated`, async () => {
+    // given
+    speedrunDb.updateSpeedrunValidation
+    const speedrun = new Speedrun({
+        id: 1,
+        time: 300,
+        speedrunner: new User({
+            id: 1,
+            username: 'user1',
+            email: 'user1@example.com',
+            password: 'password',
+            signUpDate: new Date('2022-10-10T00:00:00.000Z'),
+            role: 'User',
+        }),
+        videoLink: 'http://example.com',
+        isValidated: false,
+        game: game,
+        category: category,
+    });
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(validator);
+    speedrunDb.getSpeedrunById = mockSpeedrunDbGetSpeedrunById.mockResolvedValue(speedrun);
+    speedrunDb.updateSpeedrunValidation = mockSpeedrunDbUpdateSpeedrunValidation.mockImplementation(async (speedrun: Speedrun) => speedrun);
+    const speedrunValidationRequest: SpeedrunValidationRequest = { id: speedrun.id!, validatorId: validator.id! }
+
+    // when
+    const validatedSpeedrun = await speedrunService.validateSpeedrun(speedrunValidationRequest);
+
+    // then
+    expect(validatedSpeedrun?.getValidator()).toEqual(validator);
+    expect(validatedSpeedrun?.getIsValidated()).toEqual(true);
+})

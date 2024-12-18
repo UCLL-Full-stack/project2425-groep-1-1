@@ -1,4 +1,4 @@
-import { SpeedrunInput } from '../types';
+import { SpeedrunInput, SpeedrunValidationRequest } from '../types';
 import speedrunDb from '../repository/speedrun.db';
 import userDb from '../repository/user.db';
 import gameDb from '../repository/game.db';
@@ -43,4 +43,13 @@ const addSpeedrunSubmission = async ({userId, gameId, time, videoLink, categoryI
     }
 };
 
-export default { addSpeedrunSubmission, getAllSpeedruns, getSpeedrunsForCategory };
+const validateSpeedrun = async ({ id, validatorId }: SpeedrunValidationRequest): Promise<Speedrun | null> => {
+    throw new Error("Not impelemented.")
+};
+
+export default {
+    addSpeedrunSubmission,
+    getAllSpeedruns,
+    getSpeedrunsForCategory,
+    validateSpeedrun,
+};
