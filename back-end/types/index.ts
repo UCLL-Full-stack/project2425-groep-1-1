@@ -1,4 +1,4 @@
-type Role = 'User' | 'Organizer' | 'Admin';
+type Role = 'User' | 'Validator' | 'Organizer' | 'Admin';
 
 type SpeedrunInput = {
     userId: number;

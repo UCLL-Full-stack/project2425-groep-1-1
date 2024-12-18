@@ -33,6 +33,7 @@ export type SpeedrunInput = {
     time: number;
 };
 
+
 export type User = {
     id?: number;
     username: string;
@@ -42,7 +43,7 @@ export type User = {
     role?: Role;
 };
 
-export type Role = 'User' | 'Organizer' | 'Admin';
+type Role = 'User' | 'Validator' | 'Organizer' | 'Admin';
 
 export type StatusMessage = {
     message: string;
