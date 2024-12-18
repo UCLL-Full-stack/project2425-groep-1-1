@@ -9,8 +9,8 @@ export class Speedrun {
     readonly submitDate?: Date;
     readonly videoLink: string;
     readonly speedrunner: User;
-    readonly isValidated: boolean;
-    readonly validator?: User;
+    isValidated: boolean;
+    validator?: User;
     readonly game: Game;
     readonly category: Category;
     readonly createdAt?: Date;
@@ -155,8 +155,16 @@ export class Speedrun {
         return this.isValidated;
     }
 
+    setIsValidated(value: boolean) {
+        this.isValidated = value;
+    }
+
     getValidator(): User | undefined {
         return this.validator;
+    }
+
+    setValidator(validator: User | undefined) {
+        this.validator = validator;
     }
 
     getGame(): Game {
