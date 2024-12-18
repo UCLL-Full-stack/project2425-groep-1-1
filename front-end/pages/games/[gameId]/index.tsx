@@ -11,6 +11,7 @@ import { GetServerSideProps } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CategoryOverview from '@components/categories/CategoryOverview';
 import CategoryService from '@services/CategoryService';
+import Spinner from "@components/Spinner";
 
 const GameCategories: React.FC = () => {
     const { t } = useTranslation();
@@ -57,26 +58,20 @@ const GameCategories: React.FC = () => {
             <Header />
             <main>
                 <div className={'d-flex justify-content-center flex-column mt-5'}>
-                    {gameData && (
+                    { gameData && (
                         <h3 className="text-center">
                             {t('categories.title', { name: gameData.name })}
                         </h3>
-                    )}
+                    ) }
                     <section className="d-flex justify-content-sm-center ">
-                        {categoryIsLoading && (
-                            <div className="spinner-border" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
-                        )}
-                        {categoryData && gameData && (
+                        { categoryIsLoading && <Spinner />}
+                        { categoryData && gameData && (
                             <CategoryOverview
                                 categories={categoryData.categories}
                                 game={gameData}
                             />
-                        )}
-                        {categoryError && (
-                            <div className="alert alert-danger mt-3">{categoryError}</div>
-                        )}
+                        ) }
+                        { categoryError && <div className="alert alert-danger mt-3">{categoryError}</div> }
                     </section>
                 </div>
             </main>
