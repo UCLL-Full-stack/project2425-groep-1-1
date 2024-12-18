@@ -75,25 +75,19 @@
  *     SpeedrunEventAddParticipantsInput:
  *       type: object
  *       required:
- *         - speedrunEvent
- *         - users
+ *         - speedrunEventId
+ *         - userInputs
  *       properties:
- *         speedrunEventInput:
- *           type: object
- *           properties:
- *             id:
- *               type: number
- *               format: int64
- *               example: 1
+ *         speedrunEventId:
+ *           type: number
+ *           format: int64
+ *           example: 1
  *         userInputs:
  *           type: array
  *           items:
- *             type: object
- *             properties:
- *               id:
- *                 type: number
- *                 format: int64
- *                 example: 1
+ *             type: number
+ *             format: int64
+ *             example: 1
  */
 
 
@@ -187,8 +181,8 @@ speedrunEventRouter.post('/', async (req: Request, res: Response, next: NextFunc
  */
 speedrunEventRouter.post('/add-participants', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const speedrunEventAddParticipantsInput = <SpeedrunEventAddParticipantsInput>req.body;
-    const result = await speedrunEventService.addParticipantsToSpeedrunEvent(speedrunEventAddParticipantsInput);
+    const { userInputs, speedrunEventId } = req.body as SpeedrunEventAddParticipantsInput;
+    const result = await speedrunEventService.addParticipantsToSpeedrunEvent(userInputs, speedrunEventId);
     res.status(200).json(result);
   } catch (error) {
     next(error);
