@@ -8,18 +8,17 @@ datasource db {
 }
 
 model User {
-  id                 Int            @id @default(autoincrement())
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
+  id                 Int             @id @default(autoincrement())
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
   username           String
   email              String
   password           String
   signUpDate         DateTime
   role               String
-  speedruns          Speedrun[]     @relation(name: "speedrunuser")
-  validatedSpeedruns Speedrun[]     @relation(name: "speedrunvalidator")
-  speedrunEvent      SpeedrunEvent? @relation(fields: [speedrunEventId], references: [id])
-  speedrunEventId    Int?
+  speedruns          Speedrun[]      @relation(name: "speedrunuser")
+  validatedSpeedruns Speedrun[]      @relation(name: "speedrunvalidator")
+  speedrunEvents     SpeedrunEvent[] @relation("EventParticipants")
 }
 
 model Speedrun {
@@ -47,7 +46,7 @@ model SpeedrunEvent {
   name         String
   startDate    DateTime
   endDate      DateTime
-  participants User[]
+  participants User[]   @relation("EventParticipants")
 }
 
 model Game {

@@ -45,5 +45,13 @@ const authenticate = async ({ username, password }: AuthenticationRequest): Prom
   };
 };
 
+const getUserById = async (userId: number) => {
+  const user = await userDb.getUserById({id: userId});
+  if (!user) {
+    throw new Error('User not found.');
+  }
+  return user;
+}
 
-  export default { createUser, authenticate, getAllUsers };
+
+  export default { createUser, authenticate, getAllUsers, getUserById };

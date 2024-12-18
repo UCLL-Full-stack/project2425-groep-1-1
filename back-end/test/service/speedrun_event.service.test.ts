@@ -145,23 +145,15 @@ test(`given: endDate is before startDate, when: creating a speedrun event, then:
 test(`given: a speedrun event add participants input, when: adding a valid user as participant, then: the user is added as a participant`, async () => {
   // given
   const speedrunEventInput: SpeedrunEventInput = { id: speedrunEventId, name, startDate, endDate};
-  const userInput: UserInput = {
-    id: userId,
-    username,
-    email,
-    password,
-  }
-  const speedRunEventAddParticipantsInput: SpeedrunEventAddParticipantsInput = {
-    userInputs: [userInput],
-    speedrunEventInput,
-  }
+  const userInput = [userId]
+
 
   speedrunEventDb.getSpeedrunEventById = mockSpeedrunEventDbGetSpeedrunEventById;
   speedrunEventDb.updateSpeedrunEventParticipants = mockSpeedrunEventDbUpdateSpeedrunEventParticipants;
   userDb.getUserById = mockUserDbGetUserById;
 
   // when
-  const result = await speedrunEventService.addParticipantsToSpeedrunEvent(speedRunEventAddParticipantsInput);
+  const result = await speedrunEventService.addParticipantsToSpeedrunEvent(userInput, speedrunEventId);
 
   // then
   expect(mockUserDbGetUserById).toHaveBeenCalledTimes(1);

@@ -37,8 +37,8 @@ type SpeedrunEventInput = {
 }
 
 type SpeedrunEventAddParticipantsInput = {
-    userInputs: UserInput[];
-    speedrunEventInput: SpeedrunEventInput;
+    userInputs: number[];
+    speedrunEventId: number;
 }
 
 type AuthenticationRequest = {
