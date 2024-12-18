@@ -93,11 +93,11 @@ gameRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
  */
 gameRouter.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const game = await gameService.getGameById({ id: Number(req.params.id) })
+        const game = await gameService.getGameById({ id: Number(req.params.id) });
         res.status(200).json(game);
     } catch (error) {
         next(error);
     }
-})
+});
 
 export { gameRouter };

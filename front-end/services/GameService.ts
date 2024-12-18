@@ -3,20 +3,20 @@ const getAllGames = async () => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
+            Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
         },
     });
 };
 
-const getGameById = async ({ id }:{ id: number }) => {
+const getGameById = async ({ id }: { id: number }) => {
     return await fetch(process.env.NEXT_PUBLIC_API_URL + '/games/' + id, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
-        }
-    })
-}
+            Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
+        },
+    });
+};
 
 const GameService = {
     getAllGames,
