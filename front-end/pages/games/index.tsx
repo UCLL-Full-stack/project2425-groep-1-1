@@ -35,8 +35,8 @@ const Games: React.FC = () => {
           <h3 className="text-center">{t('games.title')}</h3>
           <section className="d-flex justify-content-sm-center ">
             { isLoading && <Spinner /> }
-            {data && <GamesOverview games={data.games}/>}
-            {error && <div className="alert alert-danger mt-3">{error}</div>}
+            { data && <GamesOverview games={data.games}/> }
+            { error && <div className="alert alert-danger mt-3">{error}</div> }
           </section>
         </div>
       </main>
