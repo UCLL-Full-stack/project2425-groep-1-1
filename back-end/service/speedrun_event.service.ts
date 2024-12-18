@@ -9,13 +9,19 @@ const getAllSpeedrunEvents = async () => {
 
 const createSpeedrunEvent = async ({ name, startDate, endDate }: SpeedrunEventInput) => {
   if (name?.trim() == "") {
-    throw new Error("Name is required");
+    throw new Error("Name is required.");
   }
   if (!startDate) {
-    throw new Error("Start date is required");
+    throw new Error("Start date is required.");
   }
   if (!endDate) {
-    throw new Error("End date is required");
+    throw new Error("End date is required.");
+  }
+  if (startDate < new Date()) {
+    throw new Error("Start date can't be in the past.")
+  }
+  if (endDate < startDate) {
+    throw new Error("End date must be after Start date.");
   }
 
   const speedrunEvent = new SpeedrunEvent({ name, startDate, endDate, participants: [] })
