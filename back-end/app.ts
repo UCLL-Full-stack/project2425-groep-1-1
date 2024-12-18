@@ -1,10 +1,11 @@
 import * as dotenv from 'dotenv';
-import express, { Request, Response, NextFunction, application } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import * as bodyParser from 'body-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { expressjwt } from 'express-jwt';
+import helmet from "helmet";
 
 import { speedrunRouter } from './controller/speedrun.routes';
 import { gameRouter } from './controller/game.routes';
@@ -13,6 +14,7 @@ import { userRouter } from "./controller/user.routes";
 import { speedrunEventRouter } from "./controller/speedrun_event.routes";
 
 const app = express();
+app.use(helmet());
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
