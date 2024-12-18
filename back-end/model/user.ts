@@ -54,7 +54,7 @@ export class User {
         if (!user.password?.trim()) {
             throw new Error('Password is required.');
         }
-        if (!user.role?.trim() || !(user.role === 'Admin' || user.role === 'User')) {
+        if (!user.role?.trim() || !(user.role === 'Admin' || user.role === 'Validator' || user.role === 'Organizer' || user.role === 'User')) {
             throw new Error('Role is required.');
         }
     }
@@ -69,14 +69,13 @@ export class User {
         createdAt,
         updatedAt,
 }: UserPrisma): User {
-        const userRole: Role = role === 'Admin' || role === 'User' ? role : 'User';
         return new User({
             id,
             username,
             email,
             password,
             signUpDate,
-            role: userRole,
+            role: role as Role,
             createdAt,
             updatedAt,
         })
