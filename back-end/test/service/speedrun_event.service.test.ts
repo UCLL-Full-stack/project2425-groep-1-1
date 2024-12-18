@@ -92,7 +92,12 @@ test(`given: a speedrun event add participants input, when: adding a valid user 
   const result = await speedrunEventService.addParticipantToSpeedrunEvent(speedRunEventAddParticipantsInput);
 
   // then
-  expect(result.getParticipants()).toContain(user);
+  expect(mockUserDbGetUserById).toHaveBeenCalledTimes(1);
+  expect(mockUserDbGetUserById).toHaveBeenCalledWith({ id: userId });
+  expect(mockSpeedrunEventDbGetSpeedrunEventById).toHaveBeenCalledTimes(1);
+  expect(mockSpeedrunEventDbGetSpeedrunEventById).toHaveBeenCalledWith({ id: speedrunEventId });
+  expect(mockSpeedrunEventDbUpdateSpeedrunEventParticipants).toHaveBeenCalledTimes(1);
+  expect(result?.getParticipants()).toContain(user);
 });
 
 
