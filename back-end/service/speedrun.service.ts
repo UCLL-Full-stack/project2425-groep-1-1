@@ -44,7 +44,25 @@ const addSpeedrunSubmission = async ({userId, gameId, time, videoLink, categoryI
 };
 
 const validateSpeedrun = async ({ id, validatorId }: SpeedrunValidationRequest): Promise<Speedrun | null> => {
-    throw new Error("Not impelemented.")
+    if (!id) {
+        throw new Error('Id is required.');
+    }
+    if (!validatorId) {
+        throw new Error('ValidatorId is required.');
+    }
+    const speedrun = await speedrunDb.getSpeedrunById({ id });
+    if (!speedrun) {
+        throw new Error('Speedrun is not found.');
+    }
+    const validator = await userDb.getUserById({ id: validatorId });
+    if (!validator) {
+        throw new Error('Validator not found.');
+    }
+
+    speedrun.setIsValidated(true);
+    speedrun.setValidator(validator);
+
+    return await speedrunDb.updateSpeedrunValidation(speedrun)
 };
 
 export default {
