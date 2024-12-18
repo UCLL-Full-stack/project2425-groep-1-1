@@ -82,6 +82,16 @@
  *           type: string
  *           example: "http://example.com/speedrun-video"
  *
+ *     SpeedrunValidationRequest:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: number
+ *           example: 1
+ *         validatorId:
+ *           type: number
+ *           example: 1
+ *
  *     Speedrun:
  *       type: object
  *       properties:
@@ -111,7 +121,7 @@
 
 import express, { NextFunction, Request, Response } from 'express';
 import speedrunService from '../service/speedrun.service';
-import { SpeedrunInput } from '../types';
+import { SpeedrunInput, SpeedrunValidationRequest } from '../types';
 
 const speedrunRouter = express.Router();
 
@@ -155,8 +165,6 @@ speedrunRouter.post('/', async (req: Request, res: Response, next: NextFunction)
  * @swagger
  * /speedruns:
  *   get:
- *     security:
- *       - bearerAuth: []
  *     summary: Get a list of all speedruns.
  *     tags: [Speedruns]
  *     responses:
@@ -186,8 +194,6 @@ speedrunRouter.get('/', async (req: Request, res: Response, next: NextFunction) 
  * @swagger
  * /speedruns/category/{categoryId}:
  *   get:
- *     security:
- *       - bearerAuth: []
  *     summary: Get a list of speedruns for a given category.
  *     tags: [Speedruns]
  *     parameters:
@@ -219,4 +225,37 @@ speedrunRouter.get('/category/:categoryId', async (req: Request, res: Response, 
         next(error);
     }
 })
+
+/**
+ * @swagger
+ * /speedruns/validate:
+ *   put:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Validate a speedrun.
+ *     tags: [Speedruns]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/SpeedrunValidationRequest'
+ *     responses:
+ *       200:
+ *         description: The validated speedrun.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Speedrun'
+ */
+speedrunRouter.put('/validate', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const speedrunValidationRequest = <SpeedrunValidationRequest>req.body;
+        const speedrun = await speedrunService.validateSpeedrun(speedrunValidationRequest);
+        res.status(200).json(speedrun);
+    } catch (error) {
+        next(error);
+    }
+})
+
 export { speedrunRouter };

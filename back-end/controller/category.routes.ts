@@ -51,8 +51,6 @@ const categoryRouter = express.Router();
  * @swagger
  * /categories/game/{gameId}:
  *   get:
- *     security:
- *       - bearerAuth: []
  *     summary: Get a list of all categories for a game.
  *     tags: [Categories]
  *     parameters:
@@ -91,8 +89,6 @@ categoryRouter.get('/game/:gameId', async (req: Request, res: Response, next: Ne
  * @swagger
  * /categories/{id}:
  *   get:
- *     security:
- *       - bearerAuth: []
  *     summary: Get a category by id.
  *     tags: [Categories]
  *     parameters:

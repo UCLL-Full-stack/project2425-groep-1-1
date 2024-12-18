@@ -2,7 +2,7 @@ import { Category, Game, Speedrun } from "@types";
 import useSWR from "swr";
 import speedrunService from "@services/SpeedrunService";
 import Head from "next/head";
-import React, { useEffect } from "react";
+import React from "react";
 import Header from "@components/Header";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -29,9 +29,6 @@ const CategoryLeaderboard: React.FC = () => {
 
   const { data, isLoading, error } = useSWR("categorySpeedruns", getSpeedrunsForCategory, { refreshInterval: 5000 });
 
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
 
   return (
     <>

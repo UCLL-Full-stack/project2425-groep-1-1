@@ -1,4 +1,4 @@
-type Role = 'User' | 'Organizer' | 'Admin';
+type Role = 'User' | 'Validator' | 'Organizer' | 'Admin';
 
 type SpeedrunInput = {
     userId: number;
@@ -9,6 +9,11 @@ type SpeedrunInput = {
     createdAt?: Date;
     updatedAt?: Date;
 };
+
+type SpeedrunValidationRequest = {
+    id: number;
+    validatorId: number;
+}
 
 type UserInput = {
     id?: number;
@@ -48,4 +53,4 @@ type AuthenticationResponse = {
     role: Role;
 };
 
-export { Role, SpeedrunInput, UserInput, SpeedrunEventInput, SpeedrunEventAddParticipantsInput, AuthenticationRequest, AuthenticationResponse };
+export { Role, SpeedrunInput, SpeedrunValidationRequest, UserInput, SpeedrunEventInput, SpeedrunEventAddParticipantsInput, AuthenticationRequest, AuthenticationResponse };

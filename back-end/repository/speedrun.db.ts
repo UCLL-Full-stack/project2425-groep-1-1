@@ -35,6 +35,24 @@ const getSpeedrunsForCategory = async ({ categoryId }: { categoryId: number }) =
     }
 }
 
+const getSpeedrunById = async ({ id }: { id: number }) => {
+    try {
+        const speedrunPrisma = await database.speedrun.findUnique({
+            where: { id },
+            include: {
+                validator: true,
+                speedrunner: true,
+                game: true,
+                category: { include: { game: true }},
+            }
+        });
+        return speedrunPrisma ? Speedrun.from(speedrunPrisma) : null;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
+}
+
 const getSpeedrunByVideoLink = async ({ videoLink }: { videoLink: string }): Promise<Speedrun | null> => {
     try {
         const speedrunPrisma = await database.speedrun.findFirst({
@@ -79,9 +97,33 @@ const addSpeedrun = async ({time, submitDate, videoLink, isValidated, speedrunne
     }
 };
 
+const updateSpeedrunValidation = async (speedrun: Speedrun) => {
+    try {
+        const speedrunPrisma = await database.speedrun.update({
+            where: { id: speedrun.id },
+            data: {
+                isValidated: speedrun.isValidated,
+                validator: { connect: { id: speedrun.validator!.id! }},
+            },
+            include: {
+                validator: true,
+                speedrunner: true,
+                game: true,
+                category: { include: { game: true }},
+            },
+        });
+        return speedrunPrisma ? Speedrun.from(speedrunPrisma) : null;
+    } catch (error) {
+        console.log(error);
+        throw new Error("Database error, see console for more information.");
+    }
+};
+
 export default {
     getAllSpeedruns,
     getSpeedrunsForCategory,
+    getSpeedrunById,
     getSpeedrunByVideoLink,
     addSpeedrun,
+    updateSpeedrunValidation,
 };

@@ -1,4 +1,4 @@
-import { SpeedrunInput } from '../types';
+import { SpeedrunInput, SpeedrunValidationRequest } from '../types';
 import speedrunDb from '../repository/speedrun.db';
 import userDb from '../repository/user.db';
 import gameDb from '../repository/game.db';
@@ -43,4 +43,34 @@ const addSpeedrunSubmission = async ({userId, gameId, time, videoLink, categoryI
     }
 };
 
-export default { addSpeedrunSubmission, getAllSpeedruns, getSpeedrunsForCategory };
+const validateSpeedrun = async ({ id, validatorId }: SpeedrunValidationRequest): Promise<Speedrun | null> => {
+    if (!id) {
+        throw new Error('Id is required.');
+    }
+    if (!validatorId) {
+        throw new Error('ValidatorId is required.');
+    }
+    const speedrun = await speedrunDb.getSpeedrunById({ id });
+    if (!speedrun) {
+        throw new Error('Speedrun not found.');
+    }
+    const validator = await userDb.getUserById({ id: validatorId });
+    if (!validator) {
+        throw new Error('Validator not found.');
+    }
+    if (validator.getRole() !== 'Validator') {
+        throw new Error('User is not a validator.');
+    }
+
+    speedrun.setIsValidated(true);
+    speedrun.setValidator(validator);
+
+    return await speedrunDb.updateSpeedrunValidation(speedrun)
+};
+
+export default {
+    addSpeedrunSubmission,
+    getAllSpeedruns,
+    getSpeedrunsForCategory,
+    validateSpeedrun,
+};

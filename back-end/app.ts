@@ -21,12 +21,26 @@ const port = process.env.APP_PORT || 3000;
 app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
+const openPaths = ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/signup', '/status'];
+const openGetPaths = ['/games', /^\/games\/.*/, '/categories', /^\/categories\/.*/, '/speedruns', /^\/speedruns\/.*/, '/speedruns-events', /^\/speedruns-events\/.*/];
 app.use(
   expressjwt({
       secret: process.env.JWT_SECRET || 'default_secret',
       algorithms: ['HS256'],
   }).unless({
-      path: ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/signup', '/status'],
+      custom: (req) => {
+        if (req.method === "GET") {
+          const result = openGetPaths.some((path) =>
+            typeof path === "string" ? req.path === path : path.test(req.path));
+
+          if (result) {
+            return true;
+          }
+        }
+
+        return openPaths.some((path) =>
+          typeof path === "string" ? req.path === path : path.test(req.path));
+      },
   })
 );
 
