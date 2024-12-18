@@ -231,4 +231,119 @@ test(`given: valid id and validatorId, when: validating a speedrun, then: the sp
     // then
     expect(validatedSpeedrun?.getValidator()).toEqual(validator);
     expect(validatedSpeedrun?.getIsValidated()).toEqual(true);
-})
+});
+
+test(`given: id is null, when: validating a speedrun, then: an error is thrown`, async () => {
+    // given
+    const speedrun = new Speedrun({
+        id: 1,
+        time: 300,
+        speedrunner: user,
+        videoLink: 'http://example.com',
+        isValidated: false,
+        game: game,
+        category: category,
+    });
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(validator);
+    speedrunDb.getSpeedrunById = mockSpeedrunDbGetSpeedrunById.mockResolvedValue(speedrun);
+    speedrunDb.updateSpeedrunValidation = mockSpeedrunDbUpdateSpeedrunValidation.mockImplementation(async (speedrun: Speedrun) => speedrun);
+    const speedrunValidationRequest: SpeedrunValidationRequest = { id: null as any, validatorId: validator.id! }
+
+    // when
+    const validateSpeedrun = async () => await speedrunService.validateSpeedrun(speedrunValidationRequest);
+
+    // then
+    expect(validateSpeedrun).rejects.toThrow('Id is required.');
+});
+
+test(`given: validatorId is null, when: validating a speedrun, then: an error is thrown`, async () => {
+    // given
+    const speedrun = new Speedrun({
+        id: 1,
+        time: 300,
+        speedrunner: user,
+        videoLink: 'http://example.com',
+        isValidated: false,
+        game: game,
+        category: category,
+    });
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(validator);
+    speedrunDb.getSpeedrunById = mockSpeedrunDbGetSpeedrunById.mockResolvedValue(speedrun);
+    speedrunDb.updateSpeedrunValidation = mockSpeedrunDbUpdateSpeedrunValidation.mockImplementation(async (speedrun: Speedrun) => speedrun);
+    const speedrunValidationRequest: SpeedrunValidationRequest = { id: speedrun.id!, validatorId: null as any }
+
+    // when
+    const validateSpeedrun = async () => await speedrunService.validateSpeedrun(speedrunValidationRequest);
+
+    // then
+    expect(validateSpeedrun).rejects.toThrow('ValidatorId is required.');
+});
+
+test(`given: speedrun doesn't exist, when: validating a speedrun, then: an error is thrown`, async () => {
+    // given
+    const speedrun = new Speedrun({
+        id: 1,
+        time: 300,
+        speedrunner: user,
+        videoLink: 'http://example.com',
+        isValidated: false,
+        game: game,
+        category: category,
+    });
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(validator);
+    speedrunDb.getSpeedrunById = mockSpeedrunDbGetSpeedrunById.mockResolvedValue(null);
+    speedrunDb.updateSpeedrunValidation = mockSpeedrunDbUpdateSpeedrunValidation.mockImplementation(async (speedrun: Speedrun) => speedrun);
+    const speedrunValidationRequest: SpeedrunValidationRequest = { id: speedrun.id!, validatorId: validator.id! }
+
+    // when
+    const validateSpeedrun = async () => await speedrunService.validateSpeedrun(speedrunValidationRequest);
+
+    // then
+    expect(validateSpeedrun).rejects.toThrow('Speedrun not found.');
+});
+
+test(`given: validator doesn't exist, when: validating a speedrun, then: an error is thrown`, async () => {
+    // given
+    const speedrun = new Speedrun({
+        id: 1,
+        time: 300,
+        speedrunner: user,
+        videoLink: 'http://example.com',
+        isValidated: false,
+        game: game,
+        category: category,
+    });
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(null);
+    speedrunDb.getSpeedrunById = mockSpeedrunDbGetSpeedrunById.mockResolvedValue(speedrun);
+    speedrunDb.updateSpeedrunValidation = mockSpeedrunDbUpdateSpeedrunValidation.mockImplementation(async (speedrun: Speedrun) => speedrun);
+    const speedrunValidationRequest: SpeedrunValidationRequest = { id: speedrun.id!, validatorId: validator.id! }
+
+    // when
+    const validateSpeedrun = async () => await speedrunService.validateSpeedrun(speedrunValidationRequest);
+
+    // then
+    expect(validateSpeedrun).rejects.toThrow('Validator not found.');
+});
+
+test(`given: user is not a validator, when: validating a speedrun, then: an error is thrown`, async () => {
+    // given
+    const speedrun = new Speedrun({
+        id: 1,
+        time: 300,
+        speedrunner: user,
+        videoLink: 'http://example.com',
+        isValidated: false,
+        game: game,
+        category: category,
+    });
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(user);
+    speedrunDb.getSpeedrunById = mockSpeedrunDbGetSpeedrunById.mockResolvedValue(speedrun);
+    speedrunDb.updateSpeedrunValidation = mockSpeedrunDbUpdateSpeedrunValidation.mockImplementation(async (speedrun: Speedrun) => speedrun);
+    const speedrunValidationRequest: SpeedrunValidationRequest = { id: speedrun.id!, validatorId: validator.id! }
+
+    // when
+    const validateSpeedrun = async () => await speedrunService.validateSpeedrun(speedrunValidationRequest);
+
+    // then
+    expect(validateSpeedrun).rejects.toThrow('User is not a validator.');
+});
