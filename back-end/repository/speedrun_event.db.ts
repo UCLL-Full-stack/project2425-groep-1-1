@@ -36,8 +36,6 @@ const addSpeedrunEvent = async ({name, startDate, endDate, participants, created
                 participants: {
                     connect: participants.map((participant) => ({ id: participant.getId() }))
                 },
-                createdAt,
-                updatedAt,
             }, include: { participants: true },
         })
         return SpeedrunEvent.from(speedrunEventPrisma);
@@ -65,4 +63,4 @@ const updateSpeedrunEventParticipants = async (speedrunEvent: SpeedrunEvent) => 
     }
 }
 
-export default { getAllSpeedrunEvents, getSpeedrunEventById, addSpeedRunEvent: addSpeedrunEvent, updateSpeedrunEventParticipants};
+export default { getAllSpeedrunEvents, getSpeedrunEventById, addSpeedrunEvent, updateSpeedrunEventParticipants};
