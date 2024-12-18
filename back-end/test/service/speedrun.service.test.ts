@@ -9,51 +9,62 @@ import { User } from '../../model/user';
 import { Game } from '../../model/game';
 import { Category } from '../../model/category';
 
-let getAllSpeedrunsMock: jest.Mock;
-let addSpeedrunMock: jest.Mock;
-let getUserByIdMock: jest.Mock;
-let getGameByIdMock: jest.Mock;
-let getCategoryByIdMock: jest.Mock;
-let getSpeedrunByVideoLinkMock: jest.Mock;
+let mockSpeedrunDbGetAllSpeedruns: jest.Mock;
+let mockSpeedrunDbGetSpeedrunByVideoLink: jest.Mock;
+let mockSpeedrunDbGetSpeedrunById: jest.Mock;
+let mockSpeedrunDbAddSpeedrun: jest.Mock;
+let mockSpeedrunDbUpdateSpeedrunValidation: jest.Mock;
+let mockUserDBGetUserById: jest.Mock;
+let mockGameDbGetGameById: jest.Mock;
+let mockCategoryDbGetCategoryById: jest.Mock;
+
+let user: User;
+let validator: User;
+let game: Game;
+let category: Category;
+
+
 
 beforeEach(() => {
-    getAllSpeedrunsMock = jest.fn().mockResolvedValue([]);
-    addSpeedrunMock = jest.fn();
-    getUserByIdMock = jest.fn().mockResolvedValue(
-        new User({
-            id: 1,
-            username: 'user1',
-            email: 'user1@example.com',
-            password: 'password',
-            signUpDate: new Date('2022-10-10T00:00:00.000Z'),
-            role: 'User',
-        })
-    );
-    getGameByIdMock = jest.fn().mockResolvedValue(
-        new Game({
-            id: 1,
-            name: 'Game1',
-            genre: 'Action',
-            description: 'Exciting game',
-            releaseDate: new Date('2020-01-01T00:00:00.000Z'),
-        })
-    );
-    getCategoryByIdMock = jest.fn().mockResolvedValue(
-        new Category({
-            id: 1,
-            name: 'Any%',
-            description: 'Fastest completion',
-            game: getGameByIdMock(),
-        })
-    );
-    getSpeedrunByVideoLinkMock = jest.fn().mockResolvedValue(null);
+    user = new User({
+        id: 1,
+        username: 'user1',
+        email: 'user1@example.com',
+        password: 'password',
+        signUpDate: new Date('2022-10-10T00:00:00.000Z'),
+        role: 'User',
+    })
+    validator = new User({
+        id: 2,
+        username: 'validator1',
+        email: 'validator@example.com',
+        password: 'password',
+        signUpDate: new Date('2022-10-10T00:00:00.000Z'),
+        role: 'Validator',
+    });
+    game = new Game({
+        id: 1,
+        name: 'Game1',
+        genre: 'Action',
+        description: 'Exciting game',
+        releaseDate: new Date('2020-01-01T00:00:00.000Z'),
+    });
+    category = new Category({
+        id: 1,
+        name: 'Any%',
+        description: 'Fastest completion',
+        game: game,
+    });
 
-    speedrunDb.getAllSpeedruns = getAllSpeedrunsMock;
-    speedrunDb.addSpeedrun = addSpeedrunMock;
-    userDb.getUserById = getUserByIdMock;
-    gameDb.getGameById = getGameByIdMock;
-    categoryDb.getCategoryById = getCategoryByIdMock;
-    speedrunDb.getSpeedrunByVideoLink = getSpeedrunByVideoLinkMock;
+    mockSpeedrunDbGetAllSpeedruns = jest.fn();
+    mockSpeedrunDbAddSpeedrun = jest.fn();
+    mockSpeedrunDbGetSpeedrunById = jest.fn()
+    mockSpeedrunDbGetSpeedrunByVideoLink = jest.fn();
+    mockSpeedrunDbUpdateSpeedrunValidation = jest.fn();
+    mockUserDBGetUserById = jest.fn();
+    mockGameDbGetGameById = jest.fn();
+    mockCategoryDbGetCategoryById = jest.fn();
+
 });
 
 afterEach(() => {
@@ -62,6 +73,11 @@ afterEach(() => {
 
 test('given a valid speedruninput, when adding a speedrunsubmission, then speedrun is created', async () => {
     //given
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(user);
+    gameDb.getGameById = mockGameDbGetGameById.mockResolvedValue(game);
+    categoryDb.getCategoryById = mockCategoryDbGetCategoryById.mockResolvedValue(category);
+    speedrunDb.getSpeedrunByVideoLink = mockSpeedrunDbGetSpeedrunByVideoLink.mockResolvedValue(null);
+    speedrunDb.addSpeedrun = mockSpeedrunDbAddSpeedrun.mockImplementation(async (speedrun: Speedrun)=> speedrun);
     const speedrunInput: SpeedrunInput = {
         userId: 1,
         gameId: 1,
@@ -74,13 +90,13 @@ test('given a valid speedruninput, when adding a speedrunsubmission, then speedr
     await speedrunService.addSpeedrunSubmission(speedrunInput);
 
     //then
-    expect(addSpeedrunMock).toHaveBeenCalledWith(
+    expect(mockSpeedrunDbAddSpeedrun).toHaveBeenCalledWith(
         new Speedrun({
             time: speedrunInput.time,
             videoLink: speedrunInput.videoLink,
-            speedrunner: await getUserByIdMock(),
-            game: await getGameByIdMock(),
-            category: await getCategoryByIdMock(),
+            speedrunner: await mockUserDBGetUserById(),
+            game: await mockGameDbGetGameById(),
+            category: await mockCategoryDbGetCategoryById(),
             isValidated: false,
         })
     );
@@ -88,8 +104,10 @@ test('given a valid speedruninput, when adding a speedrunsubmission, then speedr
 
 test('given speedrun already exists, when adding speedrun, then an error is thrown', async () => {
     //given
-    getSpeedrunByVideoLinkMock.mockResolvedValue({});
-
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(user);
+    gameDb.getGameById = mockGameDbGetGameById.mockResolvedValue(game);
+    categoryDb.getCategoryById = mockCategoryDbGetCategoryById.mockResolvedValue(category);
+    speedrunDb.getSpeedrunByVideoLink = mockSpeedrunDbGetSpeedrunByVideoLink.mockResolvedValue({});
     const speedrunInput: SpeedrunInput = {
         userId: 1,
         gameId: 1,
@@ -107,8 +125,10 @@ test('given speedrun already exists, when adding speedrun, then an error is thro
 
 test('given undefined user, when adding speedrunsubmission, then error is thrown', async () => {
     //given
-    getUserByIdMock.mockResolvedValue(undefined);
-
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(undefined);
+    gameDb.getGameById = mockGameDbGetGameById.mockResolvedValue(game);
+    categoryDb.getCategoryById = mockCategoryDbGetCategoryById.mockResolvedValue(category);
+    speedrunDb.getSpeedrunByVideoLink = mockSpeedrunDbGetSpeedrunByVideoLink.mockResolvedValue(null);
     const speedrunInput: SpeedrunInput = {
         userId: 999,
         gameId: 1,
@@ -126,8 +146,10 @@ test('given undefined user, when adding speedrunsubmission, then error is thrown
 
 test('given undefined game, when adding speedrunsubmission, then correct error is thrown', async () => {
     //given
-    getGameByIdMock.mockResolvedValue(undefined);
-
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(user);
+    gameDb.getGameById = mockGameDbGetGameById.mockResolvedValue(undefined);
+    categoryDb.getCategoryById = mockCategoryDbGetCategoryById.mockResolvedValue(category);
+    speedrunDb.getSpeedrunByVideoLink = mockSpeedrunDbGetSpeedrunByVideoLink.mockResolvedValue(null);
     const speedrunInput: SpeedrunInput = {
         userId: 1,
         gameId: 999,
@@ -145,8 +167,10 @@ test('given undefined game, when adding speedrunsubmission, then correct error i
 
 test('given undefined category, when adding speedrunsubmission, then correct error is thrown', async () => {
     //given
-    getCategoryByIdMock.mockResolvedValue(undefined);
-
+    userDb.getUserById = mockUserDBGetUserById.mockResolvedValue(user);
+    gameDb.getGameById = mockGameDbGetGameById.mockResolvedValue(game);
+    categoryDb.getCategoryById = mockCategoryDbGetCategoryById.mockResolvedValue(undefined);
+    speedrunDb.getSpeedrunByVideoLink = mockSpeedrunDbGetSpeedrunByVideoLink.mockResolvedValue(null);
     const speedrunInput: SpeedrunInput = {
         userId: 1,
         gameId: 1,
@@ -168,19 +192,19 @@ test('given correct speedrun in speedruns, when getting all speedruns, then list
         new Speedrun({
             id: 1,
             time: 300,
-            speedrunner: getUserByIdMock(),
+            speedrunner: user,
             videoLink: 'http://example.com',
             isValidated: false,
-            game: getGameByIdMock(),
-            category: getCategoryByIdMock(),
+            game: game,
+            category: category,
         }),
     ];
-    getAllSpeedrunsMock.mockResolvedValue(speedruns);
+    speedrunDb.getAllSpeedruns = mockSpeedrunDbGetAllSpeedruns.mockResolvedValue(speedruns);
 
     //when
     const result = await speedrunService.getAllSpeedruns();
 
     //then
-    expect(getAllSpeedrunsMock).toHaveBeenCalledTimes(1);
+    expect(mockSpeedrunDbGetAllSpeedruns).toHaveBeenCalledTimes(1);
     expect(result).toEqual(speedruns);
 });
