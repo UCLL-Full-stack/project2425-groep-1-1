@@ -15,7 +15,7 @@ const addUserToSpeedrunEvent = async (userId: number, eventId: number) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
         },
-        body: JSON.stringify({ participants: [userId], eventId }),
+        body: JSON.stringify({ userInputs: [userId], speedrunEventId: eventId }),
     });
 }
 

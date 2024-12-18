@@ -28,26 +28,26 @@ const createSpeedrunEvent = async ({ name, startDate, endDate }: SpeedrunEventIn
   return await speedrunEventDb.addSpeedrunEvent(speedrunEvent);
 }
 
-const addParticipantsToSpeedrunEvent = async ({speedrunEventInput, userInputs }: SpeedrunEventAddParticipantsInput) => {
-  if (!speedrunEventInput.id) {
+const addParticipantsToSpeedrunEvent = async (userInputs: number[], speedrunEventId: number) => {
+  if (!speedrunEventId) {
     throw new Error("Speedrun event id is required.");
   }
   if (!userInputs.length) {
     throw new Error("At least one user is required.")
   }
 
-  const speedrunEvent: SpeedrunEvent | null = await speedrunEventDb.getSpeedrunEventById({ id: speedrunEventInput.id });
+  const speedrunEvent: SpeedrunEvent | null = await speedrunEventDb.getSpeedrunEventById({ id: speedrunEventId });
   if (!speedrunEvent) {
     throw new Error("Speedrun event not found.");
   }
   const participants = await Promise.all(
     userInputs.map(async (userInput) => {
-      if (!userInput.id) {
-        throw new Error('Student id is required');
+      if (!userInput) {
+        throw new Error('User id is required');
       }
-      const user = await userDb.getUserById({ id: userInput.id });
+      const user = await userDb.getUserById({ id: userInput });
       if (!user) {
-        throw new Error(`User with id ${userInput.id} not found`);
+        throw new Error(`User with id ${userInput} not found`);
       }
       return user;
     })
