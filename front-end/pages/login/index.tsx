@@ -5,6 +5,7 @@ import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import React from "react";
+import UserTable from "@components/users/UserTable";
 
 const Login: React.FC = () => {
   const { t } = useTranslation();
@@ -17,8 +18,9 @@ const Login: React.FC = () => {
       <main>
         <div className={"d-flex justify-content-center flex-column mt-5"} >
           <h3 className="text-center">{t('login.title')}</h3>
-          <section className="d-flex justify-content-sm-center ">
+          <section className="d-flex flex-column justify-content-center ">
             <UserLoginForm/>
+            <UserTable/>
           </section>
         </div>
       </main>

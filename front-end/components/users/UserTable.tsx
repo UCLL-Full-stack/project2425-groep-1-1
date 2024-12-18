@@ -2,9 +2,10 @@ import React from "react";
 
 const UserTable: React.FC = () => {
     const users = [
-        { username: 'user1', password: 'user1', role: 'user' },
-        { username: 'user2', password: 'user2', role: 'admin' },
-        { username: 'user3', password: 'user3', role: 'organizer' },
+        { username: 'user1', password: 'user1', role: 'User' },
+        { username: 'validator1', password: 'validator1', role: 'Validator' },
+        { username: 'organizer1', password: 'organizer1', role: 'Organizer' },
+        { username: 'admin1', password: 'admin1', role: 'Admin' },
     ];
 
     return (

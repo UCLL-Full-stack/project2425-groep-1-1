@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
-import { set } from 'date-fns'
 
 
 const prisma = new PrismaClient();
@@ -164,6 +163,26 @@ const main = async () => {
             password: await bcrypt.hash('validator1', 12),
             signUpDate: new Date(),
             role: 'Validator',
+        }
+    });
+
+    const organizer1 = await prisma.user.create({
+        data: {
+            username: 'organizer1',
+            email: 'organizer1@example.com',
+            password: await bcrypt.hash('organizer1', 12),
+            signUpDate: new Date(),
+            role: 'Organizer',
+        }
+    });
+
+    const admin1 = await prisma.user.create({
+        data: {
+            username: 'admin1',
+            email: 'admin1@example.com',
+            password: await bcrypt.hash('admin1', 12),
+            signUpDate: new Date(),
+            role: 'Admin',
         }
     });
 

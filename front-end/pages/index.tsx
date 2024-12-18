@@ -1,6 +1,5 @@
 import Header from '@components/Header';
 import Head from 'next/head';
-import UserTable from "@components/users/UserTable";
 import { GetServerSideProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -17,7 +16,6 @@ const Home: React.FC = () => {
       <main>
         <div className={"d-flex justify-content-center flex-column mt-5"}>
           <h3 className="text-center">Home</h3>
-          <UserTable/>
         </div>
       </main>
     </>

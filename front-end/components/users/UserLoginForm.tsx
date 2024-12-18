@@ -68,7 +68,7 @@ const UserLoginForm: React.FC = () => {
 
   return (
     <>
-      <div className="d-flex flex-column">
+      <div className="d-flex flex-column container w-auto mb-5">
         {statusMessages && (
           <div className="row">
             <ul className="list-unstyled mb-3 mx-auto ">
