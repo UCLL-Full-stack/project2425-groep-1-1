@@ -61,8 +61,8 @@ const UserLoginForm: React.FC = () => {
         router.push("/");
       }, 2000);
     } else {
-      const errorStatusMessage = await res.json();
-      setStatusMessages([{ message: errorStatusMessage.message, type: 'error' }]);
+      const error = await res.json();
+      setStatusMessages([{ message: error.message, type: 'error' }]);
     }
   };
 
