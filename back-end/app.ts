@@ -30,14 +30,16 @@ app.use(
   }).unless({
       custom: (req) => {
         if (req.method === "GET") {
-          return openGetPaths.some((path) => {
-            return typeof path === "string" ? req.path === path : path.test(req.path);
-          })
-        } else {
-          return openPaths.some((path) => {
-            return typeof path === "string" ? req.path === path : path.test(req.path);
-          })
+          const result = openGetPaths.some((path) =>
+            typeof path === "string" ? req.path === path : path.test(req.path));
+
+          if (result) {
+            return true;
+          }
         }
+
+        return openPaths.some((path) =>
+          typeof path === "string" ? req.path === path : path.test(req.path));
       },
   })
 );
