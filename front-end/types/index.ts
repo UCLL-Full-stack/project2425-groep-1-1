@@ -25,6 +25,14 @@ export type Speedrun = {
     category: Category;
 };
 
+export type SpeedrunEvent = {
+    id?: number;
+    name: string;
+    startDate: Date;
+    endDate: Date;
+    participants: Array<User>;
+}
+
 export type SpeedrunInput = {
     userId: number;
     gameId: number;

@@ -117,6 +117,46 @@ const main = async () => {
         }
     });
 
+    const user2 = await prisma.user.create({
+        data: {
+            username: 'user2',
+            email: 'user2@example.com',
+            password: await bcrypt.hash('user2', 12),
+            signUpDate: new Date(),
+            role: 'User',
+        }
+    });
+
+    const user3 = await prisma.user.create({
+        data: {
+            username: 'user3',
+            email: 'user3@example.com',
+            password: await bcrypt.hash('user3', 12),
+            signUpDate: new Date(),
+            role: 'User',
+        }
+    });
+
+    const user4 = await prisma.user.create({
+        data: {
+            username: 'user4',
+            email: 'user4@example.com',
+            password: await bcrypt.hash('user4', 12),
+            signUpDate: new Date(),
+            role: 'User',
+        }
+    });
+
+    const user5 = await prisma.user.create({
+        data: {
+            username: 'user5',
+            email: 'user5@example.com',
+            password: await bcrypt.hash('user5', 12),
+            signUpDate: new Date(),
+            role: 'User',
+        }
+    });    
+
     const speedrun1 = await prisma.speedrun.create({
         data: {
             time: 5728900,
@@ -133,8 +173,32 @@ const main = async () => {
             category: { include: { game: true }},
         },
     })
-}
 
+    const superSpeedrunParticipants = [user1, user2, user3];
+
+    const superSpeedruns = await prisma.speedrunEvent.create({ data: {
+            name: 'Super Speedruns',
+            startDate: new Date('2025-01-01'),
+            endDate: new Date('2025-01-02'),
+            participants: {
+                connect: superSpeedrunParticipants.map((user) => ({ id: user.id })),
+              },
+        }
+    })
+
+    const speedrunWorldParticipants = [user4, user5]
+
+    const speedrunWorld = await prisma.speedrunEvent.create({ data: {
+        name: 'SpeedrunWorld',
+        startDate: new Date('2026-01-01'),
+        endDate: new Date('2026-01-02'),
+        participants: {
+            connect: speedrunWorldParticipants.map((user) => ({ id: user.id })),
+          },
+    }
+})
+
+}
 
 (async () => {
     try {
