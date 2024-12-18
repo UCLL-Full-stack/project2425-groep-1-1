@@ -19,12 +19,12 @@
  *           example: "Games Done Quick"
  *         startDate:
  *           type: string
- *           format: date
- *           example: "2024-01-01"
+ *           format: date-time
+ *           example: "2024-01-01T10:00:00Z"
  *         endDate:
  *           type: string
- *           format: date
- *           example: "2024-01-01"
+ *           format: date-time
+ *           example: "2024-01-01T22:00:00Z"
  *         participants:
  *           type: array
  *           items:
@@ -54,43 +54,53 @@
  *         role:
  *           type: string
  *           example: "user"
- *     UserInput:
- *       type: object
- *       required:
- *         - id
- *       properties:
- *         id:
- *           type: number
- *           format: int64
- *           example: 1
  *     SpeedrunEventInput:
  *       type: object
  *       required:
- *         - id
+ *         - name
+ *         - startDate
+ *         - endDate
  *       properties:
- *         id:
- *           type: number
- *           format: int64
- *           example: 1
+ *         name:
+ *           type: string
+ *           example: "Games Done Quick"
+ *         startDate:
+ *           type: string
+ *           format: date-time
+ *           example: "2024-01-01T10:00:00Z"
+ *         endDate:
+ *           type: string
+ *           format: date-time
+ *           example: "2024-01-01T22:00:00Z"
  *     SpeedrunEventAddParticipantsInput:
  *       type: object
  *       required:
- *         - speedrunEventInput
- *         - userInputs
+ *         - speedrunEvent
+ *         - users
  *       properties:
- *         speedrunEventInput:
- *           $ref: '#/components/schemas/SpeedrunEventInput'
- *         userInputs:
+ *         speedrunEvent:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: number
+ *               format: int64
+ *               example: 1
+ *         users:
  *           type: array
  *           items:
- *             $ref: '#/components/schemas/UserInput'
+ *             type: object
+ *             properties:
+ *               id:
+ *                 type: number
+ *                 format: int64
+ *                 example: 1
  */
 
 
 
 import express, { NextFunction, Request, Response } from 'express';
 import speedrunEventService from '../service/speedrun_event.service'
-import { SpeedrunEventAddParticipantsInput } from "../types";
+import {SpeedrunEventAddParticipantsInput, SpeedrunEventInput} from "../types";
 
 const speedrunEventRouter = express.Router();
 
@@ -120,6 +130,38 @@ speedrunEventRouter.get('/', async (req: Request, res: Response, next: NextFunct
     next(error);
   }
 });
+
+/**
+ * @swagger
+ * /speedrun-events:
+ *   post:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Create a new speedrun event.
+ *     tags: [Speedrun Events]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/SpeedrunEventInput'
+ *     responses:
+ *       200:
+ *         description: The new speedrun event.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/SpeedrunEvent'
+ */
+speedrunEventRouter.post('/', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const speedrunEventInput = <SpeedrunEventInput>req.body;
+    const speedrunEvent = await speedrunEventService.createSpeedrunEvent(speedrunEventInput);
+    res.status(200).json(speedrunEvent);
+  } catch (error) {
+    next(error);
+  }
+})
 
 /**
  * @swagger
