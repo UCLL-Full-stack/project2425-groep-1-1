@@ -10,6 +10,11 @@ type SpeedrunInput = {
     updatedAt?: Date;
 };
 
+type SpeedrunValidationRequest = {
+    id: number;
+    validatorId: number;
+}
+
 type UserInput = {
     id?: number;
     username: string;
@@ -48,4 +53,4 @@ type AuthenticationResponse = {
     role: Role;
 };
 
-export { Role, SpeedrunInput, UserInput, SpeedrunEventInput, SpeedrunEventAddParticipantsInput, AuthenticationRequest, AuthenticationResponse };
+export { Role, SpeedrunInput, SpeedrunValidationRequest, UserInput, SpeedrunEventInput, SpeedrunEventAddParticipantsInput, AuthenticationRequest, AuthenticationResponse };
