@@ -27,8 +27,8 @@ const user = new User({
 
 const speedrunEventId = 1;
 const name = "GDQ";
-const startDate = set(new Date(), { hours: 10 });
-const endDate = set(new Date(), { hours: 22 });
+const startDate = set(new Date(), { year: (new Date()).getFullYear() + 1, hours: 10 });
+const endDate = set(new Date(), { year: (new Date()).getFullYear() + 1, hours: 22 });
 const createdAt = new Date();
 const updatedAt = new Date();
 
@@ -60,7 +60,7 @@ afterEach(() => {
 test(`given: a valid speedrun event input, when: creating a speedrun event, then: a speedrun event is created`, async () => {
   // given
   speedrunEventDb.addSpeedrunEvent = mockSpeedrunEventDbCreateSpeedrunEvent
-  const speedrunEventInput: SpeedrunEventInput = { id: speedrunEventId, name, startDate, endDate};
+  const speedrunEventInput: SpeedrunEventInput = { name, startDate, endDate };
 
   // when
   await speedrunEventService.createSpeedrunEvent(speedrunEventInput);
@@ -68,6 +68,78 @@ test(`given: a valid speedrun event input, when: creating a speedrun event, then
   // then
   expect(mockSpeedrunEventDbCreateSpeedrunEvent).toHaveBeenCalledTimes(1);
   expect(mockSpeedrunEventDbCreateSpeedrunEvent).toHaveBeenCalledWith(new SpeedrunEvent({ name, startDate, endDate, participants: [] }));
+});
+
+test(`given: name is null, when: creating a speedrun event, then: an error is thrown`, async () => {
+  // given
+  speedrunEventDb.addSpeedrunEvent = mockSpeedrunEventDbCreateSpeedrunEvent
+  const speedrunEventInput: SpeedrunEventInput = { name: null as any, startDate, endDate };
+
+  // when
+  const createSpeedrunEvent = async () => await speedrunEventService.createSpeedrunEvent(speedrunEventInput);
+
+  // then
+  expect(createSpeedrunEvent).rejects.toThrow("Name is required.");
+});
+
+test(`given: name is empty, when: creating a speedrun event, then: an error is thrown`, async () => {
+  // given
+  speedrunEventDb.addSpeedrunEvent = mockSpeedrunEventDbCreateSpeedrunEvent
+  const speedrunEventInput: SpeedrunEventInput = { name: " ", startDate, endDate };
+
+  // when
+  const createSpeedrunEvent = async () => await speedrunEventService.createSpeedrunEvent(speedrunEventInput);
+
+  // then
+  expect(createSpeedrunEvent).rejects.toThrow("Name is required.");
+});
+
+test(`given: startDate is null, when: creating a speedrun event, then: an error is thrown`, async () => {
+  // given
+  speedrunEventDb.addSpeedrunEvent = mockSpeedrunEventDbCreateSpeedrunEvent
+  const speedrunEventInput: SpeedrunEventInput = { name, startDate: null as any, endDate };
+
+  // when
+  const createSpeedrunEvent = async () => await speedrunEventService.createSpeedrunEvent(speedrunEventInput);
+
+  // then
+  expect(createSpeedrunEvent).rejects.toThrow("Start date is required.");
+});
+
+test(`given: startDate is in the past, when: creating a speedrun event, then: an error is thrown`, async () => {
+  // given
+  speedrunEventDb.addSpeedrunEvent = mockSpeedrunEventDbCreateSpeedrunEvent
+  const speedrunEventInput: SpeedrunEventInput = { name, startDate: new Date("1999-10-10T00:00:00.000Z"), endDate };
+
+  // when
+  const createSpeedrunEvent = async () => await speedrunEventService.createSpeedrunEvent(speedrunEventInput);
+
+  // then
+  expect(createSpeedrunEvent).rejects.toThrow("Start date can't be in the past.");
+});
+
+test(`given: endDate is null, when: creating a speedrun event, then: an error is thrown`, async () => {
+  // given
+  speedrunEventDb.addSpeedrunEvent = mockSpeedrunEventDbCreateSpeedrunEvent
+  const speedrunEventInput: SpeedrunEventInput = { name, startDate, endDate: null as any };
+
+  // when
+  const createSpeedrunEvent = async () => await speedrunEventService.createSpeedrunEvent(speedrunEventInput);
+
+  // then
+  expect(createSpeedrunEvent).rejects.toThrow("End date is required.");
+});
+
+test(`given: endDate is before startDate, when: creating a speedrun event, then: an error is thrown`, async () => {
+  // given
+  speedrunEventDb.addSpeedrunEvent = mockSpeedrunEventDbCreateSpeedrunEvent
+  const speedrunEventInput: SpeedrunEventInput = { name, startDate: endDate, endDate: startDate };
+
+  // when
+  const createSpeedrunEvent = async () => await speedrunEventService.createSpeedrunEvent(speedrunEventInput);
+
+  // then
+  expect(createSpeedrunEvent).rejects.toThrow("End date must be after Start date.");
 });
 
 test(`given: a speedrun event add participants input, when: adding a valid user as participant, then: the user is added as a participant`, async () => {
