@@ -29,9 +29,6 @@ const CategoryLeaderboard: React.FC = () => {
 
   const { data, isLoading, error } = useSWR("categorySpeedruns", getSpeedrunsForCategory, { refreshInterval: 5000 });
 
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
 
   return (
     <>
