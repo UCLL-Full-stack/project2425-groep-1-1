@@ -52,11 +52,14 @@ const validateSpeedrun = async ({ id, validatorId }: SpeedrunValidationRequest):
     }
     const speedrun = await speedrunDb.getSpeedrunById({ id });
     if (!speedrun) {
-        throw new Error('Speedrun is not found.');
+        throw new Error('Speedrun not found.');
     }
     const validator = await userDb.getUserById({ id: validatorId });
     if (!validator) {
         throw new Error('Validator not found.');
+    }
+    if (validator.getRole() !== 'Validator') {
+        throw new Error('User is not a validator.');
     }
 
     speedrun.setIsValidated(true);
