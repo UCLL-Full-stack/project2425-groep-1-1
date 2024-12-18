@@ -87,3 +87,62 @@ test(`given: end date is before start date, when: speedrun event is created, the
     // then
     expect(createSpeedrunEvent).toThrow('Start date must be before end date.');
 });
+
+test(`given: valid speedrun event, when: adding a valid user as a participant, then: the user is added as a participant`, () => {
+    // given
+    const speedrunEvent = new SpeedrunEvent({
+        name,
+        startDate,
+        endDate,
+        participants,
+    });
+    const participant = new User({
+        username: 'speedy-gonzales',
+        email: 'speedy.gonzales@email.com',
+        password: 'password123',
+        role: 'User',
+        signUpDate: new Date('1953-08-29T00:00:00.000Z'),
+    });
+    // when
+    speedrunEvent.addParticipant(participant);
+    // then
+    expect(speedrunEvent.getParticipants().length).toEqual(1);
+    expect(speedrunEvent.getParticipants()[0]).toEqual(participant);
+});
+
+test(`given: valid speedrun event, when: adding a null as a participant, then: an error is thrown`, () => {
+    // given
+    const speedrunEvent = new SpeedrunEvent({
+        name,
+        startDate,
+        endDate,
+        participants,
+    });
+    const participant = null as any;
+    // when
+    const addParticipant = () => speedrunEvent.addParticipant(participant);
+    // then
+    expect(addParticipant).toThrow("Participant is required.");
+});
+
+test(`given: valid speedrun event, when: adding an existing user as a participant, then: an error is thrown`, () => {
+    // given
+    const speedrunEvent = new SpeedrunEvent({
+        name,
+        startDate,
+        endDate,
+        participants,
+    });
+    const participant = new User({
+        username: 'speedy-gonzales',
+        email: 'speedy.gonzales@email.com',
+        password: 'password123',
+        role: 'User',
+        signUpDate: new Date('1953-08-29T00:00:00.000Z'),
+    });
+    speedrunEvent.addParticipant(participant);
+    // when
+    const addExistingParticipant = () => speedrunEvent.addParticipant(participant);
+    // then
+    expect(addExistingParticipant).toThrow('User is already a participant.');
+})
