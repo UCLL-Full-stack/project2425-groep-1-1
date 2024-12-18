@@ -117,6 +117,26 @@ const main = async () => {
         }
     });
 
+    const user2 = await prisma.user.create({
+        data: {
+            username: 'user2',
+            email: 'user2@example.com',
+            password: await bcrypt.hash('user2', 12),
+            signUpDate: new Date(),
+            role: 'User',
+        }
+    });
+
+    const user3 = await prisma.user.create({
+        data: {
+            username: 'user3',
+            email: 'user3@example.com',
+            password: await bcrypt.hash('user3', 12),
+            signUpDate: new Date(),
+            role: 'User',
+        }
+    });
+
     const speedrun1 = await prisma.speedrun.create({
         data: {
             time: 5728900,
@@ -133,8 +153,19 @@ const main = async () => {
             category: { include: { game: true }},
         },
     })
-}
 
+const superSpeedrunParticipants = [user1, user2, user3];
+
+    const superSpeedruns = await prisma.speedrunEvent.create({ data: {
+            name: 'Super Speedruns',
+            startDate: new Date('2025-01-01'),
+            endDate: new Date('2025-01-02'),
+            participants: {
+                connect: superSpeedrunParticipants.map((user) => ({ id: user.id })), // Connect by ID
+              },
+        }
+    })
+}
 
 (async () => {
     try {
