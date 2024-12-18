@@ -78,14 +78,14 @@
  *         - speedrunEvent
  *         - users
  *       properties:
- *         speedrunEvent:
+ *         speedrunEventInput:
  *           type: object
  *           properties:
  *             id:
  *               type: number
  *               format: int64
  *               example: 1
- *         users:
+ *         userInputs:
  *           type: array
  *           items:
  *             type: object
@@ -171,13 +171,19 @@ speedrunEventRouter.post('/', async (req: Request, res: Response, next: NextFunc
  *       - bearerAuth: []
  *     summary: Add users to a speedrun event.
  *     tags: [Speedrun Events]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/SpeedrunEventAddParticipantsInput'
  *     responses:
  *       200:
  *         description: The speedrun event with the added users
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/SpeedrunEventAddParticipantsInput'
+ *               $ref: '#/components/schemas/SpeedrunEvent'
  */
 speedrunEventRouter.post('/add-participants', async (req: Request, res: Response, next: NextFunction) => {
   try {
