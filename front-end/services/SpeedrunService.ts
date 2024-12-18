@@ -16,7 +16,6 @@ const getSpeedrunsForCategory = async ({ categoryId }: { categoryId: number }) =
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
         }
     });
 }
