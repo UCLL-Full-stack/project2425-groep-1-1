@@ -155,8 +155,6 @@ speedrunRouter.post('/', async (req: Request, res: Response, next: NextFunction)
  * @swagger
  * /speedruns:
  *   get:
- *     security:
- *       - bearerAuth: []
  *     summary: Get a list of all speedruns.
  *     tags: [Speedruns]
  *     responses:
@@ -186,8 +184,6 @@ speedrunRouter.get('/', async (req: Request, res: Response, next: NextFunction) 
  * @swagger
  * /speedruns/category/{categoryId}:
  *   get:
- *     security:
- *       - bearerAuth: []
  *     summary: Get a list of speedruns for a given category.
  *     tags: [Speedruns]
  *     parameters:

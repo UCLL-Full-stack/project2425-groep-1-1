@@ -108,8 +108,6 @@ const speedrunEventRouter = express.Router();
  * @swagger
  * /speedrun-events:
  *   get:
- *     security:
- *       - bearerAuth: []
  *     summary: Get a list of all speedrun events
  *     tags: [Speedrun Events]
  *     responses:
