@@ -59,5 +59,15 @@
     "title": "Categorieën voor {{name}}",
     "allCategories": "Alle categorieën",
     "about": "Over {{name}}"
+  },
+  "speedrunEvents": {
+    "title": "Speedrun evenementen",
+    "tableheaders": {
+      "name": "Naam",
+      "startdate": "Van",
+      "enddate": "Tot",
+      "participants": "Deelnemers"
+    },
+    "button": "Neem deel"
   }
 }

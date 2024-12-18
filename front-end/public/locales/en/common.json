@@ -59,5 +59,15 @@
     "title": "Categories for {{name}}",
     "allCategories": "All categories",
     "about": "About {{name}}"
+  },
+  "speedrunEvents": {
+    "title": "Speedrun events",
+    "tableheaders": {
+      "name": "Name",
+      "startdate": "From",
+      "enddate": "Until",
+      "participants": "Participants"
+    },
+    "button": "Participate"
   }
 }
