@@ -2,6 +2,7 @@ import SpeedrunEventService from "@services/SpeedrunEventService";
 import { SpeedrunEvent } from "@types"
 import { useTranslation } from "react-i18next";
 import SpeedrunEventSubmitter from "./SpeedrunEventSubmitter";
+import { useState } from "react";
 
 
 type Props = {
@@ -43,13 +44,15 @@ const SpeedrunOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
                       <td>{new Date(event.endDate).toLocaleDateString()}</td>
                       <td>{event.participants.length}</td>
                       <td>
-                        <button
-                          className="btn btn-primary c"
-                          style={ {backgroundColor: '#E6E6E6', color: "#000000", borderColor: "#000000"}}
-                          onClick={() => handleParticipate(event.id!)}
-                        >
-                          {t('speedrunEvents.button')}
-                        </button>
+                      {loggedInUser && !event.participants.some(participant => participant.id === parsedLoggedInUser?.id) && (
+                      <button
+                        className="btn btn-primary"
+                        style={{ backgroundColor: '#E6E6E6', color: "#000000", borderColor: "#000000" }}
+                        onClick={() => handleParticipate(event.id!)}
+                      >
+                        {t('speedrunEvents.button')}
+                      </button>
+                    )}
                       </td>
                     </tr>))}
                 </tbody>
