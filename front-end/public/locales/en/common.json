@@ -1,5 +1,5 @@
 {
-  "app.title": "Speedrun Tracker App",
+  "app.title": "RunTracker App",
   "general.error": "An error has occurred. Please try again later.",
   "login": {
     "title": "Login",
@@ -47,6 +47,74 @@
         "placeholder": "Choose a category"
       },
       "button": "Submit"
+    }
+  },
+  "home": {
+    "title": "Welcome to RunTracker!",
+    "subtitle": "Your ultimate platform for recording and validating speedrunning achievements.",
+    "what": {
+      "title": "What is RunTracker?",
+      "p": "RunTracker is a community-driven platform where gamers can:",
+      "list": {
+        "li-1": {
+          "strong": "Submit speedruns",
+          "text": "to share their achievements with the world."
+        },
+        "li-2": {
+          "strong": "Speedrun Validation",
+          "text": "to maintain the integrity of our leaderboard."
+        },
+        "li-3": {
+          "strong": "Explore games and categories",
+          "text": "and compete with others in their favorite games."
+        },
+        "li-4": {
+          "strong": "Participate in events",
+          "text": "where the love for speedrunning is shared."
+        }
+      }
+    },
+    "how": {
+      "title": "How It Works",
+      "list": {
+        "li-1": {
+          "strong": "Create an Account:",
+          "text": "To get started, simply log in!"
+        },
+        "li-2": {
+          "strong": "Submit Your Speedruns:",
+          "text-1": "Once you're logged in, click the",
+          "em": "Submit Speedrun",
+          "text-2": "button to upload your run. Include your completion time, video link, and category details."
+        },
+        "li-3": {
+          "strong": "Validation Process:",
+          "text": "Validators review submitted runs to ensure their legitimacy."
+        },
+        "li-4": {
+          "strong": "Compete and Track:",
+          "text": "Watch your runs climb the leaderboard and compete with other speedrunners in various categories!"
+        }
+      }
+    },
+    "why": {
+      "title": "Why Choose RunTracker?",
+      "p-1": "Here’s why RunTracker is the best platform for speedrunners:",
+      "list": {
+        "li-1": {
+          "strong": "User-Friendly:",
+          "text": "Intuitive design for both speedrunners."
+        },
+        "li-2": {
+          "strong": "Community-Focused:",
+          "text": "Built by gamers, for gamers."
+        },
+        "li-3": {
+          "strong": "No Fuss:",
+          "text": "No unnecessary features or in your face popups."
+        }
+      },
+      "p-2": "Join us today and become part of the speedrunning community. Set records, validate runs, and celebrate your gaming achievements!"
     }
   },
   "games": {

@@ -1,5 +1,5 @@
 {
-  "app.title": "Speedrun Tracker App",
+  "app.title": "RunTracker App",
   "general.error": "Er is een fout opgetreden. Probeer het later opnieuw.",
   "login": {
     "title": "Inloggen",
@@ -47,6 +47,74 @@
         "placeholder": "Kies een categorie"
       },
       "button": "Indienen"
+    }
+  },
+  "home": {
+    "title": "Welkom bij RunTracker!",
+    "subtitle": "Jouw ultieme platform voor het registreren en valideren van speedrun-prestaties.",
+    "what": {
+      "title": "Wat is RunTracker?",
+      "p": "RunTracker is een community-gedreven platform waar gamers:",
+      "list": {
+        "li-1": {
+          "strong": "Speedruns indienen",
+          "text": "om hun prestaties met de wereld te delen."
+        },
+        "li-2": {
+          "strong": "Speedrunvalidatie",
+          "text": "om de integriteit van onze ranglijst te waarborgen."
+        },
+        "li-3": {
+          "strong": "Games en Categorieën verkennen",
+          "text": "en concurreren met anderen in hun favoriete games."
+        },
+        "li-4": {
+          "strong": "Deelnemen aan events",
+          "text": "waar de liefde voor speedrunnen gedeeld kan worden."
+        }
+      }
+    },
+    "how": {
+      "title": "Hoe werkt het?",
+      "list": {
+        "li-1": {
+          "strong": "Maak een account aan:",
+          "text": "Om te beginnen, log gewoon in!"
+        },
+        "li-2": {
+          "strong": "Dien je speedruns in:",
+          "text-1": "Zodra je bent ingelogd, klik op de knop",
+          "em": "Speedrun indienen",
+          "text-2": "om je run te uploaden. Voeg je voltooiingstijd, videolink en categoriedetails toe."
+        },
+        "li-3": {
+          "strong": "Validatieproces:",
+          "text": "Validators beoordelen ingediende runs om hun legitimiteit te waarborgen."
+        },
+        "li-4": {
+          "strong": "Wedstrijden en volg:",
+          "text": "Bekijk hoe je runs de ranglijst beklimmen en concurreer met andere speedrunners in verschillende categorieën!"
+        }
+      }
+    },
+    "why": {
+      "title": "Waarom kiezen voor RunTracker?",
+      "p-1": "Hier is waarom RunTracker het beste platform is voor speedrunners:",
+      "list": {
+        "li-1": {
+          "strong": "Gebruiksvriendelijk:",
+          "text": "Intuïtief ontwerp voor speedrunners."
+        },
+        "li-2": {
+          "strong": "Community-gericht:",
+          "text": "Gemaakt door gamers, voor gamers."
+        },
+        "li-3": {
+          "strong": "Geen gedoe:",
+          "text": "Geen onnodige functies of opdringerige pop-ups."
+        }
+      },
+      "p-2": "Doe vandaag nog mee en word deel van de speedrunning-community. Zet records neer, valideer runs en vier je gameprestaties!"
     }
   },
   "games": {
