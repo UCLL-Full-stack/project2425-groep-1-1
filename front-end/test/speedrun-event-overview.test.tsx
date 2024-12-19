@@ -84,7 +84,7 @@ test(`given: valid speedrun events, when: rendering the speedrun over`, async ()
   expect(screen.getByText(speedrunEvent2.endDate.toLocaleDateString()));
 });
 
-test(`given: any amount of participants, when: rendering the speedrun overview, then: the participatant count is equal to that amount`, async () => {
+test(`given: any amount of participants, when: rendering the speedrun overview, then: the participant count is equal to that amount`, async () => {
   // given
   SpeedrunEventService.addUserToSpeedrunEvent = mockAddUserToSpeedrunEvent
   localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
@@ -93,7 +93,7 @@ test(`given: any amount of participants, when: rendering the speedrun overview, 
   render(<SpeedrunEventsOverview speedrunEvents={speedrunEvents}/>);
 
   // then
-  expect(screen.getByTestId("participants-" + speedrunEvent1.id).innerText === speedrunEvent1.participants.length.toString());
+  expect(screen.getByTestId("participants-" + speedrunEvent1.id)?.textContent).toEqual(speedrunEvent1.participants.length.toString());
 });
 
 test(`given: loggedInUser is not a participant, when: clicking on participate button, then: the participate button is removed`, async () => {
@@ -123,5 +123,5 @@ test(`given: loggedInUser is not a participant, when: clicking on participate bu
   rerender(<SpeedrunEventsOverview speedrunEvents={speedrunEventsWithParticipant}/>);
 
   // then
-  expect(screen.getByTestId("participants-" + speedrunEvent1.id).innerText).toEqual(speedrunEvent1WithParticipant.participants.length.toString());
+  expect(screen.getByTestId("participants-" + speedrunEvent1WithParticipant.id)?.textContent).toEqual(speedrunEvent1WithParticipant.participants.length.toString());
 });
