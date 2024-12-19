@@ -1,3 +1,5 @@
+import { SpeedrunEvent } from "@types";
+
 const getAllSpeedrunEvents = async () => {
     return await fetch(process.env.NEXT_PUBLIC_API_URL + '/speedrun-events', {
         method: 'GET',
@@ -19,9 +21,21 @@ const addUserToSpeedrunEvent = async (userId: number, eventId: number) => {
     });
 }
 
+const addSpeedrunEvent = async (speedrunEventInput: SpeedrunEvent) => {
+    return await fetch(process.env.NEXT_PUBLIC_API_URL + '/speedrun-events', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
+        },
+        body: JSON.stringify(speedrunEventInput),
+    });
+}
+
 const SpeedrunEventService = {
     getAllSpeedrunEvents,
     addUserToSpeedrunEvent,
+    addSpeedrunEvent
 };
 
 export default SpeedrunEventService;
