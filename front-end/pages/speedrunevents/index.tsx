@@ -1,5 +1,5 @@
 import Header from "@components/Header"
-import SpeedrunOverview from "@components/speedrunEvents/SpeedrunOverview"
+import SpeedrunEventsOverview from "@components/speedrunEvents/SpeedrunEventsOverview"
 import Spinner from "@components/Spinner"
 import SpeedrunEventService from "@services/SpeedrunEventService"
 import SpeedrunService from "@services/SpeedrunService"
@@ -28,14 +28,15 @@ const SpeedrunEvents: React.FC = () => {
     return (
         <>
           <Head>
-              <title>{t('header.nav.speedrunevents')}</title>
+            <title>{t('header.nav.speedrunevents')}</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
           </Head>
           <Header/>
           <main>
             <div className={"d-flex justify-content-center flex-column mt-5"}>
               <section className="d-flex justify-content-sm-center ">
                 { isLoading && <Spinner /> }
-                {data && <SpeedrunOverview speedrunEvents={data.speedrunEvents}/>}
+                {data && <SpeedrunEventsOverview speedrunEvents={data.speedrunEvents}/>}
                 {error && <div className="alert alert-danger mt-3">{error}</div>}
               </section>
             </div>  

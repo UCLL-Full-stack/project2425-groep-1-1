@@ -34,11 +34,12 @@ const CategoryLeaderboard: React.FC = () => {
     <>
       <Head>
         <title>Leaderboard | RunTracker</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
       </Head>
       <Header/>
       <main>
         <div className={"container d-flex justify-content-center flex-column mt-5"}>
-          { isLoading && <Spinner />}
+          { isLoading && <Spinner /> }
           { data && (
             <>
               <h3>{data.game.name} - {data.category.name} | Leaderboard</h3>

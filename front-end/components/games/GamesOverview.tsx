@@ -21,7 +21,7 @@ const GamesOverview: React.FC<Props> = ({ games }: Props) => {
                 <div className="card-body">
                   <h4 className="card-title">{game.name}</h4>
                   <p className="card-text">{game.description}</p>
-                  <Link href={"/games/" + game.id} className="btn btn-secondary stretched-link">{t("games.game.overview-button")}</Link>
+                  <Link href={"/games/" + game.id} className="btn btn-secondary stretched-link" data-testid={"link-" + game.id}>{t("games.game.overview-button")}</Link>
                 </div>
               </div>
             </div>

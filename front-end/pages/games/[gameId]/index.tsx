@@ -54,8 +54,9 @@ const GameCategories: React.FC = () => {
         <>
             <Head>
                 <title>Games | RunTracker</title>
+                <meta name="viewport" content="width=device-width, initial-scale=1"/>
             </Head>
-            <Header />
+            <Header/>
             <main>
                 <div className={'d-flex justify-content-center flex-column mt-5'}>
                     { gameData && (
