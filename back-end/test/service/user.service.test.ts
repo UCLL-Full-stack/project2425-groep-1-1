@@ -172,7 +172,7 @@ test('given valid username and password, when authenticating, then a valid authe
 test('given: non-existing username, when: authenticating, then: an error is thrown', async () => {
   // given
   userDb.getUserByUsername = mockUserDbGetUserByUsername.mockResolvedValue(null);
-
+  bcrypt.compare = mockBcryptCompare.mockReturnValue(false);
   // when
   const authenticate = async () => await userService.authenticate({username: "user1", password: "user1"});
 
