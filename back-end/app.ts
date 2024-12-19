@@ -22,7 +22,7 @@ app.use(cors({ origin: 'http://localhost:8080' }));
 app.use(bodyParser.json());
 
 const openPaths = ['/api-docs', /^\/api-docs\/.*/, '/users/login', '/users/signup', '/status'];
-const openGetPaths = ['/games', /^\/games\/.*/, '/categories', /^\/categories\/.*/, '/speedruns', /^\/speedruns\/.*/, '/speedruns-events', /^\/speedruns-events\/.*/];
+const openGetPaths = ['/games', /^\/games\/.*/, '/categories', /^\/categories\/.*/, '/speedruns', /^\/speedruns\/.*/, '/speedrun-events', /^\/speedrun-events\/.*/];
 app.use(
   expressjwt({
       secret: process.env.JWT_SECRET || 'default_secret',
