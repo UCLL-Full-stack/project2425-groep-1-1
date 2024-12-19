@@ -81,7 +81,7 @@
 
 import express, { NextFunction, Request, Response } from 'express';
 import userService from '../service/user.service';
-import {AuthenticationRequest, UserInput} from '../types';
+import {AuthenticationRequest, Role, UserInput} from '../types';
 
 const userRouter = express.Router();
 
@@ -91,11 +91,11 @@ const userRouter = express.Router();
  *   get:
  *     security:
  *       - bearerAuth: []
- *     summary: Get a list of all users
+ *     summary: Get a list of containing the user or if the user is an Admin or Organizer, a list of all users.
  *     tags: [Users]
  *     responses:
  *       200:
- *         description: A list of users.
+ *         description: A list of containing the user or if the user is an Admin or Organizer, a list of all users.
  *         content:
  *           application/json:
  *             schema:
@@ -105,7 +105,9 @@ const userRouter = express.Router();
  */
 userRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await userService.getAllUsers();
+    const request = req as Request & { auth: { username: string; role: Role } };
+    const { username, role } = request.auth;
+    const users = await userService.getAllUsers({ username, role });
     res.status(200).json(users);
   } catch (error) {
     next(error);

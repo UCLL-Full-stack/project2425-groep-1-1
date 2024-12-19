@@ -1,10 +1,20 @@
 import { User } from '../model/user';
 import userDb from '../repository/user.db';
-import { AuthenticationRequest, AuthenticationResponse, UserInput } from '../types';
+import { AuthenticationRequest, AuthenticationResponse, Role, UserInput } from '../types';
 import bcrypt from "bcrypt";
 import { generateJwtToken } from '../util/jwt';
 
-const getAllUsers = async (): Promise<User[]> => userDb.getAllUsers();
+const getAllUsers = async ({ username, role}: { username: string, role: Role }): Promise<User[]> => {
+  if (role === 'Admin' || role === 'Organizer') {
+    return userDb.getAllUsers();
+  } else {
+    const user = await userDb.getUserByUsername({ username });
+    if (!user) {
+      throw new Error('User not found.')
+    }
+    return [user]
+  }
+};
 
 const createUser = async (userInput: UserInput): Promise<User> => {
   const existingUser = await userDb.getUserByUsername({username: userInput.username});
