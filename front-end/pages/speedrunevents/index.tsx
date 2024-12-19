@@ -28,7 +28,8 @@ const SpeedrunEvents: React.FC = () => {
     return (
         <>
           <Head>
-              <title>{t('header.nav.speedrunevents')}</title>
+            <title>{t('header.nav.speedrunevents')}</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1"/>
           </Head>
           <Header/>
           <main>

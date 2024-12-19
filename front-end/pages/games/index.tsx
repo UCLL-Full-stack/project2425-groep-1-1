@@ -27,7 +27,8 @@ const Games: React.FC = () => {
   return (
     <>
       <Head>
-          <title>Games | RunTracker</title>
+        <title>Games | RunTracker</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
       </Head>
       <Header/>
       <main>

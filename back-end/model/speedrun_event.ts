@@ -92,7 +92,6 @@ export class SpeedrunEvent {
     }
 
     addParticipant(participant: User) {
-        console.log(participant);
         if (!participant) {
             throw new Error("Participant is required.");
         }

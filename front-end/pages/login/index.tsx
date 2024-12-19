@@ -13,8 +13,9 @@ const Login: React.FC = () => {
     <>
       <Head>
         <title>{t('login.title')}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
       </Head>
-      <Header />
+      <Header/>
       <main>
         <div className={"d-flex justify-content-center flex-column mt-5"} >
           <h3 className="text-center">{t('login.title')}</h3>
