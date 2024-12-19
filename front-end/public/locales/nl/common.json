@@ -70,6 +70,9 @@
     },
     "button": "Neem deel",
     "errorMessage": "Geen speedrun evenementen beschikbaar.",
-    "addEventButton": "Voeg een evenement toe"
+    "addEventButton": "Voeg een evenement toe",
+    "submitter": {
+      "Title": "Voeg een speedrunevenement toe"
+    }
   }
 }

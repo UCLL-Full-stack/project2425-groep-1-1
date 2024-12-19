@@ -54,21 +54,21 @@ const SpeedrunEventSubmitter: React.FC = () => {
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h2 className="modal-title fs-5">Commit a speedrun</h2>
+                            <h2 className="modal-title fs-5">{t('speedrunEvents.submitter.Title')}</h2>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={handleSpeedrunEventFormSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="name" className="col-form-label">Name: </label>
+                                    <label htmlFor="name" className="col-form-label">{t('speedrunEvents.tableheaders.name')}</label>
                                     <input type="text" className="form-control" id="name" onChange={(e) => setName(e.target.value)} required />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="start-date" className="col-form-label">Startdate: </label>
+                                    <label htmlFor="start-date" className="col-form-label">{t('speedrunEvents.tableheaders.startdate')}</label>
                                     <input type="date" className="form-control" id="start-date" value={startDate.toISOString().split('T')[0]} onChange={(e) => setStartDate(new Date(e.target.value))} required />
                                 </div>
                                 <div className="mb-3">
-                                    <label htmlFor="end-date" className="col-form-label">Enddate: </label>
+                                    <label htmlFor="end-date" className="col-form-label">{t('speedrunEvents.tableheaders.enddate')}</label>
                                     <input type="date" className="form-control" id="end-date" value={endDate.toISOString().split('T')[0]} onChange={(e) => setEndDate(new Date(e.target.value))} required />
                                 </div>
                                 {formError && (
