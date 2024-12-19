@@ -55,6 +55,39 @@ test('given an invalid userId, when getting user by id, then an error is thrown'
     expect(result).rejects.toThrow('User not found.');
 });
 
+test('given: non-existing username, when: authenticating, then: an error is thrown', async () => {
+    // given
+    userDb.getUserByUsername = mockUserDbGetUserByUsername.mockResolvedValue(null);
+
+    // when
+    const authenticate = async () => await userService.authenticate({username: "user1", password: "user1"});
+
+    // then
+    expect(authenticate).rejects.toThrow('Incorrect login, please try again.');
+});
+
+test('given: incorrect password, when: authenticating, then: an error is thrown', async () => {
+    // given
+    const user = new User({
+        id: 2,
+        username: "user1",
+        email: "user1@test.com",
+        password: "user1",
+        signUpDate: new Date("2023-01-01"),
+        role: "User",
+        createdAt: new Date("2023-01-01"),
+        updatedAt: new Date("2023-01-02"),
+    });
+    const invalidPassword = "wrong password"
+    userDb.getUserByUsername = mockUserDbGetUserByUsername.mockResolvedValue(user);
+
+    // when
+    const authenticate = async () => await userService.authenticate({username: "user1", password: invalidPassword});
+
+    // then
+    expect(authenticate).rejects.toThrow('Incorrect login, please try again.');
+});
+
 test(`given: valid users, when: getting all users as admin, then: all users are returned`, async () => {
     // given
     const admin = new User({
