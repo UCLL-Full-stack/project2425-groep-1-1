@@ -68,6 +68,8 @@
       "enddate": "Tot",
       "participants": "Deelnemers"
     },
-    "button": "Neem deel"
+    "button": "Neem deel",
+    "errorMessage": "Geen speedrun evenementen beschikbaar.",
+    "addEventButton": "Voeg een evenement toe"
   }
 }

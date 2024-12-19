@@ -68,6 +68,8 @@
       "enddate": "Until",
       "participants": "Participants"
     },
-    "button": "Participate"
+    "button": "Participate",
+    "errorMessage": "No speedrun events available.",
+    "addEventButton": "Add an event"
   }
 }
