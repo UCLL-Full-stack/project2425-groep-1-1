@@ -7,7 +7,7 @@ type Props = {
     speedrunEvents: SpeedrunEvent[];
 }
 
-const SpeedrunOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
+const SpeedrunEventsOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
   const { t } = useTranslation();
   const handleParticipate = (eventId: number) => {
     const loggedInUser = localStorage.getItem('loggedInUser');
@@ -39,12 +39,12 @@ const SpeedrunOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
                     <td>{event.name}</td>
                     <td>{new Date(event.startDate).toLocaleDateString()}</td>
                     <td>{new Date(event.endDate).toLocaleDateString()}</td>
-                    <td>{event.participants.length}</td>
+                    <td data-testid={"participants-" + event.id}>{event.participants.length}</td>
                     <td>
                   <button
-                    className="btn btn-primary c"
-                    style={ {backgroundColor: '#E6E6E6', color: "#000000", borderColor: "#000000"}}
+                    className="btn btn-outline-dark"
                     onClick={() => handleParticipate(event.id!)}
+                    data-testid={"participate-button-" + event.id}
                   >
                     {t('speedrunEvents.button')}
                   </button>
@@ -61,4 +61,4 @@ const SpeedrunOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
 }
 
 
-export default SpeedrunOverview
+export default SpeedrunEventsOverview
