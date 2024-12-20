@@ -91,6 +91,7 @@ const SpeedrunEventsOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
                           <button
                             className="btn btn-outline-dark"
                             onClick={() => handleParticipate(event.id!)}
+                            data-testid={"participate-button-" + event.id}
                           >
                             {t('speedrunEvents.button')}
                           </button>

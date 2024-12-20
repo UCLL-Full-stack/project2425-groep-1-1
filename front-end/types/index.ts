@@ -51,7 +51,7 @@ export type User = {
     role?: Role;
 };
 
-type Role = 'User' | 'Validator' | 'Organizer' | 'Admin';
+export type Role = 'User' | 'Validator' | 'Organizer' | 'Admin';
 
 export type StatusMessage = {
     message: string;

@@ -119,7 +119,7 @@ test(`given: loggedInUser is not a participant, when: clicking on participate bu
 
   // when
   const { rerender } = render(<SpeedrunEventsOverview speedrunEvents={speedrunEvents}/>);
-  fireEvent.click(screen.getByTestId("participate-button-" + speedrunEvent1.id));
+  fireEvent.click(screen.getByTestId("participants-" + speedrunEvent1.id));
   rerender(<SpeedrunEventsOverview speedrunEvents={speedrunEventsWithParticipant}/>);
 
   // then

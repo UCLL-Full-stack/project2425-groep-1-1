@@ -26,7 +26,7 @@ const Users: React.FC = () => {
   }
 
 
-  const { data, isLoading, error } = useSWR('users', getAllUsers);
+  const { data, isLoading, error } = useSWR('users', getAllUsers, {refreshInterval: 5000});
 
   useEffect(() => {
     console.log(error);
