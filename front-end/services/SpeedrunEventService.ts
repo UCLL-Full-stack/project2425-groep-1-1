@@ -32,10 +32,20 @@ const addSpeedrunEvent = async (speedrunEventInput: SpeedrunEvent) => {
     });
 }
 
+const deleteSpeedrunEvent = async (eventId: number) => {
+    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/speedrun-events/${eventId}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('loggedInUser')!)?.token,
+        },
+    });
+}
+
 const SpeedrunEventService = {
     getAllSpeedrunEvents,
     addUserToSpeedrunEvent,
-    addSpeedrunEvent
+    addSpeedrunEvent,
+    deleteSpeedrunEvent
 };
 
 export default SpeedrunEventService;
