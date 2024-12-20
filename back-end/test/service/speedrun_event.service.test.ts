@@ -10,6 +10,7 @@ let mockSpeedrunEventDbCreateSpeedrunEvent: jest.Mock;
 let mockSpeedrunEventDbGetSpeedrunEventById: jest.Mock;
 let mockUserDbGetUserById: jest.Mock;
 let mockSpeedrunEventDbUpdateSpeedrunEventParticipants: jest.Mock;
+let mockSpeedrunEventDbDeleteSpeedrunEvent: jest.Mock;
 
 
 const userId: number = 1;
@@ -33,10 +34,12 @@ const createdAt = new Date();
 const updatedAt = new Date();
 
 
+let speedrunEvent: SpeedrunEvent;
+
 
 beforeEach(() => {
 
-  const speedrunEvent = new SpeedrunEvent({
+  speedrunEvent = new SpeedrunEvent({
     id: speedrunEventId,
     name,
     startDate,
@@ -51,6 +54,7 @@ beforeEach(() => {
   mockSpeedrunEventDbGetSpeedrunEventById = jest.fn().mockResolvedValue(speedrunEvent);
   mockSpeedrunEventDbUpdateSpeedrunEventParticipants = jest.fn().mockImplementation((speedrunEvent: SpeedrunEvent) => speedrunEvent);
   mockUserDbGetUserById = jest.fn().mockResolvedValue(user);
+  mockSpeedrunEventDbDeleteSpeedrunEvent = jest.fn();
 })
 
 afterEach(() => {
@@ -165,3 +169,17 @@ test(`given: a speedrun event add participants input, when: adding a valid user 
 });
 
 
+test('given an existing speedrun event, when deleting said speedrunevent, then speedrunevent is deleted', async () => {
+  //given
+  speedrunEventDb.deleteSpeedrunEvent = mockSpeedrunEventDbDeleteSpeedrunEvent.mockReturnValue('Speedrun succesfully deleted.')
+  speedrunEventDb.getSpeedrunEventById = mockSpeedrunEventDbGetSpeedrunEventById.mockReturnValue(speedrunEvent)
+
+  //when
+  const result = await speedrunEventService.deleteSpeedrunEvent(speedrunEventId);
+
+  //then
+  expect(mockSpeedrunEventDbGetSpeedrunEventById).toHaveBeenCalledWith(speedrunEventId);
+  expect(mockSpeedrunEventDbDeleteSpeedrunEvent).toHaveBeenCalledWith(speedrunEventId);
+  expect(result).toEqual('Speedrun succesfully deleted.')
+  
+});
