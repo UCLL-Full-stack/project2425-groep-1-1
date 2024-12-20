@@ -72,10 +72,17 @@ app.use('/games', gameRouter);
 app.use('/categories', categoryRouter);
 
 app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
+  if (error.name === 'UnauthorizedError') {
+    res.status(401).json({
+      status: 'authorization error',
+      message: 'Unauthorized',
+    })
+  } else {
     res.status(400).json({
-        status: 'application error',
-        message: error.message,
-    });
+          status: 'application error',
+          message: error.message,
+      });
+  }
 });
 
 export default app;

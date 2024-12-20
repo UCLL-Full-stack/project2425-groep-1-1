@@ -178,7 +178,7 @@ test('given an existing speedrun event, when deleting said speedrunevent, then s
   const result = await speedrunEventService.deleteSpeedrunEvent(speedrunEventId);
 
   //then
-  expect(mockSpeedrunEventDbGetSpeedrunEventById).toHaveBeenCalledWith(speedrunEventId);
+  expect(mockSpeedrunEventDbGetSpeedrunEventById).toHaveBeenCalledWith({ id: speedrunEventId });
   expect(mockSpeedrunEventDbDeleteSpeedrunEvent).toHaveBeenCalledWith(speedrunEventId);
   expect(result).toEqual('Speedrun succesfully deleted.')
   
