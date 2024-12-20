@@ -129,6 +129,7 @@
     "about": "Over {{name}}"
   },
   "speedrunEvents": {
+    "filter": "Toon enkel nieuwe events",
     "title": "Speedrun evenementen",
     "tableheaders": {
       "name": "Naam",

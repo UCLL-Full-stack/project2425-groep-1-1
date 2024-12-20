@@ -130,6 +130,7 @@
   },
   "speedrunEvents": {
     "title": "Speedrun events",
+    "filter": "Only show new events",
     "tableheaders": {
       "name": "Name",
       "startdate": "From",
