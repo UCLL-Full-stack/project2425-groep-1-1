@@ -77,11 +77,12 @@ app.use((error: Error, req: Request, res: Response, next: NextFunction) => {
       status: 'authorization error',
       message: 'Unauthorized',
     })
+  } else {
+    res.status(400).json({
+          status: 'application error',
+          message: error.message,
+      });
   }
-  res.status(400).json({
-        status: 'application error',
-        message: error.message,
-    });
 });
 
 export default app;
