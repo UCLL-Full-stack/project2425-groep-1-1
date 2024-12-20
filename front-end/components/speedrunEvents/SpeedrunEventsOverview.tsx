@@ -15,12 +15,13 @@ const SpeedrunEventsOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
   const loggedInUser = localStorage.getItem('loggedInUser');
   const parsedLoggedInUser = loggedInUser ? JSON.parse(loggedInUser) : null;
 
-  const handleParticipate = (eventId: number) => {
+  const handleParticipate = async (eventId: number) => {
     if (!parsedLoggedInUser) {
       return;
     }
 
-    SpeedrunEventService.addUserToSpeedrunEvent(parsedLoggedInUser.id, eventId);
+    await SpeedrunEventService.addUserToSpeedrunEvent(parsedLoggedInUser.id, eventId);
+    mutate("speedrunEvents")
   }
 
   const handleDelete = async (eventId: number) => {
