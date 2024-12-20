@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import { generateJwtToken } from '../util/jwt';
 
 const getAllUsers = async ({ username, role}: { username: string, role: Role }): Promise<User[]> => {
-  if (role === 'Admin' || role === 'Organizer') {
+  if (role === 'Admin') {
     return userDb.getAllUsers();
   } else {
     const user = await userDb.getUserByUsername({ username });

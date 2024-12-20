@@ -91,11 +91,11 @@ const userRouter = express.Router();
  *   get:
  *     security:
  *       - bearerAuth: []
- *     summary: Get a list of containing the user or if the user is an Admin or Organizer, a list of all users.
+ *     summary: Get a list of containing the user or if the user is an Admin, a list of all users.
  *     tags: [Users]
  *     responses:
  *       200:
- *         description: A list of containing the user or if the user is an Admin or Organizer, a list of all users.
+ *         description: A list of containing the user or if the user is an Admin, a list of all users.
  *         content:
  *           application/json:
  *             schema:

@@ -235,7 +235,7 @@ test(`given: valid users, when: getting all users as admin, then: all users are 
   expect(result).toBe(users);
 });
 
-test(`given: valid users, when: getting all users as organizer, then: all users are returned`, async () => {
+test(`given: valid users, when: getting all users as organizer, then: that users is returned`, async () => {
   // given
   const organizer = new User({
     id: 1,
@@ -259,13 +259,15 @@ test(`given: valid users, when: getting all users as organizer, then: all users 
   });
   const users = [user, organizer]
   userDb.getAllUsers = mockUserDbGetAllUsers.mockResolvedValue(users)
+  userDb.getUserByUsername = mockUserDbGetUserByUsername.mockResolvedValue(organizer);
 
   // when
   const result = await userService.getAllUsers({ username: organizer.username, role: organizer.role });
 
   // then
-  expect(mockUserDbGetAllUsers).toHaveBeenCalledTimes(1);
-  expect(result).toBe(users);
+  expect(mockUserDbGetUserByUsername).toHaveBeenCalledTimes(1);
+  expect(mockUserDbGetUserByUsername).toHaveBeenCalledWith({ username: organizer.username });
+  expect(result).toEqual([organizer]);
 });
 
 test(`given: valid users, when: getting all users as user, then: that user is returned`, async () => {
