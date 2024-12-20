@@ -11,6 +11,7 @@ let mockUserDbGetUserByUsername: jest.Mock;
 let mockBcryptHash: jest.Mock;
 let mockUserDbAddUser: jest.Mock;
 let mockBcryptCompare: jest.Mock;
+let mockUserDbGetAllUsers: jest.Mock;
 
 
 beforeEach(() => {
@@ -21,6 +22,7 @@ beforeEach(() => {
     mockBcryptHash = jest.fn();
     mockUserDbAddUser = jest.fn();
     mockBcryptCompare = jest.fn();
+    mockUserDbGetAllUsers = jest.fn();
 });
 
 afterEach(() => {
@@ -159,9 +161,216 @@ test('given valid username and password, when authenticating, then a valid authe
         role: userMock.getRole(),
     });
     expect(result).toEqual({
-        token: result.token, 
+        token: result.token,
         id: userMock.getId(),
         username: authenticationRequest.username,
         role: userMock.getRole(),
     });
+});
+
+
+test('given: non-existing username, when: authenticating, then: an error is thrown', async () => {
+  // given
+  userDb.getUserByUsername = mockUserDbGetUserByUsername.mockResolvedValue(null);
+  bcrypt.compare = mockBcryptCompare.mockReturnValue(false);
+  // when
+  const authenticate = async () => await userService.authenticate({username: "user1", password: "user1"});
+
+  // then
+  expect(authenticate).rejects.toThrow('Incorrect login, please try again.');
+});
+
+test('given: incorrect password, when: authenticating, then: an error is thrown', async () => {
+  // given
+  const user = new User({
+    id: 2,
+    username: "user1",
+    email: "user1@test.com",
+    password: "user1",
+    signUpDate: new Date("2023-01-01"),
+    role: "User",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const invalidPassword = "wrong password"
+  userDb.getUserByUsername = mockUserDbGetUserByUsername.mockResolvedValue(user);
+
+  // when
+  const authenticate = async () => await userService.authenticate({username: "user1", password: invalidPassword});
+
+  // then
+  expect(authenticate).rejects.toThrow('Incorrect login, please try again.');
+});
+
+test(`given: valid users, when: getting all users as admin, then: all users are returned`, async () => {
+  // given
+  const admin = new User({
+    id: 1,
+    username: "admin1",
+    email: "admin1@test.com",
+    password: "admin1",
+    signUpDate: new Date("2023-01-01"),
+    role: "Admin",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const user = new User({
+    id: 2,
+    username: "user1",
+    email: "user1@test.com",
+    password: "user1",
+    signUpDate: new Date("2023-01-01"),
+    role: "User",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const users = [user, admin]
+  userDb.getAllUsers = mockUserDbGetAllUsers.mockResolvedValue(users)
+
+  // when
+  const result = await userService.getAllUsers({ username: admin.username, role: admin.role });
+
+  // then
+  expect(mockUserDbGetAllUsers).toHaveBeenCalledTimes(1);
+  expect(result).toBe(users);
+});
+
+test(`given: valid users, when: getting all users as organizer, then: that users is returned`, async () => {
+  // given
+  const organizer = new User({
+    id: 1,
+    username: "organizer",
+    email: "organizer@test.com",
+    password: "organizer",
+    signUpDate: new Date("2023-01-01"),
+    role: "Organizer",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const user = new User({
+    id: 2,
+    username: "user1",
+    email: "user1@test.com",
+    password: "user1",
+    signUpDate: new Date("2023-01-01"),
+    role: "User",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const users = [user, organizer]
+  userDb.getAllUsers = mockUserDbGetAllUsers.mockResolvedValue(users)
+  userDb.getUserByUsername = mockUserDbGetUserByUsername.mockResolvedValue(organizer);
+
+  // when
+  const result = await userService.getAllUsers({ username: organizer.username, role: organizer.role });
+
+  // then
+  expect(mockUserDbGetUserByUsername).toHaveBeenCalledTimes(1);
+  expect(mockUserDbGetUserByUsername).toHaveBeenCalledWith({ username: organizer.username });
+  expect(result).toEqual([organizer]);
+});
+
+test(`given: valid users, when: getting all users as user, then: that user is returned`, async () => {
+  // given
+  const admin = new User({
+    id: 1,
+    username: "admin1",
+    email: "admin1@test.com",
+    password: "admin1",
+    signUpDate: new Date("2023-01-01"),
+    role: "Admin",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const user = new User({
+    id: 2,
+    username: "user1",
+    email: "user1@test.com",
+    password: "user1",
+    signUpDate: new Date("2023-01-01"),
+    role: "User",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const users = [user, admin]
+  userDb.getAllUsers = mockUserDbGetAllUsers.mockResolvedValue(users)
+  userDb.getUserByUsername = mockUserDbGetUserByUsername.mockResolvedValue(user);
+
+  // when
+  const result = await userService.getAllUsers({ username: user.username, role: user.role });
+
+  // then
+  expect(mockUserDbGetAllUsers).toHaveBeenCalledTimes(0);
+  expect(mockUserDbGetUserByUsername).toHaveBeenCalledTimes(1);
+  expect(mockUserDbGetUserByUsername).toHaveBeenCalledWith({ username: user.username });
+  expect(result).toEqual([user]);
+});
+
+test(`given: valid users, when: getting all users as validator, then: that user is returned`, async () => {
+  // given
+  const admin = new User({
+    id: 1,
+    username: "admin1",
+    email: "admin1@test.com",
+    password: "admin1",
+    signUpDate: new Date("2023-01-01"),
+    role: "Admin",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const validator = new User({
+    id: 2,
+    username: "validator1",
+    email: "validator1@test.com",
+    password: "validator1",
+    signUpDate: new Date("2023-01-01"),
+    role: "Validator",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const users = [validator, admin]
+  userDb.getAllUsers = mockUserDbGetAllUsers.mockResolvedValue(users)
+  userDb.getUserByUsername = mockUserDbGetUserByUsername.mockResolvedValue(validator);
+
+  // when
+  const result = await userService.getAllUsers({ username: validator.username, role: validator.role });
+
+  // then
+  expect(mockUserDbGetAllUsers).toHaveBeenCalledTimes(0);
+  expect(mockUserDbGetUserByUsername).toHaveBeenCalledTimes(1);
+  expect(mockUserDbGetUserByUsername).toHaveBeenCalledWith({ username: validator.username });
+  expect(result).toEqual([validator]);
+});
+
+test(`given: non-existing user or validator, when: getting all users as user or validator, then: an error is thrown`, async () => {
+  // given
+  const admin = new User({
+    id: 1,
+    username: "admin1",
+    email: "admin1@test.com",
+    password: "admin1",
+    signUpDate: new Date("2023-01-01"),
+    role: "Admin",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const validator = new User({
+    id: 2,
+    username: "validator1",
+    email: "validator1@test.com",
+    password: "validator1",
+    signUpDate: new Date("2023-01-01"),
+    role: "Validator",
+    createdAt: new Date("2023-01-01"),
+    updatedAt: new Date("2023-01-02"),
+  });
+  const users = [validator, admin]
+  userDb.getAllUsers = mockUserDbGetAllUsers.mockResolvedValue(users)
+  userDb.getUserByUsername = mockUserDbGetUserByUsername.mockResolvedValue(null);
+
+  // when
+  const getAllUsers = async () => await userService.getAllUsers({ username: validator.username, role: validator.role });
+
+  // then
+  expect(getAllUsers).rejects.toThrow("User not found.");
 });
