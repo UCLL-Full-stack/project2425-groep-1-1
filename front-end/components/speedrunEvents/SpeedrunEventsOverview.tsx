@@ -2,6 +2,7 @@ import SpeedrunEventService from "@services/SpeedrunEventService";
 import { SpeedrunEvent } from "@types"
 import { useTranslation } from "react-i18next";
 import SpeedrunEventSubmitter from "./SpeedrunEventSubmitter";
+import { mutate } from "swr";
 
 
 type Props = {
@@ -21,8 +22,10 @@ const SpeedrunEventsOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
     SpeedrunEventService.addUserToSpeedrunEvent(parsedLoggedInUser.id, eventId);
   }
 
-  const handleDelete = (eventId: number) => {
-    SpeedrunEventService.deleteSpeedrunEvent(eventId)
+  const handleDelete = async (eventId: number) => {
+    await SpeedrunEventService.deleteSpeedrunEvent(eventId)
+
+    mutate("speedrunEvents")
   }
 
     return (
