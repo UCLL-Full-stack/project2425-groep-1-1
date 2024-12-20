@@ -65,8 +65,8 @@ const deleteSpeedrunEvent = async (eventId: number) => {
     throw new Error(`Event with id ${eventId} not found`);
   }
   
-  speedrunEventDb.deleteSpeedrunEvent(eventId);
-  return (`Event ${event.name} was succesfully deleted.`);
+  
+  return speedrunEventDb.deleteSpeedrunEvent(eventId);
   }
 
 

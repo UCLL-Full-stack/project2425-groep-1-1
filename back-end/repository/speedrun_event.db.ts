@@ -68,6 +68,7 @@ const deleteSpeedrunEvent = async (eventId: number) => {
         await database.speedrunEvent.delete({
             where: { id: eventId }
         })
+        return ('Speedrun succesfully deleted.')
     } catch (error){
         throw new Error("Database error, see console for more information.")
     }
