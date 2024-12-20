@@ -172,7 +172,7 @@ test(`given: a speedrun event add participants input, when: adding a valid user 
 test('given an existing speedrun event, when deleting said speedrunevent, then speedrunevent is deleted', async () => {
   //given
   speedrunEventDb.deleteSpeedrunEvent = mockSpeedrunEventDbDeleteSpeedrunEvent.mockReturnValue('Speedrun succesfully deleted.')
-  speedrunEventDb.getSpeedrunEventById = mockSpeedrunEventDbGetSpeedrunEventById.mockReturnValue(speedrunEvent)
+  speedrunEventDb.getSpeedrunEventById = mockSpeedrunEventDbGetSpeedrunEventById;
 
   //when
   const result = await speedrunEventService.deleteSpeedrunEvent(speedrunEventId);
@@ -182,4 +182,19 @@ test('given an existing speedrun event, when deleting said speedrunevent, then s
   expect(mockSpeedrunEventDbDeleteSpeedrunEvent).toHaveBeenCalledWith(speedrunEventId);
   expect(result).toEqual('Speedrun succesfully deleted.')
   
+});
+
+test('given a non-existing speedrun event, when trying to delete it, then an error is thrown', async () => {
+  // given
+  const nonExistingEventId = 999;
+  mockSpeedrunEventDbGetSpeedrunEventById.mockResolvedValue(null);
+  speedrunEventDb.getSpeedrunEventById = mockSpeedrunEventDbGetSpeedrunEventById;
+
+  // when
+  const deleteNonExistingEvent = async () => await speedrunEventService.deleteSpeedrunEvent(nonExistingEventId);
+
+  // then
+  await expect(deleteNonExistingEvent).rejects.toThrow(`Event with id ${nonExistingEventId} not found`);
+  expect(mockSpeedrunEventDbGetSpeedrunEventById).toHaveBeenCalledWith({ id: nonExistingEventId });
+  expect(mockSpeedrunEventDbDeleteSpeedrunEvent).not.toHaveBeenCalled(); 
 });
