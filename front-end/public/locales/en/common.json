@@ -137,6 +137,7 @@
       "participants": "Participants"
     },
     "button": "Participate",
+    "deleteButton": "Delete",
     "errorMessage": "No speedrun events available.",
     "addEventButton": "Add an event",
     "submitter": {
