@@ -228,7 +228,6 @@ speedrunEventRouter.post('/add-participants', async (req: Request, res: Response
 speedrunEventRouter.delete('/:eventId', async (req: Request, res: Response, next: NextFunction) => {
   try { 
     const { eventId } = req.params;
-    console.log(`Received eventId: ${eventId}`);
     const result = await speedrunEventService.deleteSpeedrunEvent(Number(eventId));
     res.status(200).json(result);
 } catch (error) {
