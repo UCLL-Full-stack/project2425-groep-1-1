@@ -187,4 +187,53 @@ speedrunEventRouter.post('/add-participants', async (req: Request, res: Response
   }
 });
 
+
+/**
+ * @swagger
+ * /speedrun-events/{eventId}:
+ *   delete:
+ *     security:
+ *       - bearerAuth: []
+ *     summary: Delete a speedrun event by its ID.
+ *     tags: [Speedrun Events]
+ *     parameters:
+ *       - in: path
+ *         name: eventId
+ *         required: true
+ *         description: The ID of the speedrun event to delete.
+ *         schema:
+ *           type: number
+ *           format: int64
+ *           example: 1
+ *     responses:
+ *       200:
+ *         description: The result of the deletion operation.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Speedrun event deleted successfully."
+ *                 deletedEventId:
+ *                   type: number
+ *                   format: int64
+ *                   example: 1
+ *       404:
+ *         description: Speedrun event not found.
+ *       500:
+ *         description: An error occurred while deleting the speedrun event.
+ */
+speedrunEventRouter.delete('/:eventId', async (req: Request, res: Response, next: NextFunction) => {
+  try { 
+    const { eventId } = req.params;
+    console.log(`Received eventId: ${eventId}`);
+    const result = await speedrunEventService.deleteSpeedrunEvent(Number(eventId));
+    res.status(200).json(result);
+} catch (error) {
+  next(error);
+}
+})
+
 export { speedrunEventRouter };
