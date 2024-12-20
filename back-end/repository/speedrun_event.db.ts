@@ -63,4 +63,14 @@ const updateSpeedrunEventParticipants = async (speedrunEvent: SpeedrunEvent) => 
     }
 }
 
-export default { getAllSpeedrunEvents, getSpeedrunEventById, addSpeedrunEvent, updateSpeedrunEventParticipants};
+const deleteSpeedrunEvent = async (eventId: number) => {
+    try {
+        await database.speedrunEvent.delete({
+            where: { id: eventId }
+        })
+    } catch (error){
+        throw new Error("Database error, see console for more information.")
+    }
+}
+
+export default { getAllSpeedrunEvents, getSpeedrunEventById, addSpeedrunEvent, updateSpeedrunEventParticipants, deleteSpeedrunEvent};

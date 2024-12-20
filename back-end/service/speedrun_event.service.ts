@@ -58,4 +58,16 @@ const addParticipantsToSpeedrunEvent = async (userInputs: number[], speedrunEven
   return await speedrunEventDb.updateSpeedrunEventParticipants(speedrunEvent);
 }
 
-export default { getAllSpeedrunEvents, createSpeedrunEvent, addParticipantsToSpeedrunEvent };
+
+const deleteSpeedrunEvent = async (eventId: number) => {
+  const event = await speedrunEventDb.getSpeedrunEventById({ id:eventId });
+  if (!event) {
+    throw new Error(`Event with id ${eventId} not found`);
+  }
+  
+  speedrunEventDb.deleteSpeedrunEvent(eventId);
+  return (`Event ${event.name} was succesfully deleted.`);
+  }
+
+
+export default { getAllSpeedrunEvents, createSpeedrunEvent, addParticipantsToSpeedrunEvent, deleteSpeedrunEvent };
