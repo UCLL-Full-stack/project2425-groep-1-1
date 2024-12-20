@@ -138,6 +138,7 @@
       "participants": "Deelnemers"
     },
     "button": "Neem deel",
+    "deleteButton": "Verwijder",
     "errorMessage": "Geen speedrun evenementen beschikbaar.",
     "addEventButton": "Voeg een evenement toe",
     "submitter": {

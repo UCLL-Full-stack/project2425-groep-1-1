@@ -2,6 +2,7 @@ import SpeedrunEventService from "@services/SpeedrunEventService";
 import { SpeedrunEvent } from "@types"
 import { useTranslation } from "react-i18next";
 import SpeedrunEventSubmitter from "./SpeedrunEventSubmitter";
+import { mutate } from "swr";
 
 
 type Props = {
@@ -19,6 +20,12 @@ const SpeedrunEventsOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
     }
 
     SpeedrunEventService.addUserToSpeedrunEvent(parsedLoggedInUser.id, eventId);
+  }
+
+  const handleDelete = async (eventId: number) => {
+    await SpeedrunEventService.deleteSpeedrunEvent(eventId)
+
+    mutate("speedrunEvents")
   }
 
     return (
@@ -43,17 +50,26 @@ const SpeedrunEventsOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
                       <td>{new Date(event.startDate).toLocaleDateString()}</td>
                       <td>{new Date(event.endDate).toLocaleDateString()}</td>
                       <td data-testid={"participants-" + event.id}>{event.participants.length}</td>
-                      <td>
+                      <td style={{width: "15rem"}}>
+                      {parsedLoggedInUser?.role === 'Organizer' && (
+                      <button
+                      className="btn btn-outline-dark"
+                      style={{marginRight: "0.5rem"}}
+                      onClick={() => handleDelete(event.id!)}
+                      >
+                      {t('speedrunEvents.deleteButton')}
+                      </button>
+                      )} 
+
                       {!event.participants.some(participant => participant.id === parsedLoggedInUser?.id) && (
-                        <button
-                          className="btn btn-primary"
-                          style={{ backgroundColor: '#E6E6E6', color: "#000000", borderColor: "#000000" }}
-                          onClick={() => handleParticipate(event.id!)}
-                        >
-                          {t('speedrunEvents.button')}
-                        </button>
+                          <button
+                            className="btn btn-outline-dark"
+                            onClick={() => handleParticipate(event.id!)}
+                          >
+                            {t('speedrunEvents.button')}
+                          </button>
                       )}
-                  </td>
+                    </td>
                     </tr>
                   ))}
                 </tbody>
@@ -63,6 +79,7 @@ const SpeedrunEventsOverview: React.FC<Props> = ({ speedrunEvents }: Props) => {
                   <SpeedrunEventSubmitter/>
                 </div>
               )}
+              
             </>
           ) : (
             <div className="alert alert-info">No speedrun events available.</div>
